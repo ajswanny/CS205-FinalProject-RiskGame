@@ -1,0 +1,1 @@
+The main directory for *Risk* source files and the application's runner: *Game.java*.
