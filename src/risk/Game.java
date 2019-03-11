@@ -1,52 +1,55 @@
 package risk;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import risk.controller.GameSceneController;
 import risk.controller.MenuSceneController;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Game extends Application {
 
-    /** Height and Width of window. */
-    public static final int HEIGHT = 1000, WIDTH = 800;
+    public static final int MENU = 0, GAME = 1;
 
-    /** The Game-App's primary Scene. */
-    private Scene primaryScene;
+    private Stage primaryStage;
+
+    private Scene menuScene, gameScene;
 
     /** The Controller object for the Menu Scene. */
     private MenuSceneController menuSceneController;
 
-    /** The root View of the Menu Scene.*/
-    private AnchorPane menuSceneRootView;
-
     /** The Controller object for the Game Scene. */
     private GameSceneController gameSceneController;
 
-    /** The root View of the Menu Scene. */
-    private AnchorPane gameSceneRootView;
+    private static Game instance;
+
+    public Game() {
+        instance = this;
+    }
 
     /**
-     * Starts the Game GUI.
+     * Starts the Game.
      * @param primaryStage
-     * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
-        generateFxmlLoaders();
+        try {
 
-        primaryScene = new Scene(new Pane());
-        primaryScene.setRoot(menuSceneRootView);
+            // Load and initialize all FXML.
+            loadFxmlSources();
 
-        primaryStage.setTitle("Risk");
-        primaryStage.setScene(primaryScene);
+            // Initialize the Application and its default Scene.
+            primaryStage.setTitle("Risk");
+            primaryStage.setScene(menuScene);
+            primaryStage.show();
 
-        primaryStage.show();
+        } catch (Exception e) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
+        }
 
     }
 
@@ -55,20 +58,29 @@ public class Game extends Application {
         System.out.println("Thanks for playing Risk!");
     }
 
-    private void generateFxmlLoaders() throws Exception {
+    private void loadFxmlSources() throws Exception {
 
         FXMLLoader fxmlLoader;
 
+        // Loader for MenuSceneController
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("fxml/MenuSceneController.fxml"));
+        fxmlLoader.load();
         menuSceneController = fxmlLoader.getController();
-        menuSceneRootView = fxmlLoader.load();
+        menuScene = menuSceneController.getScene();
 
-//        fxmlLoader = new FXMLLoader();
-//        fxmlLoader.setLocation(getClass().getResource("fxml/GameSceneController"));
-//        gameSceneController = fxmlLoader.getController();
-//        gameSceneRootView = fxmlLoader.load();
+        // Loader for GameSceneController
+        fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("fxml/GameSceneController.fxml"));
+        fxmlLoader.load();
+        gameSceneController = fxmlLoader.getController();
+        gameScene = gameSceneController.getScene();
 
+    }
+
+    /* Getters */
+    public static Game getInstance() {
+        return instance;
     }
 
     public static void main(String[] args) {
