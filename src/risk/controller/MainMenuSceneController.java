@@ -28,9 +28,6 @@ public class MainMenuSceneController implements Initializable {
     public AnchorPane root;
 
     @FXML
-    public Label projectCredits;
-
-    @FXML
     public Button playGame;
 
     @FXML

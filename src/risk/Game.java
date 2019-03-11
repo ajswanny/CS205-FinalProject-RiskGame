@@ -11,6 +11,8 @@ import risk.controller.MainMenuSceneController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+@SuppressWarnings({"WeakerAccess", "FieldCanBeLocal", "JavaDoc"})
 public class Game extends Application {
 
     /* Class Fields */
