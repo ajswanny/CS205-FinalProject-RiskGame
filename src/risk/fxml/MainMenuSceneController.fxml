@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="500" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.MenuSceneController">
+<AnchorPane fx:id="root" prefHeight="500" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.MainMenuSceneController">
    <children>
       <Label fx:id="projectCredits" layoutX="223.0" layoutY="478.0" prefHeight="17.0" prefWidth="355.0" text="Created by: Dongzhe Jiang, Dale Larie, Mary Woolley, Alexander Swanson">
          <font>
@@ -16,7 +16,7 @@
          <children>
             <Button fx:id="playGame" mnemonicParsing="false" text="Play" />
             <Button fx:id="quitGame" mnemonicParsing="false" text="Quit" />
-            <Button mnemonicParsing="false" text="About" />
+            <Button fx:id="aboutGame" mnemonicParsing="false" text="About" />
          </children>
       </VBox>
    </children>

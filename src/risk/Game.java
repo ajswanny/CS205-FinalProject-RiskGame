@@ -4,25 +4,30 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import risk.controller.AboutGameSceneController;
 import risk.controller.GameSceneController;
-import risk.controller.MenuSceneController;
+import risk.controller.MainMenuSceneController;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game extends Application {
 
-    public static final int MENU = 0, GAME = 1;
+    /* Class Fields */
+    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2;
 
     private Stage primaryStage;
 
-    private Scene menuScene, gameScene;
+    private Scene mainMenuScene, gameScene, aboutGameScene;
 
     /** The Controller object for the Menu Scene. */
-    private MenuSceneController menuSceneController;
+    private MainMenuSceneController mainMenuSceneController;
 
     /** The Controller object for the Game Scene. */
     private GameSceneController gameSceneController;
+
+    /** The Controller object for the AboutGame Scene. */
+    private AboutGameSceneController aboutGameSceneController;
 
     private static Game instance;
 
@@ -30,6 +35,7 @@ public class Game extends Application {
         instance = this;
     }
 
+    /* Methods */
     /**
      * Starts the Game.
      * @param primaryStage
@@ -44,7 +50,7 @@ public class Game extends Application {
 
             // Initialize the Application and its default Scene.
             primaryStage.setTitle("Risk");
-            primaryStage.setScene(menuScene);
+            primaryStage.setScene(mainMenuScene);
             primaryStage.show();
 
         } catch (Exception e) {
@@ -55,7 +61,8 @@ public class Game extends Application {
 
     @Override
     public void stop() {
-        System.out.println("Thanks for playing Risk!");
+        System.out.println("Shutting down Game instance" + this + ".");
+        System.exit(0);
     }
 
     private void loadFxmlSources() throws Exception {
@@ -63,19 +70,59 @@ public class Game extends Application {
         FXMLLoader fxmlLoader;
 
         // Loader for MenuSceneController
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("fxml/MenuSceneController.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainMenuSceneController.fxml"));
         fxmlLoader.load();
-        menuSceneController = fxmlLoader.getController();
-        menuScene = menuSceneController.getScene();
+        mainMenuSceneController = fxmlLoader.getController();
+        mainMenuScene = mainMenuSceneController.getScene();
 
         // Loader for GameSceneController
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("fxml/GameSceneController.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/GameSceneController.fxml"));
         fxmlLoader.load();
         gameSceneController = fxmlLoader.getController();
         gameScene = gameSceneController.getScene();
 
+        // Loader for AboutGameSceneController
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AboutGameSceneController.fxml"));
+        fxmlLoader.load();
+        aboutGameSceneController = fxmlLoader.getController();
+        aboutGameScene = aboutGameSceneController.getScene();
+
+    }
+
+    public static void requestDisplayRights(int scene) {
+
+        switch (scene) {
+
+            case MAIN_MENU:
+                getInstance().setDisplayToMainMenuScene();
+                break;
+
+            case GAME:
+                getInstance().setDisplayToGameScene();
+                break;
+
+            case ABOUT_GAME:
+                getInstance().setDisplayToAboutGameScene();
+                break;
+
+            default:
+                getInstance().setDisplayToMainMenuScene();
+                break;
+
+        }
+
+    }
+
+    private void setDisplayToMainMenuScene() {
+        primaryStage.setScene(mainMenuScene);
+    }
+
+    private void setDisplayToGameScene() {
+        primaryStage.setScene(gameScene);
+    }
+
+    private void setDisplayToAboutGameScene() {
+        primaryStage.setScene(aboutGameScene);
     }
 
     /* Getters */
@@ -83,10 +130,9 @@ public class Game extends Application {
         return instance;
     }
 
+    /* Main */
     public static void main(String[] args) {
-
         launch(args);
-
     }
 
 
