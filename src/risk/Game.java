@@ -51,6 +51,7 @@ public class Game extends Application {
             // Initialize the Application and its default Scene.
             primaryStage.setTitle("Risk");
             primaryStage.setScene(mainMenuScene);
+            this.primaryStage = primaryStage;
             primaryStage.show();
 
         } catch (Exception e) {
@@ -89,24 +90,24 @@ public class Game extends Application {
 
     }
 
-    public static void requestDisplayRights(int scene) {
+    public void requestDisplayForScene(int scene) {
 
         switch (scene) {
 
             case MAIN_MENU:
-                getInstance().setDisplayToMainMenuScene();
+                setDisplayToMainMenuScene();
                 break;
 
             case GAME:
-                getInstance().setDisplayToGameScene();
+                setDisplayToGameScene();
                 break;
 
             case ABOUT_GAME:
-                getInstance().setDisplayToAboutGameScene();
+                setDisplayToAboutGameScene();
                 break;
 
             default:
-                getInstance().setDisplayToMainMenuScene();
+                setDisplayToMainMenuScene();
                 break;
 
         }
