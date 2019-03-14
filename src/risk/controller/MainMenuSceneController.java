@@ -45,7 +45,7 @@ public class MainMenuSceneController extends RiskSceneController{
         });
 
         quitGame.setOnAction(event -> {
-            System.out.println("Exiting GameScene from 'quitGame' Button used within MainMenuScene.");
+            System.out.println("Exiting Game from 'quitGame' Button used within MainMenuScene.");
             instance.stop();
         });
 

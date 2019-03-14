@@ -149,10 +149,12 @@ public class Game extends Application {
 
     private void setDisplayToMainMenuScene() {
         primaryStage.setScene(mainMenuScene);
+        primaryStage.centerOnScreen();
     }
 
     private void setDisplayToGameScene() {
         primaryStage.setScene(gameScene);
+        primaryStage.centerOnScreen();
     }
 
     private void setDisplayToAboutGameScene() {

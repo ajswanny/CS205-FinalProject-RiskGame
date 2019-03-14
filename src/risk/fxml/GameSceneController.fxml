@@ -10,6 +10,6 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="risk.controller.GameSceneController"
             fx:id="root"
-            prefHeight="500.0" prefWidth="800.0">
+            prefHeight="800.0" prefWidth="1100.0">
 
 </AnchorPane>
