@@ -59,7 +59,7 @@ public class MainMenuSceneController implements Initializable {
 
         quitGame.setOnAction(event -> {
             System.out.println("Exiting Game from 'quitGame' Button used within the MainMenuScene.");
-            Game.getInstance().stop();
+            instance.stop();
         });
 
         aboutGame.setOnAction(event -> {
