@@ -3,8 +3,11 @@ package risk;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import risk.controller.AboutGameSceneController;
+import risk.controller.GamePauseMenuSceneController;
 import risk.controller.GameSceneController;
 import risk.controller.MainMenuSceneController;
 
@@ -16,20 +19,29 @@ import java.util.logging.Logger;
 public class Game extends Application {
 
     /* Class Fields */
-    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2;
+    /** Game-Scene enumerations */
+    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
 
+    private static final int GAME_SCENE_WIDTH = 1000, GAME_SCENE_HEIGHT = 700;
+    private static final int MENU_SCENE_WIDTH = 800, MENU_SCENE_HEIGHT = 500;
+
+    /** Primary Stage of the Application */
     private Stage primaryStage;
 
-    private Scene mainMenuScene, gameScene, aboutGameScene;
+    /** The Game's Scenes */
+    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene;
 
-    /** The Controller object for the Menu Scene. */
+    /** The Controller for the Menu Scene */
     private MainMenuSceneController mainMenuSceneController;
 
-    /** The Controller object for the Game Scene. */
+    /** The Controller for the Game Scene */
     private GameSceneController gameSceneController;
 
-    /** The Controller object for the AboutGame Scene. */
+    /** The Controller for the AboutGame Scene */
     private AboutGameSceneController aboutGameSceneController;
+
+    /** The Controller for the GamePauseMenu Scene */
+    private GamePauseMenuSceneController gamePauseMenuSceneController;
 
     private static Game instance;
 
@@ -90,6 +102,12 @@ public class Game extends Application {
         aboutGameSceneController = fxmlLoader.getController();
         aboutGameScene = aboutGameSceneController.getScene();
 
+        // Loader for GamePauseMenuSceneController
+        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/GamePauseMenuScene.fxml"));
+        fxmlLoader.load();
+        gamePauseMenuSceneController = fxmlLoader.getController();
+        gamePauseMenuScene = gamePauseMenuSceneController.getScene();
+
     }
 
     public void requestDisplayForScene(int scene) {
@@ -108,11 +126,26 @@ public class Game extends Application {
                 setDisplayToAboutGameScene();
                 break;
 
+            case PAUSE_GAME_MENU:
+                displayGamePauseMenu();
+                break;
+
             default:
                 setDisplayToMainMenuScene();
                 break;
 
         }
+
+    }
+
+    public void displayGamePauseMenu() {
+
+        Stage stage = new Stage(StageStyle.UNIFIED);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setWidth(300);
+        stage.setHeight(250);
+
+        stage.show();
 
     }
 

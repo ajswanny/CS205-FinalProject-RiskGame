@@ -1,37 +1,35 @@
 package risk.controller;
 
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import risk.Game;
+
+import static risk.Game.PAUSE_GAME_MENU;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameSceneController implements Initializable {
+public class GameSceneController extends RiskSceneController {
 
-    private Game instance;
-
-    public Scene scene;
-
-    @FXML
-    public AnchorPane root;
+    public GameSceneController() {
+        System.out.println("Initialized Controller for Scene: Game.");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        instance = Game.getInstance();
+        initializeCoreResources();
+        initializeKeyboardListeners();
 
-        scene = new Scene(root);
+    }
+
+    @SuppressWarnings("SwitchStatementWithTooFewBranches")
+    private void initializeKeyboardListeners() {
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case ESCAPE: instance.stop();
+                case ESCAPE: instance.requestDisplayForScene(PAUSE_GAME_MENU);
             }
         });
+
     }
 
     public Scene getScene() {
