@@ -26,7 +26,7 @@ public class Game extends Application {
     private static final int MENU_SCENE_WIDTH = 800, MENU_SCENE_HEIGHT = 500;
 
     /** Primary Stage of the Application */
-    private Stage primaryStage;
+    private Stage primaryStage, gamePauseMenuStage;
 
     /** The Game's Scenes */
     private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene;
@@ -61,6 +61,11 @@ public class Game extends Application {
 
             // Load and initialize all FXML.
             loadFxmlSources();
+
+            // Initialize the alternate Stage.
+            gamePauseMenuStage = new Stage(StageStyle.UNIFIED);
+            gamePauseMenuStage.initModality(Modality.APPLICATION_MODAL);
+            gamePauseMenuStage.setScene(gamePauseMenuScene);
 
             // Initialize the Application and its default Scene.
             primaryStage.setTitle("Risk");
@@ -139,14 +144,7 @@ public class Game extends Application {
     }
 
     public void displayGamePauseMenu() {
-
-        Stage stage = new Stage(StageStyle.UNIFIED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setWidth(300);
-        stage.setHeight(250);
-
-        stage.show();
-
+        gamePauseMenuStage.show();
     }
 
     private void setDisplayToMainMenuScene() {
@@ -164,6 +162,10 @@ public class Game extends Application {
     /* Getters */
     public static Game getInstance() {
         return instance;
+    }
+
+    public void closeGamePauseMenuStage() {
+        gamePauseMenuStage.close();
     }
 
     /* Main */

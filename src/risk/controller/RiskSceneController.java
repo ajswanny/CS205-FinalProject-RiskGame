@@ -9,6 +9,9 @@ import risk.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * A template-Class for Controllers of Risk's Scenes.
+ */
 abstract public class RiskSceneController implements Initializable {
 
     Game instance;

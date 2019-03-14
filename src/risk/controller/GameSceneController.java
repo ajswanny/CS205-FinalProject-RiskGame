@@ -7,6 +7,10 @@ import static risk.Game.PAUSE_GAME_MENU;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * TODO:
+ *  Implement loading of previous Game-state.
+ */
 public class GameSceneController extends RiskSceneController {
 
     public GameSceneController() {
