@@ -21,13 +21,14 @@ abstract public class RiskSceneController implements Initializable {
     @FXML
     public AnchorPane root;
 
-    void initializeCoreResources() {
+    private void initializeCoreResources() {
         instance = Game.getInstance();
         scene = new Scene(root);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initializeCoreResources();
     }
 
 }

@@ -19,10 +19,8 @@ public class GameSceneController extends RiskSceneController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        initializeCoreResources();
+        super.initialize(location, resources);
         initializeKeyboardListeners();
-
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")

@@ -19,7 +19,7 @@ public class GamePauseMenuSceneController extends RiskSceneController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeCoreResources();
+        super.initialize(location, resources);
         initializeButtonActions();
     }
 

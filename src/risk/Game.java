@@ -22,7 +22,7 @@ public class Game extends Application {
     /** Game-Scene enumerations */
     public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
 
-    private static final int GAME_SCENE_WIDTH = 1000, GAME_SCENE_HEIGHT = 700;
+    private static final int GAME_SCENE_WIDTH = 1100, GAME_SCENE_HEIGHT = 800;
     private static final int MENU_SCENE_WIDTH = 800, MENU_SCENE_HEIGHT = 500;
 
     /** Primary Stage of the Application */

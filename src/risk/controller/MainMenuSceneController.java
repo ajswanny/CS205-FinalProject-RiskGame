@@ -31,10 +31,8 @@ public class MainMenuSceneController extends RiskSceneController{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        initializeCoreResources();
+        super.initialize(location, resources);
         initializeButtonActions();
-
     }
 
     private void initializeButtonActions() {
