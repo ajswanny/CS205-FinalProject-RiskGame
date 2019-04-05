@@ -1,0 +1,1 @@
+Territory map source: http://s3images.coroflot.com/user_files/individual_files/original_208428_GG8TMnTyZPCGRlSlL5d7voSyi.png.

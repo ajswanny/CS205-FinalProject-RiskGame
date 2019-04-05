@@ -29,21 +29,6 @@ hs_err_pid*
 
 # Alex S
 CS205-FinalProject-RiskGame.iml
-src/workspace/
 .DS_Store
-out/artifacts/.DS_Store
-out/production/CS205-FinalProject-RiskGame/META-INF/
-out/production/CS205-FinalProject-RiskGame/resources/
-out/production/CS205-FinalProject-RiskGame/workspace/
-src/.DS_Store
 src/META-INF/
-src/resources/.DS_Store
-out/production/CS205-FinalProject-RiskGame/risk/css/AboutGameScene.css
-out/production/CS205-FinalProject-RiskGame/risk/css/MainMenuScene.css
-out/production/CS205-FinalProject-RiskGame/risk/fxml/AboutGameSceneController.fxml
-out/production/CS205-FinalProject-RiskGame/risk/fxml/GamePauseMenuScene.fxml
-out/production/CS205-FinalProject-RiskGame/risk/fxml/GameSceneController.fxml
-out/production/CS205-FinalProject-RiskGame/risk/fxml/MainMenuSceneController.fxml
-out/production/CS205-FinalProject-RiskGame/risk/README.md
-out/production/CS205-FinalProject-RiskGame/sample/README.md
-out/production/CS205-FinalProject-RiskGame/sample/sample.fxml
+out/

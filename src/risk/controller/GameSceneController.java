@@ -8,10 +8,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * TODO:
- *  Implement loading of previous Game-state.
+ *
  */
 public class GameSceneController extends RiskSceneController {
+
+    /*
+    TODO:
+        Implement loading of previous Game-state.
+     */
 
     public GameSceneController() {
         System.out.println("Initialized Controller for Scene: Game.");
