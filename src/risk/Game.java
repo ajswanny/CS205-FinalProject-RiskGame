@@ -30,7 +30,7 @@ public class Game extends Application {
     public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
 
     /** Path to the text-file containing all Territory names. */
-    private String TERRITORY_NAMES_FP = "resources/territoryNames.txt";
+    private String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
 
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
@@ -131,19 +131,22 @@ public class Game extends Application {
     /** High-level method to organize creation of Territories and definition of their neighbors. */
     private void defineTerritories() {
 
-        // Input Territory names and map them to objects.
+        // Input Territory info and map these to objects.
         territories = new HashMap<>(42);
         InputStream stream = getClass().getClassLoader().getResourceAsStream(TERRITORY_NAMES_FP);
-        System.out.println(stream);
         assert stream != null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         String line;
         try {
             while ((line = reader.readLine()) != null) {
-                territories.put(line, Territory.withName(line));
+
+                // Read name and continent-numerical-id for Territory.
+                String[] vals = line.split(",");
+                territories.put(vals[0], new Territory(vals[0], Integer.valueOf(vals[1])));
+
             }
         } catch (IOException e) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "territoryNames.txt returned null", e);
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "File territoriesInfo.txt returned null", e);
         }
 
         defineTerritoryRelationships();

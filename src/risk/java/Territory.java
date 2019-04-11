@@ -16,15 +16,30 @@ public class Territory {
 
     /* Constructors */
     /** Default constructor. */
-    public Territory(String name) {
+    public Territory(String name, int continentNumId) {
         this.name = name;
         neighbors = new ArrayList<>();
-    }
 
-    /* Methods */
-    /** Returns a new Territory with the specified name. */
-    public static Territory withName(String name) {
-        return new Territory(name);
+        switch (continentNumId) {
+            case 1:
+                continent = Continent.NORTH_AMERICA;
+                break;
+            case 2:
+                continent = Continent.SOUTH_AMERICA;
+                break;
+            case 3:
+                continent = Continent.EUROPE;
+                break;
+            case 4:
+                continent = Continent.AFRICA;
+                break;
+            case 5:
+                continent = Continent.ASIA;
+                break;
+            case 6:
+                continent = Continent.AUSTRALIA;
+                break;
+        }
     }
 
     /* Setters */

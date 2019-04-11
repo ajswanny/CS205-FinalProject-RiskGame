@@ -6,7 +6,7 @@ public enum Continent {
     NORTH_AMERICA,
 
     /** Numerical ID: 2 */
-    SOURTH_AMERICA,
+    SOUTH_AMERICA,
 
     /** Numerical ID: 3 */
     EUROPE,
