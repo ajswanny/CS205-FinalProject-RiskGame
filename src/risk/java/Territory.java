@@ -16,6 +16,7 @@ public class Territory {
     /** Default constructor. */
     public Territory(String name) {
         this.name = name;
+        neighbors = new ArrayList<>();
     }
 
     /* Methods */
