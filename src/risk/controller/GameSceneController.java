@@ -1,9 +1,11 @@
 package risk.controller;
 
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 
 import static risk.Game.PAUSE_GAME_MENU;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,6 +18,9 @@ public class GameSceneController extends RiskSceneController {
     TODO:
         Implement loading of previous Game-state.
      */
+
+    @FXML
+    public Button alaska;
 
     public GameSceneController() {
         System.out.println("Initialized Controller for Scene: Game.");

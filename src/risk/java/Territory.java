@@ -3,16 +3,15 @@ package risk.java;
 import risk.Continent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Territory {
 
     /* Fields */
     int numOfArmies;
-    ArrayList<Territory> neighbors;
+    private ArrayList<Territory> neighbors;
     Player owner;
-    String name;
-    Continent continent;
+    private String name;
+    private Continent continent;
 
     /* Constructors */
     /** Default constructor. */

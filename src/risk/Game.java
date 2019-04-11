@@ -93,7 +93,7 @@ public class Game extends Application {
 
     @Override
     public void stop() {
-        System.out.println("Shutting down Game instance " + this + ".");
+        System.out.println("Shutting down Game instance: " + this + ".");
         System.exit(0);
     }
 
