@@ -1,5 +1,7 @@
 package risk.java;
 
+import risk.Continent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +12,7 @@ public class Territory {
     ArrayList<Territory> neighbors;
     Player owner;
     String name;
-    String continent;
+    Continent continent;
 
     /* Constructors */
     /** Default constructor. */
