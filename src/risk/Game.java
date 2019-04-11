@@ -30,7 +30,17 @@ public class Game extends Application {
     public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
 
     /** Path to the text-file containing all Territory names. */
-    private String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
+    private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
+
+    /** The color themes for each continent and those that are available to the user for selection. */
+    private final String
+        NORTH_AMERICA_HEX = "EAD3BA",
+        SOUTH_AMERICA_HEX = "994734",
+        EUROPE_HEX = "6A6F6B",
+        AFRICA_HEX = "876133",
+        ASIA_HEX = "5E693D",
+        AUSTRALIA_HEX = "8B626A"
+    ;
 
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
@@ -89,12 +99,20 @@ public class Game extends Application {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
         }
 
+        // Debugging access.
+        debug();
+
     }
 
     @Override
     public void stop() {
         System.out.println("Shutting down Game instance: " + this + ".");
         System.exit(0);
+    }
+
+    /** Used for debugging. */
+    private void debug() {
+        primaryStage.setScene(gameScene);
     }
 
     /** Loads FXML data for access to FXMLControllers. */
