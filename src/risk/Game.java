@@ -155,6 +155,13 @@ public class Game extends Application {
 
         setTerritoryNeighbors("alaska", "northwestTerritory", "alberta", "kamchatka");
         setTerritoryNeighbors("northwestTerritory", "alaska", "alberta", "ontario", "greenland");
+        setTerritoryNeighbors("greenland", "northwestTerritory", "ontario", "quebec", "iceland");
+        setTerritoryNeighbors("alberta", "alaska","northwestTerritory", "ontario", "westernUnitedStates");
+        setTerritoryNeighbors("ontario", "alberta", "northwestTerritory", "greenland", "quebec", "westernUnitedStates", "easternUnitedStates");
+        setTerritoryNeighbors("quebec", "ontario", "greenland", "easternUnitedStates");
+        setTerritoryNeighbors("westernUnitedStates", "alberta", "ontario", "easternUnitedStates", "centralAmerica");
+        setTerritoryNeighbors("easternUnitedStates", "westernUnitedStates", "ontario", "quebec", "centralAmerica");
+        setTerritoryNeighbors("centralAmerica", "westernUnitedStates", "easternUnitedStates", "venezuela");
 
     }
 
