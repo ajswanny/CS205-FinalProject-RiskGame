@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.shape.Circle;
 
 import static risk.Game.PAUSE_GAME_MENU;
@@ -22,8 +23,30 @@ public class GameSceneController extends RiskSceneController {
         Implement loading of previous Game-state.
      */
 
+    private final double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
+
+    private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 17.0;
+
     @FXML
     public Group territoryButtons;
+
+    @FXML
+    public Button nextPhaseOrTurn;
+
+    @FXML
+    public Label fortifyIndicator;
+
+    @FXML
+    public Label attackIndicator;
+
+    @FXML
+    public Label draftIndicator;
+
+    @FXML
+    public Circle playerTurnIndicator;
+
+    @FXML
+    public Circle cpuTurnIndicator;
 
     public GameSceneController() {
         System.out.println("Initialized Controller for Scene: Game.");
@@ -34,15 +57,18 @@ public class GameSceneController extends RiskSceneController {
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
-        double BUTTON_SHAPE_RADIUS = 12.0;
-        Circle circle = new Circle(BUTTON_SHAPE_RADIUS);
+        Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
         for (Node node : territoryButtons.getChildren()) {
-
             ((Button) node).setShape(circle);
-            ((Button) node).setMinSize(2* BUTTON_SHAPE_RADIUS, 2* BUTTON_SHAPE_RADIUS);
-            ((Button) node).setMaxSize(2* BUTTON_SHAPE_RADIUS, 2* BUTTON_SHAPE_RADIUS);
-
+            ((Button) node).setMinSize(2* TERRITORY_BUTTON_SHAPE_RAD, 2* TERRITORY_BUTTON_SHAPE_RAD);
+            ((Button) node).setMaxSize(2* TERRITORY_BUTTON_SHAPE_RAD, 2* TERRITORY_BUTTON_SHAPE_RAD);
         }
+
+        circle = new Circle(NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
+        nextPhaseOrTurn.setShape(circle);
+        nextPhaseOrTurn.setMinSize(2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD, 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
+        nextPhaseOrTurn.setMaxSize(2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD, 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
+
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
