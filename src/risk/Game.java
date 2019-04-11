@@ -10,20 +10,27 @@ import risk.controller.AboutGameSceneController;
 import risk.controller.GamePauseMenuSceneController;
 import risk.controller.GameSceneController;
 import risk.controller.MainMenuSceneController;
+import risk.java.Territory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@SuppressWarnings({"WeakerAccess", "FieldCanBeLocal", "JavaDoc"})
+@SuppressWarnings({"FieldCanBeLocal"})
 public class Game extends Application {
 
     /* Class Fields */
     /** Game-Scene enumerations */
     public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
 
-    private static final int GAME_SCENE_WIDTH = 1100, GAME_SCENE_HEIGHT = 800;
-    private static final int MENU_SCENE_WIDTH = 800, MENU_SCENE_HEIGHT = 500;
+    /** Path to the text-file containing all Territory names. */
+    private String TERRITORY_NAMES_FP = "resources/territoryNames.txt";
 
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
@@ -43,6 +50,9 @@ public class Game extends Application {
     /** The Controller for the GamePauseMenu Scene */
     private GamePauseMenuSceneController gamePauseMenuSceneController;
 
+    /** Collection of Territories referenced by their name. */
+    private HashMap<String, Territory> territories;
+
     private static Game instance;
 
     public Game() {
@@ -51,13 +61,15 @@ public class Game extends Application {
 
     /* Methods */
     /**
-     * Starts the Game.
-     * @param primaryStage
+     * Starts the Game application.
      */
     @Override
     public void start(Stage primaryStage) {
 
         try {
+
+            // Load data.
+            defineTerritories();
 
             // Load and initialize all FXML.
             loadFxmlSources();
@@ -85,6 +97,7 @@ public class Game extends Application {
         System.exit(0);
     }
 
+    /** Loads FXML data for access to FXMLControllers. */
     private void loadFxmlSources() throws Exception {
 
         FXMLLoader fxmlLoader;
@@ -115,50 +128,72 @@ public class Game extends Application {
 
     }
 
+    /** High-level method to organize creation of Territories and definition of their neighbors. */
+    private void defineTerritories() {
+
+        // Input Territory names and map them to objects.
+        territories = new HashMap<>(42);
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(TERRITORY_NAMES_FP);
+        System.out.println(stream);
+        assert stream != null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                territories.put(line, Territory.withName(line));
+            }
+        } catch (IOException e) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "territoryNames.txt returned null", e);
+        }
+
+        defineTerritoryRelationships();
+
+    }
+
+    /** High-level method to organize definition of Territory neighbors. */
+    private void defineTerritoryRelationships() {
+
+        setTerritoryNeighbors("alaska", "northwestTerritory", "alberta", "kamchatka");
+        setTerritoryNeighbors("northwestTerritory", "alaska", "alberta", "ontario", "greenland");
+
+    }
+
+    /** Sets the neighbors of the Territory in the first parameter as those given in the following Strings. */
+    private void setTerritoryNeighbors(String territoryName, String... neighborNames) {
+        Territory territory = territories.get(territoryName);
+        ArrayList<Territory> ts = new ArrayList<>();
+        for (String neighbor: neighborNames) {
+            ts.add(territories.get(neighbor));
+        }
+        territory.setNeighbors(ts);
+    }
+
+    /** Tells Game that it has been requested to change the Scene (or bring up a new Stage). */
     public void requestDisplayForScene(int scene) {
 
         switch (scene) {
 
-            case MAIN_MENU:
-                setDisplayToMainMenuScene();
-                break;
-
             case GAME:
-                setDisplayToGameScene();
+                primaryStage.setScene(gameScene);
+                primaryStage.centerOnScreen();
                 break;
 
             case ABOUT_GAME:
-                setDisplayToAboutGameScene();
+                primaryStage.setScene(aboutGameScene);
                 break;
 
             case PAUSE_GAME_MENU:
-                displayGamePauseMenu();
+                gamePauseMenuStage.show();
                 break;
 
             default:
-                setDisplayToMainMenuScene();
+                // Switch to MainMenu.
+                primaryStage.setScene(mainMenuScene);
+                primaryStage.centerOnScreen();
                 break;
 
         }
 
-    }
-
-    public void displayGamePauseMenu() {
-        gamePauseMenuStage.show();
-    }
-
-    private void setDisplayToMainMenuScene() {
-        primaryStage.setScene(mainMenuScene);
-        primaryStage.centerOnScreen();
-    }
-
-    private void setDisplayToGameScene() {
-        primaryStage.setScene(gameScene);
-        primaryStage.centerOnScreen();
-    }
-
-    private void setDisplayToAboutGameScene() {
-        primaryStage.setScene(aboutGameScene);
     }
 
     /* Getters */
@@ -166,6 +201,7 @@ public class Game extends Application {
         return instance;
     }
 
+    /** Used to request closing of a Stage and focus the primary Stage */
     public void closeGamePauseMenuStage() {
         gamePauseMenuStage.close();
     }
