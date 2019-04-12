@@ -63,9 +63,13 @@ public class Game extends Application {
     /** Collection of Territories referenced by their name. */
     private HashMap<String, Territory> territories;
 
+    public String originTerritoryName;
+
+    public String targetTerritorName;
+
     private static Game instance;
 
-    public static boolean PLAYER_SELECTED_TERRITORY_FOR_ATTACK = false;
+    public static boolean PLAYER_SELECTED_ORIGIN_TERRITORY = false;
 
     public Game() {
         instance = this;

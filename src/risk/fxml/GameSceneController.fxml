@@ -33,7 +33,7 @@
             <Line id="alberta-ontario" endX="-52.0" endY="28.5" fill="#ac1917" focusTraversable="true" layoutX="264.0" layoutY="87.0" startX="-129.99998474121094" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="westernUnitedStates-ontario" endX="-177.9999542236328" endY="106.5" fill="#ac1917" focusTraversable="true" layoutX="313.0" layoutY="72.0" startX="-98.68499755859375" startY="41.0064697265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="ontario-quebec" endX="-81.0" endY="14.5" fill="#ac1917" focusTraversable="true" layoutX="335.0" layoutY="105.0" startX="-123.0" startY="10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
-            <Line id="alaska-alberta" endX="-128.0" endY="71.50003051757812" fill="#ac1917" focusTraversable="true" layoutX="345.0" layoutY="132.0" startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="ontario-easternUnitedStates" endX="-128.0" endY="71.50003051757812" fill="#ac1917" focusTraversable="true" layoutX="345.0" layoutY="132.0" startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
             <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
             <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
@@ -101,5 +101,7 @@
          </font>
       </Label>
       <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="746.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
+      <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="63.0" layoutY="736.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton layoutX="141.0" layoutY="737.0" mnemonicParsing="false" text="ToggleButton" />
    </children>
 </AnchorPane>

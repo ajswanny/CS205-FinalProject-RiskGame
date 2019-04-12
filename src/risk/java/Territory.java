@@ -41,6 +41,10 @@ public class Territory {
         }
     }
 
+    /* Getters */
+    public String getName() {
+        return name;
+    }
     /* Setters */
     /** Sets this territories neighbors to the ones given in the ArrayList parameter. */
     public void setNeighbors(ArrayList<Territory> neighbors) {

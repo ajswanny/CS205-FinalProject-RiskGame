@@ -13,7 +13,7 @@ import javafx.scene.shape.Line;
 import risk.Game;
 
 import static risk.Game.PAUSE_GAME_MENU;
-import static risk.Game.PLAYER_SELECTED_TERRITORY_FOR_ATTACK;
+import static risk.Game.PLAYER_SELECTED_ORIGIN_TERRITORY;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -108,26 +108,60 @@ public class GameSceneController extends RiskSceneController {
 
     private void selectTerritoryForAttack(ToggleButton button) {
 
-        if (!button.isSelected()) {
+        resetBoard();
 
-            // Highlight origin territory.
-            button.setSelected(true);
-            button.setEffect(SELECTED_TERRITORY);
+        // Highlight origin territory.
+        button.setEffect(SELECTED_TERRITORY);
 
-            // Show lines to possible targets.
-            //
+        // Check if this is a territory to attack or an origin of attack.
+        if (!Game.PLAYER_SELECTED_ORIGIN_TERRITORY) {
 
-            // Check if this is a territory to attack or an origin of attack.
-            if (!Game.PLAYER_SELECTED_TERRITORY_FOR_ATTACK) {
-                // This territory is an origin of attack.
-                PLAYER_SELECTED_TERRITORY_FOR_ATTACK = true;
-            } else {
-                // This territory is a subject of attack.
-                // PASS
-            }
+            // This territory is an origin of attack.
+            PLAYER_SELECTED_ORIGIN_TERRITORY = true;
+            instance.originTerritoryName = button.getId();
+
+            showAttackLinesForTerritory(button.getId());
+
+        } else {
+
+            // This territory is a subject of attack.
+            instance.targetTerritorName = button.getId();
+
+            // Tell Game that the Player has not selected a territory for the origin of an attack.
+            PLAYER_SELECTED_ORIGIN_TERRITORY = false;
 
         }
 
+    }
+
+    /** Removes all Player customizations from the Game-board. */
+    private void resetBoard() {
+
+        // Hide all other attack-paths
+        for (Line line : legalAttackPathIndicators) {
+            line.setVisible(false);
+        }
+
+        for (ToggleButton toggleButton : territoryToggleButtons) {
+            toggleButton.setEffect(null);
+        }
+
+    }
+
+    private void showAttackLinesForTerritory(String territoryName) {
+        for (Line line : legalAttackPathIndicators) {
+            if (line.getId().contains(territoryName)) {
+                line.setVisible(true);
+            }
+        }
+    }
+
+    private void hideAttackLinesForTerritory(String territoryName) {
+        for (Line line : legalAttackPathIndicators) {
+            if (line.getId().contains(territoryName)) {
+                line.setVisible(false);
+            }
+        }
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
