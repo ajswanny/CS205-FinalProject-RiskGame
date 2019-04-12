@@ -6,11 +6,17 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.Glow;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import risk.Game;
 
 import static risk.Game.PAUSE_GAME_MENU;
+import static risk.Game.PLAYER_SELECTED_TERRITORY_FOR_ATTACK;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -27,8 +33,14 @@ public class GameSceneController extends RiskSceneController {
 
     private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 17.0;
 
+    private ArrayList<ToggleButton> territoryToggleButtons;
+
+    private ArrayList<Line> legalAttackPathIndicators;
+
+    private final Glow SELECTED_TERRITORY = new Glow(0.5);
+
     @FXML
-    public Group territoryButtons;
+    public Group boardNodes;
 
     @FXML
     public Button nextPhaseOrTurn;
@@ -57,17 +69,64 @@ public class GameSceneController extends RiskSceneController {
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
-        Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
-        for (Node node : territoryButtons.getChildren()) {
-            ((Button) node).setShape(circle);
-            ((Button) node).setMinSize(2* TERRITORY_BUTTON_SHAPE_RAD, 2* TERRITORY_BUTTON_SHAPE_RAD);
-            ((Button) node).setMaxSize(2* TERRITORY_BUTTON_SHAPE_RAD, 2* TERRITORY_BUTTON_SHAPE_RAD);
+
+        // Load in references to board objects.
+        territoryToggleButtons = new ArrayList<>(42);
+        legalAttackPathIndicators = new ArrayList<>(84);
+        for (Node node : boardNodes.getChildren()) {
+            if (node instanceof ToggleButton) {
+                territoryToggleButtons.add((ToggleButton) node);
+            } else if (node instanceof  Line) {
+                legalAttackPathIndicators.add((Line) node);
+            }
         }
 
+        // Initialize territory ToggleButtons.
+        Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
+        for (ToggleButton button : territoryToggleButtons) {
+            button.setShape(circle);
+            double size = 2*TERRITORY_BUTTON_SHAPE_RAD;
+            button.setMinSize(size, size);
+            button.setMaxSize(size, size);
+
+            button.setOnAction(event -> selectTerritoryForAttack(button));
+        }
+
+        // Initialize legal-attack-path-indicators.
+        for (Line line : legalAttackPathIndicators) {
+            line.setVisible(false);
+        }
+
+        // Initialize button for controlling turn phases.
         circle = new Circle(NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
         nextPhaseOrTurn.setShape(circle);
-        nextPhaseOrTurn.setMinSize(2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD, 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
-        nextPhaseOrTurn.setMaxSize(2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD, 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
+        double size = 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD;
+        nextPhaseOrTurn.setMinSize(size, size);
+        nextPhaseOrTurn.setMaxSize(size, size);
+
+    }
+
+    private void selectTerritoryForAttack(ToggleButton button) {
+
+        if (!button.isSelected()) {
+
+            // Highlight origin territory.
+            button.setSelected(true);
+            button.setEffect(SELECTED_TERRITORY);
+
+            // Show lines to possible targets.
+            //
+
+            // Check if this is a territory to attack or an origin of attack.
+            if (!Game.PLAYER_SELECTED_TERRITORY_FOR_ATTACK) {
+                // This territory is an origin of attack.
+                PLAYER_SELECTED_TERRITORY_FOR_ATTACK = true;
+            } else {
+                // This territory is a subject of attack.
+                // PASS
+            }
+
+        }
 
     }
 

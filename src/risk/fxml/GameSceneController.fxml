@@ -3,58 +3,79 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" prefHeight="793.0" prefWidth="1067.0" stylesheets="@../css/GameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSceneController">
    <children>
-      <Group fx:id="territoryButtons" layoutX="47.0" layoutY="83.0">
+      <Group fx:id="boardNodes" layoutX="47.0" layoutY="83.0">
          <children>
-            <Button id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-            <Button id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-            <Button id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-            <Button id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-            <Button id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-            <Button id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-            <Button id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-            <Button id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="mongolia" layoutX="782.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Button id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-            <Button id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-            <Button id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-            <Button id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-            <Button id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <Line id="alaska-northwestTerritory" endX="20.999969482421875" endY="-15.499992370605469" fill="#ac1917" focusTraversable="true" layoutX="181.0" layoutY="41.0" startX="-160.0" startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="alaska-alberta" endX="-26.999984741210938" endY="50.5" fill="#ac1917" focusTraversable="true" layoutX="161.0" layoutY="50.0" startX="-139.37396240234375" startY="7.6745147705078125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="kamchatka-alaska" endX="-66.00001525878906" endY="12.499984741210938" fill="#ac1917" focusTraversable="true" layoutX="87.0" layoutY="44.0" startX="-114.0" startY="14.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="kamchatka-alaska" endX="28.0" endY="-25.0" fill="#ac1917" focusTraversable="true" layoutX="969.0" layoutY="49.0" startX="-136.0" startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="northwestTerritory-greenland" endX="-15.689666748046875" endY="5.6802978515625" fill="#ac1917" focusTraversable="true" layoutX="344.0" layoutY="8.0" startX="-142.00001525878906" startY="17.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="alberta-northwestTerritory" endX="-46.34814453125" endY="-39.981971740722656" fill="#ac1917" focusTraversable="true" layoutX="247.0" layoutY="65.0" startX="-112.99998474121094" startY="35.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="greenland-iceland" endX="-74.99996948242188" endY="70.50001525878906" fill="#ac1917" focusTraversable="true" layoutX="461.0" layoutY="1.0" startX="-132.0" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="quebec-greenland" endX="-184.0" endY="102.5" fill="#ac1917" focusTraversable="true" layoutX="438.0" layoutY="17.0" startX="-109.0" startY="-2.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="westernUnitedStates-easternUnitedStates" endX="-47.0" endY="37.500030517578125" fill="#ac1917" focusTraversable="true" layoutX="264.0" layoutY="166.0" startX="-129.99998474121094" startY="11.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="easternUnitedStates-quebec" endX="-76.0" endY="-46.5" fill="#ac1917" focusTraversable="true" layoutX="330.0" layoutY="166.0" startX="-113.0" startY="37.500030517578125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="centralAmerica-easternUnitedStates" endX="-62.0" endY="-39.499969482421875" fill="#ac1917" focusTraversable="true" layoutX="279.0" layoutY="243.0" startX="-134.00003051757812" startY="16.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="westernUnitedStates-centralAmerica" endX="-108.00003051757812" endY="77.5" fill="#ac1917" focusTraversable="true" layoutX="253.0" layoutY="182.0" startX="-118.99998474121094" startY="-4.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="alberta-westernUnitedStates" endX="-127.99998474121094" endY="70.5" fill="#ac1917" focusTraversable="true" layoutX="262.0" layoutY="107.0" startX="-127.99998474121094" startY="-6.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="northwestTerritory-ontario" endX="-130.0" endY="72.5" fill="#ac1917" focusTraversable="true" layoutX="342.0" layoutY="43.0" startX="-139.93394470214844" startY="-16.56775665283203" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="ontario-greenland" endX="-9.27545166015625" endY="-74.73390197753906" fill="#ac1917" focusTraversable="true" layoutX="339.0" layoutY="87.0" startX="-127.0" startY="28.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="alberta-ontario" endX="-52.0" endY="28.5" fill="#ac1917" focusTraversable="true" layoutX="264.0" layoutY="87.0" startX="-129.99998474121094" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="westernUnitedStates-ontario" endX="-177.9999542236328" endY="106.5" fill="#ac1917" focusTraversable="true" layoutX="313.0" layoutY="72.0" startX="-98.68499755859375" startY="41.0064697265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="ontario-quebec" endX="-81.0" endY="14.5" fill="#ac1917" focusTraversable="true" layoutX="335.0" layoutY="105.0" startX="-123.0" startY="10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <Line id="alaska-alberta" endX="-128.0" endY="71.50003051757812" fill="#ac1917" focusTraversable="true" layoutX="345.0" layoutY="132.0" startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+            <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="mongolia" layoutX="782.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+            <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
          </children>
       </Group>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ead3ba" height="62.0" layoutX="316.0" layoutY="731.0" stroke="BLACK" strokeType="OUTSIDE" width="435.0">

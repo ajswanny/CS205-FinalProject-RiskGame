@@ -65,6 +65,8 @@ public class Game extends Application {
 
     private static Game instance;
 
+    public static boolean PLAYER_SELECTED_TERRITORY_FOR_ATTACK = false;
+
     public Game() {
         instance = this;
     }
