@@ -29,8 +29,4 @@ public class AboutGameSceneController extends RiskSceneController {
 
     }
 
-    public Scene getScene() {
-        return scene;
-    }
-
 }

@@ -54,8 +54,4 @@ public class MainMenuSceneController extends RiskSceneController{
 
     }
 
-    public Scene getScene() {
-        return scene;
-    }
-
 }

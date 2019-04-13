@@ -31,4 +31,8 @@ abstract public class RiskSceneController implements Initializable {
         initializeCoreResources();
     }
 
+    public Scene getScene() {
+        return scene;
+    }
+
 }
