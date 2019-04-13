@@ -6,10 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import risk.controller.AboutGameSceneController;
-import risk.controller.GamePauseMenuSceneController;
-import risk.controller.GameSceneController;
-import risk.controller.MainMenuSceneController;
+import risk.controller.*;
 import risk.java.Player;
 import risk.java.Territory;
 
@@ -34,7 +31,7 @@ public class Game extends Application {
     private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
 
     /** The color themes for each continent and those that are available to the user for selection. */
-    private final String
+    public final String
         NORTH_AMERICA_HEX = "EAD3BA",
         SOUTH_AMERICA_HEX = "994734",
         EUROPE_HEX = "6A6F6B",
@@ -49,17 +46,20 @@ public class Game extends Application {
     /** The Game's Scenes */
     private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene;
 
-    /** The Controller for the Menu Scene */
+    /** Controller for the Menu Scene */
     private MainMenuSceneController mainMenuSceneController;
 
-    /** The Controller for the Game Scene */
+    /** Controller for the Game Scene */
     private GameSceneController gameSceneController;
 
-    /** The Controller for the AboutGame Scene */
+    /** Controller for the AboutGame Scene */
     private AboutGameSceneController aboutGameSceneController;
 
-    /** The Controller for the GamePauseMenu Scene */
+    /** Controller for the GamePauseMenu Scene */
     private GamePauseMenuSceneController gamePauseMenuSceneController;
+
+    /** Controller for the GameSetup Scene */
+    private GameSetupSceneController gameSetupSceneController;
 
     /** Collection of Territories referenced by their name. */
     private HashMap<String, Territory> territories;
@@ -121,38 +121,39 @@ public class Game extends Application {
 
     /** Used for debugging. */
     private void debug() {
-        primaryStage.setScene(gameScene);
+        primaryStage.setScene(gameSetupScene);
     }
 
     /** Loads FXML data for access to FXMLControllers. */
     private void loadFxmlSources() throws Exception {
 
-        FXMLLoader fxmlLoader;
-
         // Loader for MenuSceneController
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/MainMenuSceneController.fxml"));
-        fxmlLoader.load();
-        mainMenuSceneController = fxmlLoader.getController();
+        mainMenuSceneController = (MainMenuSceneController) loadFxmlController("fxml/MainMenuSceneController.fxml");
         mainMenuScene = mainMenuSceneController.getScene();
 
         // Loader for GameSceneController
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/GameSceneController.fxml"));
-        fxmlLoader.load();
-        gameSceneController = fxmlLoader.getController();
+        gameSceneController = (GameSceneController) loadFxmlController("fxml/GameSceneController.fxml");
         gameScene = gameSceneController.getScene();
 
         // Loader for AboutGameSceneController
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/AboutGameSceneController.fxml"));
-        fxmlLoader.load();
-        aboutGameSceneController = fxmlLoader.getController();
+        aboutGameSceneController = (AboutGameSceneController) loadFxmlController("fxml/AboutGameSceneController.fxml");
         aboutGameScene = aboutGameSceneController.getScene();
 
         // Loader for GamePauseMenuSceneController
-        fxmlLoader = new FXMLLoader(getClass().getResource("fxml/GamePauseMenuScene.fxml"));
-        fxmlLoader.load();
-        gamePauseMenuSceneController = fxmlLoader.getController();
+        gamePauseMenuSceneController = (GamePauseMenuSceneController) loadFxmlController("fxml/GamePauseMenuScene.fxml");
         gamePauseMenuScene = gamePauseMenuSceneController.getScene();
 
+        // GameSetupSceneController
+        gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
+        gameSetupScene = gameSetupSceneController.getScene();
+
+    }
+
+    /** Shortcut for loading a FXML Controller class given its FXML file. */
+    private RiskSceneController loadFxmlController(String controllerFxmlFilePath) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controllerFxmlFilePath));
+        fxmlLoader.load();
+        return fxmlLoader.getController();
     }
 
     /** High-level method to organize creation of Territories and definition of their neighbors. */
@@ -223,8 +224,11 @@ public class Game extends Application {
                 gamePauseMenuStage.show();
                 break;
 
+            case GAME_SETUP:
+                primaryStage.setScene(gameSetupScene);
+                break;
+
             default:
-                // Switch to MainMenu.
                 primaryStage.setScene(mainMenuScene);
                 primaryStage.centerOnScreen();
                 break;

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #E7CDB2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSetupSceneController">
+   <children>
+      <HBox fx:id="playerColorToggleButtons" alignment="CENTER" layoutX="128.0" layoutY="45.0" prefHeight="140.0" prefWidth="545.0" spacing="20.0">
+         <children>
+            <ToggleButton id="NORTH_AMERICA_HEX" mnemonicParsing="false" style="-fx-background-color: #B88A40;" />
+            <ToggleButton id="SOUTH_AMERICA_HEX" mnemonicParsing="false" style="-fx-background-color: #994734;" />
+            <ToggleButton id="AFRICA_HEX" mnemonicParsing="false" style="-fx-background-color: #876133;" />
+            <ToggleButton id="ASIA_HEX" mnemonicParsing="false" style="-fx-background-color: #5E693D;" />
+            <ToggleButton id="AUSTRALIA_HEX" mnemonicParsing="false" style="-fx-background-color: #8B626A;" />
+         </children>
+      </HBox>
+      <Label layoutX="380.0" layoutY="185.0" text="VS">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Circle fill="#6a6f6b" layoutX="402.0" layoutY="287.0" radius="34.0" stroke="#f5f5f500" strokeType="INSIDE" strokeWidth="0.0" />
+      <ImageView fitHeight="50.0" fitWidth="41.0" layoutX="383.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/images/computer-icon/computerIcon.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="282.0" layoutY="393.0" mnemonicParsing="false" text="Load game" />
+      <Button layoutX="436.0" layoutY="393.0" mnemonicParsing="false" text="New game" />
+      <Button fx:id="backToMainMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Main menu" />
+   </children>
+</AnchorPane>

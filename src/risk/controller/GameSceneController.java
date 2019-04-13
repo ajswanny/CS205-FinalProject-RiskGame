@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 /**
  *
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class GameSceneController extends RiskSceneController {
 
     /*
@@ -66,6 +67,7 @@ public class GameSceneController extends RiskSceneController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
@@ -175,10 +177,5 @@ public class GameSceneController extends RiskSceneController {
         });
 
     }
-
-    public Scene getScene() {
-        return scene;
-    }
-
 
 }
