@@ -10,6 +10,7 @@ import risk.controller.AboutGameSceneController;
 import risk.controller.GamePauseMenuSceneController;
 import risk.controller.GameSceneController;
 import risk.controller.MainMenuSceneController;
+import risk.java.Player;
 import risk.java.Territory;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class Game extends Application {
 
     /* Class Fields */
     /** Game-Scene enumerations */
-    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3;
+    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3, GAME_SETUP = 4;
 
     /** Path to the text-file containing all Territory names. */
     private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
@@ -46,7 +47,7 @@ public class Game extends Application {
     private Stage primaryStage, gamePauseMenuStage;
 
     /** The Game's Scenes */
-    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene;
+    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene;
 
     /** The Controller for the Menu Scene */
     private MainMenuSceneController mainMenuSceneController;
@@ -65,7 +66,9 @@ public class Game extends Application {
 
     public String originTerritoryName;
 
-    public String targetTerritorName;
+    public String targetTerritoryName;
+
+    private Player player;
 
     private static Game instance;
 

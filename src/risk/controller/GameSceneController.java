@@ -118,14 +118,15 @@ public class GameSceneController extends RiskSceneController {
 
             // This territory is an origin of attack.
             PLAYER_SELECTED_ORIGIN_TERRITORY = true;
-            instance.originTerritoryName = button.getId();
+
+            // Check if territory belongs to Player.
 
             showAttackLinesForTerritory(button.getId());
 
         } else {
 
             // This territory is a subject of attack.
-            instance.targetTerritorName = button.getId();
+            instance.targetTerritoryName = button.getId();
 
             // Tell Game that the Player has not selected a territory for the origin of an attack.
             PLAYER_SELECTED_ORIGIN_TERRITORY = false;
