@@ -7,13 +7,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import risk.controller.*;
+import risk.java.CPU;
+import risk.java.GameState;
 import risk.java.Player;
 import risk.java.Territory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -39,6 +38,17 @@ public class Game extends Application {
         ASIA_HEX = "5E693D",
         AUSTRALIA_HEX = "8B626A"
     ;
+
+    public static enum PlayerColor {
+        NORTH_AMERICA,
+        SOUTH_AMERICA,
+        EUROPE,
+        AFRICA,
+        ASIA,
+        AUSTRALIA
+    }
+
+    private final int STARTING_NUM_OF_ARMIES = 40;
 
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
@@ -69,6 +79,12 @@ public class Game extends Application {
     public String targetTerritoryName;
 
     private Player player;
+
+    private CPU cpu;
+
+    public GameState defaultLoadableGameState;
+
+    public GameState gameState;
 
     private static Game instance;
 
@@ -113,6 +129,32 @@ public class Game extends Application {
 
     }
 
+    /** Controls the gameloop. */
+    private void gameloop() {
+
+        int[] turnPhases = {0, 1, 2};
+
+    }
+
+    /** Validates and completes a request to begin the gameloop. */
+    public void requestStartOfGameloop(int gameState, String playerSelectedColor) {
+        if (gameState == 0) {
+
+            // Load saved game for continuation.
+            defaultLoadableGameState = deserializeDefaultLoadableGameState();
+            gameloop();
+
+        } else {
+
+            // Define new Game-state.
+            player = new Player(PlayerColor.valueOf(playerSelectedColor), STARTING_NUM_OF_ARMIES);
+            cpu = new CPU(STARTING_NUM_OF_ARMIES);
+            this.gameState = new GameState(player, cpu);
+            gameloop();
+
+        }
+    }
+
     @Override
     public void stop() {
         System.out.println("Shutting down Game instance: " + this + ".");
@@ -121,7 +163,11 @@ public class Game extends Application {
 
     /** Used for debugging. */
     private void debug() {
+
+
         primaryStage.setScene(gameSetupScene);
+
+
     }
 
     /** Loads FXML data for access to FXMLControllers. */
@@ -129,23 +175,23 @@ public class Game extends Application {
 
         // Loader for MenuSceneController
         mainMenuSceneController = (MainMenuSceneController) loadFxmlController("fxml/MainMenuSceneController.fxml");
-        mainMenuScene = mainMenuSceneController.getScene();
+        mainMenuScene = mainMenuSceneController.getPrimaryScene();
 
         // Loader for GameSceneController
         gameSceneController = (GameSceneController) loadFxmlController("fxml/GameSceneController.fxml");
-        gameScene = gameSceneController.getScene();
+        gameScene = gameSceneController.getPrimaryScene();
 
         // Loader for AboutGameSceneController
         aboutGameSceneController = (AboutGameSceneController) loadFxmlController("fxml/AboutGameSceneController.fxml");
-        aboutGameScene = aboutGameSceneController.getScene();
+        aboutGameScene = aboutGameSceneController.getPrimaryScene();
 
         // Loader for GamePauseMenuSceneController
         gamePauseMenuSceneController = (GamePauseMenuSceneController) loadFxmlController("fxml/GamePauseMenuScene.fxml");
-        gamePauseMenuScene = gamePauseMenuSceneController.getScene();
+        gamePauseMenuScene = gamePauseMenuSceneController.getPrimaryScene();
 
         // GameSetupSceneController
         gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
-        gameSetupScene = gameSetupSceneController.getScene();
+        gameSetupScene = gameSetupSceneController.getPrimaryScene();
 
     }
 
@@ -235,6 +281,31 @@ public class Game extends Application {
 
         }
 
+    }
+
+    /**
+     * De-serializes an object at the specified file location.
+     * @return The de-serialized object.
+     */
+    private GameState deserializeDefaultLoadableGameState() {
+        try {
+
+            // Create a file input object to open the file specified by 'file_path'.
+            FileInputStream file_in_stream = new FileInputStream("resources/serializations/defaultLoadableGameState.ser");
+
+            // Define the object deserializer.
+            ObjectInputStream object_in_stream = new ObjectInputStream(file_in_stream);
+
+            // Return the de-serialized object.
+            return (GameState) (object_in_stream.readObject());
+
+        } catch (IOException e) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "defaultLoadableGameState resource file not found.", e);
+            return null;
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }
     }
 
     /* Getters */

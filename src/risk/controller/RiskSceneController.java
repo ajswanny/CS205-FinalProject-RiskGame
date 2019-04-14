@@ -16,14 +16,14 @@ abstract public class RiskSceneController implements Initializable {
 
     Game instance;
 
-    Scene scene;
+    Scene primaryScene;
 
     @FXML
     public AnchorPane root;
 
     private void initializeCoreResources() {
         instance = Game.getInstance();
-        scene = new Scene(root);
+        primaryScene = new Scene(root);
     }
 
     @Override
@@ -31,8 +31,8 @@ abstract public class RiskSceneController implements Initializable {
         initializeCoreResources();
     }
 
-    public Scene getScene() {
-        return scene;
+    public Scene getPrimaryScene() {
+        return primaryScene;
     }
 
 }

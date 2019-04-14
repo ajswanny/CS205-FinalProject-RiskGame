@@ -2,9 +2,11 @@ package risk.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Glow;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import risk.Game;
@@ -18,9 +20,17 @@ public class GameSetupSceneController extends RiskSceneController {
     public Button backToMainMenu;
 
     @FXML
+    public Button continueGame;
+
+    @FXML
+    public Button newGame;
+
+    @FXML
     public HBox playerColorToggleButtons;
 
     private final Glow SELECTED_COLOR_EFFECT = new Glow(0.5);
+
+    private String playerSelectedColor;
 
     /* Constructors */
     public GameSetupSceneController() {
@@ -48,8 +58,18 @@ public class GameSetupSceneController extends RiskSceneController {
                     node.setEffect(null);
                 }
                 toggleButton.setEffect(SELECTED_COLOR_EFFECT);
+                playerSelectedColor = toggleButton.getId();
             });
         }
+
+        // Continue Game Button
+        if (instance.defaultLoadableGameState == null) {
+            continueGame.setVisible(false);
+        }
+        continueGame.setOnAction(event -> instance.requestStartOfGameloop(0, playerSelectedColor));
+
+        // New game
+        newGame.setOnAction(event -> instance.requestStartOfGameloop(1, playerSelectedColor));
 
     }
 

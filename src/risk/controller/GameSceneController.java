@@ -3,7 +3,6 @@ package risk.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -11,6 +10,8 @@ import javafx.scene.effect.Glow;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
+import risk.java.GameState;
+import risk.java.Territory;
 
 import static risk.Game.PAUSE_GAME_MENU;
 import static risk.Game.PLAYER_SELECTED_ORIGIN_TERRITORY;
@@ -169,12 +170,22 @@ public class GameSceneController extends RiskSceneController {
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     private void initializeKeyboardListeners() {
-
-        scene.setOnKeyPressed(event -> {
+        primaryScene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case ESCAPE: instance.requestDisplayForScene(PAUSE_GAME_MENU);
             }
         });
+    }
+
+    /* Setters */
+    public void setGameState(GameState gameState) {
+
+        setArmiesLabelsForTerritories(gameState.player.getControlledTerritories());
+        setArmiesLabelsForTerritories(gameState.cpu.getControlledTerritories());
+
+    }
+
+    private void setArmiesLabelsForTerritories(ArrayList<Territory> territories) {
 
     }
 

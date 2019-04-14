@@ -3,12 +3,10 @@ package risk.controller;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import risk.Game;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static risk.Game.GAME;
-import static risk.Game.ABOUT_GAME;
 
 /**
  * TODO:
@@ -39,7 +37,7 @@ public class MainMenuSceneController extends RiskSceneController{
 
         playGame.setOnAction(event -> {
             System.out.println("Displaying GameScene from 'playGame' Button used within MainMenuScene.");
-            instance.requestDisplayForScene(GAME);
+            instance.requestDisplayForScene(Game.GAME_SETUP);
         });
 
         quitGame.setOnAction(event -> {
@@ -49,7 +47,7 @@ public class MainMenuSceneController extends RiskSceneController{
 
         aboutGame.setOnAction(event -> {
             System.out.println("Displaying AboutGameScene from 'aboutGame' Button used within MainMenuScene.");
-            instance.requestDisplayForScene(ABOUT_GAME);
+            instance.requestDisplayForScene(Game.ABOUT_GAME);
         });
 
     }
