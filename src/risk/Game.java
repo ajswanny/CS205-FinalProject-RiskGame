@@ -82,6 +82,10 @@ public class Game extends Application {
 
     private CPU cpu;
 
+    private boolean gameIsRunning;
+
+    private boolean playerDraftPhaseIsActive, playerAttackPhaseIsActive, playerFortifyPhaseIsActive;
+
     public GameState defaultLoadableGameState;
 
     public GameState gameState;
@@ -105,6 +109,7 @@ public class Game extends Application {
 
             // Load data.
             defineTerritories();
+            gameIsRunning = false;
 
             // Load and initialize all FXML.
             loadFxmlSources();
@@ -129,15 +134,46 @@ public class Game extends Application {
 
     }
 
+    @Override
+    public void stop() {
+        System.out.println("Shutting down Game instance: " + this + ".");
+        System.exit(0);
+    }
+
+    /** Used for debugging. */
+    private void debug() {
+
+
+//        primaryStage.setScene(gameSetupScene);
+
+
+    }
+
     /** Controls the gameloop. */
     private void gameloop() {
 
-        int[] turnPhases = {0, 1, 2};
+        requestDisplayForScene(GAME);
+
+        playerDraftPhaseIsActive = true;
+        playerAttackPhaseIsActive = false;
+        playerFortifyPhaseIsActive = false;
+
+        // Set color for turn-indicator on game board.
+        gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
+
+        while (gameIsRunning) {
+
+            playerTurn();
+//            cpuTurn();
+            break;
+
+        }
 
     }
 
     /** Validates and completes a request to begin the gameloop. */
     public void requestStartOfGameloop(int gameState, String playerSelectedColor) {
+        gameIsRunning = true;
         if (gameState == 0) {
 
             // Load saved game for continuation.
@@ -155,18 +191,32 @@ public class Game extends Application {
         }
     }
 
-    @Override
-    public void stop() {
-        System.out.println("Shutting down Game instance: " + this + ".");
-        System.exit(0);
+    /**
+     * Three phases:
+     *  Draft (1) - Place armies granted at the beginning of each turn;
+     *  Attack (2) - Make attacks to enemy armies;
+     *  Fortify (3) - Move armies to friendly territories.
+     */
+    private void playerTurn() {
+
+        gameSceneController.setHighlightForAttackPhaseIndicator(1);
+//        while (playerDraftPhaseIsActive) {
+//
+//        }
+//
+        gameSceneController.setHighlightForAttackPhaseIndicator(2);
+//        while (playerAttackPhaseIsActive) {
+//
+//        }
+//
+        gameSceneController.setHighlightForAttackPhaseIndicator(3);
+//        while (playerFortifyPhaseIsActive) {
+//
+//        }
+
     }
 
-    /** Used for debugging. */
-    private void debug() {
-
-
-        primaryStage.setScene(gameSetupScene);
-
+    private void cpuTurn() {
 
     }
 
@@ -316,6 +366,11 @@ public class Game extends Application {
     /** Used to request closing of a Stage and focus the primary Stage */
     public void closeGamePauseMenuStage() {
         gamePauseMenuStage.close();
+    }
+
+    /* Setters */
+    public void setGameIsRunning(boolean gameIsRunning) {
+        this.gameIsRunning = gameIsRunning;
     }
 
     /* Main */

@@ -7,10 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Glow;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
 import risk.java.GameState;
+import risk.java.Player;
 import risk.java.Territory;
 
 import static risk.Game.PAUSE_GAME_MENU;
@@ -39,7 +42,7 @@ public class GameSceneController extends RiskSceneController {
 
     private ArrayList<Line> legalAttackPathIndicators;
 
-    private final Glow SELECTED_TERRITORY = new Glow(0.5);
+    private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
 
     @FXML
     public Group boardNodes;
@@ -114,7 +117,7 @@ public class GameSceneController extends RiskSceneController {
         resetBoard();
 
         // Highlight origin territory.
-        button.setEffect(SELECTED_TERRITORY);
+        button.setEffect(STANDARD_GLOW_EFFECT);
 
         // Check if this is a territory to attack or an origin of attack.
         if (!Game.PLAYER_SELECTED_ORIGIN_TERRITORY) {
@@ -160,14 +163,6 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
-    private void hideAttackLinesForTerritory(String territoryName) {
-        for (Line line : legalAttackPathIndicators) {
-            if (line.getId().contains(territoryName)) {
-                line.setVisible(false);
-            }
-        }
-    }
-
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
     private void initializeKeyboardListeners() {
         primaryScene.setOnKeyPressed(event -> {
@@ -175,6 +170,55 @@ public class GameSceneController extends RiskSceneController {
                 case ESCAPE: instance.requestDisplayForScene(PAUSE_GAME_MENU);
             }
         });
+    }
+
+    /**
+     * Draft: 1;
+     * Attack: 2;
+     * Fortify: 3.
+     */
+    public void setHighlightForAttackPhaseIndicator(int which) {
+
+        // Reset values.
+        draftIndicator.setTextFill(Color.valueOf("#ffbf00"));
+        attackIndicator.setTextFill(Color.valueOf("#ffbf00"));
+        fortifyIndicator.setTextFill(Color.valueOf("#ffbf00"));
+
+        // Set value
+        switch (which) {
+            case 1:
+                draftIndicator.setTextFill(Color.RED);
+                break;
+            case 2:
+                attackIndicator.setTextFill(Color.RED);
+                break;
+            case 3:
+                fortifyIndicator.setTextFill(Color.RED);
+                break;
+        }
+
+    }
+
+    public void setPlayerTurnIndicatorColor(Game.PlayerColor playerColor) {
+        playerTurnIndicator.setFill(Color.valueOf(getColorHexForPlayerColor(playerColor)));
+    }
+
+    /** Returns a HEX String for the PlayerColor parameter. */
+    private String getColorHexForPlayerColor(Game.PlayerColor playerColor) {
+        switch (playerColor) {
+            case NORTH_AMERICA:
+                return instance.NORTH_AMERICA_HEX;
+            case SOUTH_AMERICA:
+                return instance.SOUTH_AMERICA_HEX;
+            case AFRICA:
+                return instance.AFRICA_HEX;
+            case ASIA:
+                return instance.ASIA_HEX;
+            case AUSTRALIA:
+                return instance.AUSTRALIA_HEX;
+            default:
+                return "#FFFFFF";
+        }
     }
 
     /* Setters */

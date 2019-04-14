@@ -10,11 +10,11 @@ public class Player implements Serializable  {
     /* Fields */
     private risk.Game instance;
 
-    protected Game.PlayerColor color;
+    Game.PlayerColor color;
 
     protected ArrayList<Territory> controlledTerritories;
 
-    protected int numOfTotalArmies;
+    int numOfTotalArmies;
 
     public Player() {
 
@@ -28,5 +28,9 @@ public class Player implements Serializable  {
     /* Getters */
     public ArrayList<Territory> getControlledTerritories() {
         return controlledTerritories;
+    }
+
+    public Game.PlayerColor getColor() {
+        return color;
     }
 }

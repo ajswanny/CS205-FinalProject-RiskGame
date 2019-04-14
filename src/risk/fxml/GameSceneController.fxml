@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
@@ -15,6 +17,7 @@
    <children>
       <Group fx:id="boardNodes" layoutX="47.0" layoutY="83.0">
          <children>
+            <Line id="northAfrica-eastAfrica" endX="-128.0" endY="104.5" layoutX="562.0" layoutY="253.0" startX="7.0" startY="120.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="westernEurope-southernEurope" endX="-47.58575439453125" endY="-20.085784912109375" layoutX="562.0" layoutY="253.0" startX="-126.58578491210938" startY="-48.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="mongolia-kamchatka" endX="-46.0" endY="55.5" layoutX="865.0" layoutY="120.0" startX="-31.33331298828125" startY="-55.66667175292969" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="middleEast-indea" endX="4.0" endY="109.5" layoutX="696.0" layoutY="145.0" startX="-83.171630859375" startY="149.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
@@ -28,7 +31,6 @@
             <Line id="siam-china" endX="-50.585693359375" endY="-19.085784912109375" layoutX="872.0" layoutY="266.0" startX="-89.0" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="india-siam" endX="-180.919921875" endY="-21.0399169921875" layoutX="882.0" layoutY="276.0" startX="-99.0" startY="12.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="india-china" endX="-192.0" endY="-31.5" layoutX="892.0" layoutY="286.0" startX="-72.28173828125" startY="-38.199127197265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
-            <Line id="india-mongolia" endX="-202.0" endY="-41.5" layoutX="902.0" layoutY="296.0" startX="-83.0" startY="-120.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="afghanistan-china" endX="94.00006103515625" endY="72.5" layoutX="726.0" layoutY="173.0" startX="-51.41424560546875" startY="29.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="siberia-yakutsk" endY="-20.49999237060547" layoutX="795.0" layoutY="50.0" startX="-59.0" startY="14.499984741210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
             <Line id="siberia-mongolia" endX="16.414306640625" endY="116.08578491210938" layoutX="805.0" layoutY="60.0" startX="-71.41424560546875" startY="3.0857696533203125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
@@ -191,9 +193,9 @@
             <Blend mode="COLOR_BURN" />
          </effect>
       </Rectangle>
-      <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#211201" strokeType="INSIDE" />
-      <Circle fx:id="cpuTurnIndicator" fill="#994734" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#211201" strokeType="INSIDE" />
-      <Label fx:id="fortifyIndicator" layoutX="374.0" layoutY="709.0" text="Fortify" textAlignment="CENTER" textFill="#ffbf00">
+      <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#1f100100" strokeType="INSIDE" />
+      <Circle fx:id="cpuTurnIndicator" fill="#6a6f6b" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#ffffff00" strokeType="INSIDE" />
+      <Label fx:id="fortifyIndicator" layoutX="669.0" layoutY="709.0" text="Fortify" textAlignment="CENTER" textFill="#ffbf00">
          <font>
             <Font name="System Italic" size="14.0" />
          </font>
@@ -203,11 +205,17 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="draftIndicator" layoutX="656.0" layoutY="709.0" text="Draft" textFill="#ffbf00">
+      <Label fx:id="draftIndicator" layoutX="357.0" layoutY="709.0" text="Draft" textFill="#ffbf00">
          <font>
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
       <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="746.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
+      <Button fx:id="nextPhaseOrTurn1" layoutX="357.0" layoutY="748.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
+      <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="557.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../resources/images/computer-icon/computerIcon.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
