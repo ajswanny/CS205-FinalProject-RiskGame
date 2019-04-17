@@ -44,6 +44,9 @@ public class CPU extends Player {
     }
 
     public void theOneMove(){
-
+//        Dice roll goes here !!!!!!!!
+        CpuPlaceArmies();
+//        CpuAttack(dice roll1, dice roll2);
+        this.setEndOfTurn(true);
     }
 }
