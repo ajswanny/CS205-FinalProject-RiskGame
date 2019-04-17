@@ -1,7 +1,5 @@
 package risk.java;
 
-import risk.Continent;
-
 import java.util.ArrayList;
 
 public class Territory {

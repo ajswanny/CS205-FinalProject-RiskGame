@@ -1,4 +1,4 @@
-package risk;
+package risk.java;
 
 public enum Continent {
 
