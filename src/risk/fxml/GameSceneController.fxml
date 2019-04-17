@@ -141,47 +141,212 @@
             <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
             <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
             <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-            <Label layoutX="16.0" layoutY="39.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="alaska" alignment="CENTER" layoutX="4.0" layoutY="43.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="132.0" layoutY="79.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="alberta" alignment="CENTER" layoutX="118.0" layoutY="87.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="199.0" layoutY="7.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="northwestTerritory" alignment="CENTER" layoutX="185.0" layoutY="12.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="211.0" layoutY="94.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="ontario" alignment="CENTER" layoutX="196.0" layoutY="104.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="327.0" layoutY="-5.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="greenland" alignment="CENTER" layoutX="312.0" layoutY="1.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="216.0" layoutY="182.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="easternUnitedStates" alignment="CENTER" layoutX="198.0" layoutY="190.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="133.0" layoutY="156.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="westernUnitedStates" alignment="CENTER" layoutX="117.0" layoutY="165.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="145.0" layoutY="239.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="centralAmerica" alignment="CENTER" layoutX="128.0" layoutY="247.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
             </Label>
-            <Label layoutX="253.0" layoutY="98.0" prefHeight="25.0" prefWidth="27.0">
+            <Label id="quebec" alignment="CENTER" layoutX="237.0" layoutY="107.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="venezuela" alignment="CENTER" layoutX="236.0" layoutY="283.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="brazil" alignment="CENTER" layoutX="278.0" layoutY="379.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="peru" alignment="CENTER" layoutX="231.0" layoutY="394.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="argentina" alignment="CENTER" layoutX="211.0" layoutY="485.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="northAfrica" alignment="CENTER" layoutX="417.0" layoutY="343.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="congo" alignment="CENTER" layoutX="519.0" layoutY="442.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="southAfrica" alignment="CENTER" layoutX="528.0" layoutY="537.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="madagascar" alignment="CENTER" layoutX="624.0" layoutY="523.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="eastAfrica" alignment="CENTER" layoutX="551.0" layoutY="361.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="egypt" alignment="CENTER" layoutX="539.0" layoutY="312.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="middleEast" alignment="CENTER" layoutX="593.0" layoutY="283.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="southernEurope" alignment="CENTER" layoutX="496.0" layoutY="218.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="westernEurope" alignment="CENTER" layoutX="416.0" layoutY="191.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="northernEurope" alignment="CENTER" layoutX="451.0" layoutY="162.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="greatBritain" alignment="CENTER" layoutX="356.0" layoutY="135.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="iceland" alignment="CENTER" layoutX="367.0" layoutY="58.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="scandinavia" alignment="CENTER" layoutX="464.0" layoutY="57.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="ukraine" alignment="CENTER" layoutX="552.0" layoutY="121.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="india" alignment="CENTER" layoutX="683.0" layoutY="242.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="afghanistan" alignment="CENTER" layoutX="659.0" layoutY="192.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="ural" alignment="CENTER" layoutX="671.0" layoutY="92.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="siberia" alignment="CENTER" layoutX="718.0" layoutY="51.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="yakutsk" alignment="CENTER" layoutX="778.0" layoutY="17.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="kamchatka" alignment="CENTER" layoutX="816.0" layoutY="53.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="japan" alignment="CENTER" layoutX="912.0" layoutY="153.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="irkutsk" alignment="CENTER" layoutX="779.0" layoutY="102.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="mongolia" alignment="CENTER" layoutX="802.0" layoutY="163.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="china" alignment="CENTER" layoutX="803.0" layoutY="233.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="siam" alignment="CENTER" layoutX="766.0" layoutY="275.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="indonesia" alignment="CENTER" layoutX="827.0" layoutY="445.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="newGuinea" alignment="CENTER" layoutX="901.0" layoutY="359.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="easternAustralia" alignment="CENTER" layoutX="923.0" layoutY="523.0" prefHeight="25.0" prefWidth="27.0">
+               <font>
+                  <Font name="Chalkboard" size="17.0" />
+               </font>
+            </Label>
+            <Label id="westernAustralia" alignment="CENTER" layoutX="849.0" layoutY="483.0" prefHeight="25.0" prefWidth="27.0">
                <font>
                   <Font name="Chalkboard" size="17.0" />
                </font>
@@ -211,11 +376,17 @@
          </font>
       </Label>
       <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="746.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
-      <Button fx:id="nextPhaseOrTurn1" layoutX="357.0" layoutY="748.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
       <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="557.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/images/computer-icon/computerIcon.png" />
          </image>
       </ImageView>
+      <Button fx:id="increaseArmiesToDraftForSelectedTerritory" layoutX="393.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="+" />
+      <Button fx:id="decreaseArmiesToDraftForSelectedTerritory" layoutX="327.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="-" />
+      <Label fx:id="armiesToDraftIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

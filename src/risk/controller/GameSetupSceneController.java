@@ -66,10 +66,10 @@ public class GameSetupSceneController extends RiskSceneController {
         if (instance.defaultLoadableGameState == null) {
             continueGame.setVisible(false);
         }
-        continueGame.setOnAction(event -> instance.requestStartOfGameloop(0, playerSelectedColor));
+        continueGame.setOnAction(event -> instance.requestStartOfGameloop(false, playerSelectedColor));
 
         // New game
-        newGame.setOnAction(event -> instance.requestStartOfGameloop(1, playerSelectedColor));
+        newGame.setOnAction(event -> instance.requestStartOfGameloop(true, playerSelectedColor));
 
     }
 

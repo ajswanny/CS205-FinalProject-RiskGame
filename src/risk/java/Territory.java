@@ -45,6 +45,15 @@ public class Territory {
     public String getName() {
         return name;
     }
+
+    public int getNumOfArmies() {
+        return numOfArmies;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
     /* Setters */
     /** Sets this territories neighbors to the ones given in the ArrayList parameter. */
     public void setNeighbors(ArrayList<Territory> neighbors) {
@@ -52,6 +61,14 @@ public class Territory {
             this.neighbors = new ArrayList<>(neighbors.size());
         }
         this.neighbors.addAll(neighbors);
+    }
+
+    public void setNumOfArmies(int numOfArmies) {
+        this.numOfArmies = numOfArmies;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
 }

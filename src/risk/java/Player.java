@@ -12,17 +12,28 @@ public class Player implements Serializable  {
 
     Game.PlayerColor color;
 
-    protected ArrayList<Territory> controlledTerritories;
+    private ArrayList<Territory> controlledTerritories;
 
     int numOfTotalArmies;
 
-    public Player() {
-
+    Player() {
+        controlledTerritories = new ArrayList<>();
     }
 
+    /* Constructors */
     public Player(Game.PlayerColor color, int numOfTotalArmies) {
+        this();
         this.color = color;
         this.numOfTotalArmies = numOfTotalArmies;
+    }
+
+    /* Methods */
+    public void addNewControlledTerritory(Territory territory) {
+        controlledTerritories.add(territory);
+    }
+
+    public void removeControlledTerritory(Territory territory) {
+        controlledTerritories.remove(territory);
     }
 
     /* Getters */
@@ -33,4 +44,5 @@ public class Player implements Serializable  {
     public Game.PlayerColor getColor() {
         return color;
     }
+
 }

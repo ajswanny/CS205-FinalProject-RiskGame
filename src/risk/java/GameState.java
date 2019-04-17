@@ -11,4 +11,6 @@ public class GameState implements Serializable {
         this.player = player;
         this.cpu = cpu;
     }
+
+
 }

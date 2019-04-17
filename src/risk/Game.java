@@ -15,6 +15,7 @@ import risk.java.Territory;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,6 +51,10 @@ public class Game extends Application {
 
     private final int STARTING_NUM_OF_ARMIES = 40;
 
+    private final int ARMIES_TO_DRAFT= 5;
+
+    public int playerTurnPhase;
+
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
 
@@ -72,7 +77,7 @@ public class Game extends Application {
     private GameSetupSceneController gameSetupSceneController;
 
     /** Collection of Territories referenced by their name. */
-    private HashMap<String, Territory> territories;
+    public HashMap<String, Territory> territories;
 
     public String originTerritoryName;
 
@@ -147,6 +152,7 @@ public class Game extends Application {
 //        primaryStage.setScene(gameSetupScene);
 
 
+
     }
 
     /** Controls the gameloop. */
@@ -158,34 +164,51 @@ public class Game extends Application {
         playerAttackPhaseIsActive = false;
         playerFortifyPhaseIsActive = false;
 
-        // Set color for turn-indicator on game board.
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
 
-        while (gameIsRunning) {
-
-            playerTurn();
-//            cpuTurn();
-            break;
-
-        }
+        playerTurn();
 
     }
 
-    /** Validates and completes a request to begin the gameloop. */
-    public void requestStartOfGameloop(int gameState, String playerSelectedColor) {
+    /**
+     * Validates and completes a request to begin the gameloop.
+     * Game states:
+     *  0 = there is a state to be loaded-in.
+     *  1 = the player is creating a new game.
+     */
+    public void requestStartOfGameloop(boolean isNewGame, String playerSelectedColor) {
         gameIsRunning = true;
-        if (gameState == 0) {
-
-            // Load saved game for continuation.
-            defaultLoadableGameState = deserializeDefaultLoadableGameState();
-            gameloop();
-
-        } else {
+        if (isNewGame) {
 
             // Define new Game-state.
             player = new Player(PlayerColor.valueOf(playerSelectedColor), STARTING_NUM_OF_ARMIES);
             cpu = new CPU(STARTING_NUM_OF_ARMIES);
+
+            // Randomly distribute controlled territories between 'player' and 'cpu'.
+            Random random = new Random();
+            int n;
+            for (Territory territory : territories.values()) {
+                n = random.nextInt(50);
+                if (n % 2 == 0) {
+                    player.addNewControlledTerritory(territory);
+                    territory.setOwner(player);
+                } else {
+                    cpu.addNewControlledTerritory(territory);
+                    territory.setOwner(cpu);
+                }
+                territory.setNumOfArmies(4-n%2);
+            }
             this.gameState = new GameState(player, cpu);
+
+            // Update the GUI with the newly defined GameState.
+            gameSceneController.setGameState(gameState);
+
+            gameloop();
+
+        } else {
+
+            // Load saved game for continuation.
+            defaultLoadableGameState = deserializeDefaultLoadableGameState();
             gameloop();
 
         }
@@ -199,20 +222,13 @@ public class Game extends Application {
      */
     private void playerTurn() {
 
+        playerTurnPhase = 1;
         gameSceneController.setHighlightForAttackPhaseIndicator(1);
-//        while (playerDraftPhaseIsActive) {
+        gameSceneController.setArmiesToDraftIndicator(ARMIES_TO_DRAFT);
+
+//        gameSceneController.setHighlightForAttackPhaseIndicator(2);
 //
-//        }
-//
-        gameSceneController.setHighlightForAttackPhaseIndicator(2);
-//        while (playerAttackPhaseIsActive) {
-//
-//        }
-//
-        gameSceneController.setHighlightForAttackPhaseIndicator(3);
-//        while (playerFortifyPhaseIsActive) {
-//
-//        }
+//        gameSceneController.setHighlightForAttackPhaseIndicator(3);
 
     }
 

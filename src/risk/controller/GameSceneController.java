@@ -8,12 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
 import risk.java.GameState;
-import risk.java.Player;
 import risk.java.Territory;
 
 import static risk.Game.PAUSE_GAME_MENU;
@@ -42,6 +40,8 @@ public class GameSceneController extends RiskSceneController {
 
     private ArrayList<Line> legalAttackPathIndicators;
 
+    private ArrayList<Label> numOfArmiesInTerritoryIndicators;
+
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
 
     @FXML
@@ -49,6 +49,15 @@ public class GameSceneController extends RiskSceneController {
 
     @FXML
     public Button nextPhaseOrTurn;
+
+    @FXML
+    public Button decreaseArmiesToDraftForSelectedTerritory;
+
+    @FXML
+    public Button increaseArmiesToDraftForSelectedTerritory;
+
+    @FXML
+    public Label armiesToDraftIndicator;
 
     @FXML
     public Label fortifyIndicator;
@@ -79,11 +88,14 @@ public class GameSceneController extends RiskSceneController {
         // Load in references to board objects.
         territoryToggleButtons = new ArrayList<>(42);
         legalAttackPathIndicators = new ArrayList<>(84);
+        numOfArmiesInTerritoryIndicators = new ArrayList<>(42);
         for (Node node : boardNodes.getChildren()) {
             if (node instanceof ToggleButton) {
                 territoryToggleButtons.add((ToggleButton) node);
             } else if (node instanceof  Line) {
                 legalAttackPathIndicators.add((Line) node);
+            } else if (node instanceof Label) {
+                numOfArmiesInTerritoryIndicators.add((Label) node);
             }
         }
 
@@ -95,7 +107,7 @@ public class GameSceneController extends RiskSceneController {
             button.setMinSize(size, size);
             button.setMaxSize(size, size);
 
-            button.setOnAction(event -> selectTerritoryForAttack(button));
+            button.setOnAction(event -> territoryButtonAction(button));
         }
 
         // Initialize legal-attack-path-indicators.
@@ -112,7 +124,32 @@ public class GameSceneController extends RiskSceneController {
 
     }
 
-    private void selectTerritoryForAttack(ToggleButton button) {
+    /** Specifies the action of a TerritoryToggleButton with respect to the current Player-turn-phase. */
+    private void territoryButtonAction(ToggleButton button) {
+
+        switch (instance.playerTurnPhase) {
+            case 1:
+
+                break;
+            case 2:
+                selectButtonsTerritoryForAttack(button);
+                break;
+            case 3:
+                break;
+        }
+
+    }
+
+    private void selectButtonsTerritoryForDraft(ToggleButton button) {
+
+        resetBoard();
+        button.setEffect(STANDARD_GLOW_EFFECT);
+        draftIndicator.setEffect(STANDARD_GLOW_EFFECT);
+
+
+    }
+
+    private void selectButtonsTerritoryForAttack(ToggleButton button) {
 
         resetBoard();
 
@@ -149,9 +186,11 @@ public class GameSceneController extends RiskSceneController {
             line.setVisible(false);
         }
 
+        // Hide all other Glows
         for (ToggleButton toggleButton : territoryToggleButtons) {
             toggleButton.setEffect(null);
         }
+        draftIndicator.setEffect(null);
 
     }
 
@@ -223,14 +262,26 @@ public class GameSceneController extends RiskSceneController {
 
     /* Setters */
     public void setGameState(GameState gameState) {
+        for (Label label : numOfArmiesInTerritoryIndicators) {
+            label.setText(String.valueOf(instance.territories.get(label.getId()).getNumOfArmies()));
+        }
 
-        setArmiesLabelsForTerritories(gameState.player.getControlledTerritories());
-        setArmiesLabelsForTerritories(gameState.cpu.getControlledTerritories());
-
+        String styleForPlayerColor = "-fx-background-color-: #" + getColorHexForPlayerColor(gameState.player.getColor());
+        String styleForCpuColor = "-fx-background-color: #6a6f6b";
+        Territory territory;
+        for (ToggleButton territoryButton : territoryToggleButtons) {
+            territory = instance.territories.get(territoryButton.getId());
+            if (territory.getOwner() == gameState.player) {
+                territoryButton.setStyle(styleForPlayerColor);
+            } else {
+                territoryButton.setStyle(styleForCpuColor);
+            }
+        }
     }
 
-    private void setArmiesLabelsForTerritories(ArrayList<Territory> territories) {
-
+    /** Sets the Label that tells the user how many armies they may place at the beginning of their turn. */
+    public void setArmiesToDraftIndicator(int availableArmiesToDraft) {
+        armiesToDraftIndicator.setText(String.valueOf(availableArmiesToDraft));
     }
 
 }
