@@ -2,11 +2,9 @@ package risk.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Glow;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import risk.Game;
@@ -80,10 +78,10 @@ public class GameSetupSceneController extends RiskSceneController {
         if (instance.defaultLoadableGameState == null) {
             continueGame.setVisible(false);
         }
-        continueGame.setOnAction(event -> instance.requestStartOfGameloop(false, playerSelectedColor));
+        continueGame.setOnAction(event -> instance.requestStartOfGame(false, playerSelectedColor));
 
         // New game
-        newGame.setOnAction(event -> instance.requestStartOfGameloop(true, playerSelectedColor));
+        newGame.setOnAction(event -> instance.requestStartOfGame(true, playerSelectedColor));
 
     }
 

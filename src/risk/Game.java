@@ -54,11 +54,17 @@ public class Game extends Application {
         AUSTRALIA
     }
 
+    public enum TurnPhase {
+        DRAFT,
+        ATTACK,
+        FORTIFY
+    }
+
     private final int STARTING_NUM_OF_ARMIES = 40;
 
-    private final int ARMIES_TO_DRAFT= 5;
+    public final int ARMIES_TO_DRAFT= 5;
 
-    public int playerTurnPhase;
+    public TurnPhase playerTurnPhase;
 
     /** Primary Stage of the Application */
     private Stage primaryStage, gamePauseMenuStage;
@@ -90,7 +96,7 @@ public class Game extends Application {
 
     private Player player;
 
-    private CPU cpu;
+    public CPU cpu;
 
     private boolean gameIsRunning;
 
@@ -102,7 +108,7 @@ public class Game extends Application {
 
     private static Game instance;
 
-    public static boolean PLAYER_SELECTED_ORIGIN_TERRITORY = false;
+    public boolean playerSelectedOriginTerritoryForAttack = false;
 
     public Game() {
         instance = this;
@@ -160,28 +166,25 @@ public class Game extends Application {
 
     }
 
-    /** Controls the gameloop. */
-    private void gameloop() {
+    /** Controls the game. */
+    private void game() {
 
         requestDisplayForScene(GAME);
 
-        playerDraftPhaseIsActive = true;
-        playerAttackPhaseIsActive = false;
-        playerFortifyPhaseIsActive = false;
-
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
 
-        playerTurn();
+        // Player turn
+        playerTurn(TurnPhase.DRAFT);
 
     }
 
     /**
-     * Validates and completes a request to begin the gameloop.
+     * Validates and completes a request to begin the game.
      * Game states:
      *  0 = there is a state to be loaded-in.
      *  1 = the player is creating a new game.
      */
-    public void requestStartOfGameloop(boolean isNewGame, String playerSelectedColor) {
+    public void requestStartOfGame(boolean isNewGame, String playerSelectedColor) {
         gameIsRunning = true;
         if (isNewGame) {
 
@@ -208,13 +211,13 @@ public class Game extends Application {
             // Update the GUI with the newly defined GameState.
             gameSceneController.setGameState(gameState);
 
-            gameloop();
+            game();
 
         } else {
 
             // Load saved game for continuation.
             defaultLoadableGameState = deserializeDefaultLoadableGameState();
-            gameloop();
+            game();
 
         }
     }
@@ -225,11 +228,25 @@ public class Game extends Application {
      *  Attack (2) - Make attacks to enemy armies;
      *  Fortify (3) - Move armies to friendly territories.
      */
-    private void playerTurn() {
+    private void playerTurn(TurnPhase phase) {
 
-        playerTurnPhase = 1;
-        gameSceneController.setHighlightForAttackPhaseIndicator(1);
-        gameSceneController.setArmiesToDraftIndicator(ARMIES_TO_DRAFT);
+
+        playerDraftPhaseIsActive = false;
+        playerAttackPhaseIsActive = false;
+        playerFortifyPhaseIsActive = false;
+
+        switch (phase) {
+            case DRAFT:
+                playerTurnPhase = TurnPhase.DRAFT;
+                playerDraftPhaseIsActive = true;
+                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
+                break;
+            case ATTACK:
+                playerTurnPhase = TurnPhase.ATTACK;
+                playerAttackPhaseIsActive = true;
+                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
+                break;
+        }
 
 //        gameSceneController.setHighlightForAttackPhaseIndicator(2);
 //
@@ -379,6 +396,18 @@ public class Game extends Application {
         }
     }
 
+    public void flagEndOfPlayerDraftPhase() {
+        playerTurn(TurnPhase.ATTACK);
+    }
+
+    public void flagEndOfPlayerAttackPhase() {
+        playerAttackPhaseIsActive = false;
+    }
+
+    public void flagEndOFPlayerFortifyPhase() {
+        playerFortifyPhaseIsActive = false;
+    }
+
     /* Getters */
     public static Game getInstance() {
         return instance;
@@ -388,6 +417,7 @@ public class Game extends Application {
     public void closeGamePauseMenuStage() {
         gamePauseMenuStage.close();
     }
+
 
     /* Setters */
     public void setGameIsRunning(boolean gameIsRunning) {
