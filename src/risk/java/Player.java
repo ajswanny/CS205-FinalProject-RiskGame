@@ -10,6 +10,22 @@ public class Player {
     private int numOfNewArmies;
     private boolean endOfTurn;
 
+    public ArrayList<Territory> getTerritories(){
+        return territories;
+    }
+
+    public void removeTerritory(Territory toRemove){
+        if (territories.contains(toRemove)){
+            territories.remove(toRemove);
+        }
+    }
+
+    public void addTerritory(Territory toAdd){
+        if (!territories.contains(toAdd)){
+            territories.add(toAdd);
+        }
+    }
+
     public void setNumOfNewArmies(int numOfNewArmies) {
         this.numOfNewArmies = numOfNewArmies;
     }

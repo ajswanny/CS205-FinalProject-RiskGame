@@ -54,6 +54,10 @@ public class Territory {
         this.neighbors.addAll(neighbors);
     }
 
+    public ArrayList<Territory> getNeighbors() {
+        return neighbors;
+    }
+
     public void moveArmies(Territory territoryToTranferTo, int numToTransfer){
         if (this.numOfArmies > numToTransfer) {
             territoryToTranferTo.numOfArmies += numToTransfer;
@@ -70,16 +74,18 @@ public class Territory {
     }
 
     public void attack(Territory toAttack, int selfRollValue, int enemyRollValue){
-        if (this.numOfArmies > 1){
-          if (selfRollValue > enemyRollValue){
-              toAttack.numOfArmies -= 1;
-          } else {
-              this.numOfArmies -= 1;
-          }
+        if (toAttack.owner != this.owner) {
+            if (this.numOfArmies > 1) {
+                if (selfRollValue > enemyRollValue) {
+                    toAttack.numOfArmies -= 1;
+                } else {
+                    this.numOfArmies -= 1;
+                }
 
-          if (toAttack.numOfArmies < 1){
-              moveArmies(toAttack,1);
-          }
+                if (toAttack.numOfArmies < 1) {
+                    moveArmies(toAttack, 1);
+                }
+            }
         }
     }
 }
