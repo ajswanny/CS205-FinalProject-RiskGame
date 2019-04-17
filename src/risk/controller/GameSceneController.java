@@ -40,9 +40,9 @@ public class GameSceneController extends RiskSceneController {
 
     private ArrayList<Line> legalAttackPathIndicators;
 
-    private ArrayList<Label> numOfArmiesInTerritoryIndicators;
-
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
+
+    private ToggleButton selectedTerritoryToggleBtnForDraft;
 
     @FXML
     public Group boardNodes;
@@ -84,18 +84,22 @@ public class GameSceneController extends RiskSceneController {
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
+        // Disable buttons that require action
+        decreaseArmiesToDraftForSelectedTerritory.setDisable(true);
+        increaseArmiesToDraftForSelectedTerritory.setDisable(true);
+
+        // Buttons for increasing and increasing armies in a draft
+        decreaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(selectedTerritoryToggleBtnForDraft, -1));
+        increaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(selectedTerritoryToggleBtnForDraft, 1));
 
         // Load in references to board objects.
         territoryToggleButtons = new ArrayList<>(42);
         legalAttackPathIndicators = new ArrayList<>(84);
-        numOfArmiesInTerritoryIndicators = new ArrayList<>(42);
         for (Node node : boardNodes.getChildren()) {
             if (node instanceof ToggleButton) {
                 territoryToggleButtons.add((ToggleButton) node);
             } else if (node instanceof  Line) {
                 legalAttackPathIndicators.add((Line) node);
-            } else if (node instanceof Label) {
-                numOfArmiesInTerritoryIndicators.add((Label) node);
             }
         }
 
@@ -109,6 +113,7 @@ public class GameSceneController extends RiskSceneController {
 
             button.setOnAction(event -> territoryButtonAction(button));
         }
+        selectedTerritoryToggleBtnForDraft = null;
 
         // Initialize legal-attack-path-indicators.
         for (Line line : legalAttackPathIndicators) {
@@ -126,31 +131,30 @@ public class GameSceneController extends RiskSceneController {
 
     /** Specifies the action of a TerritoryToggleButton with respect to the current Player-turn-phase. */
     private void territoryButtonAction(ToggleButton button) {
-
         switch (instance.playerTurnPhase) {
             case 1:
-
+                selectTerritoryToggleBtnForDraft(button);
                 break;
             case 2:
-                selectButtonsTerritoryForAttack(button);
+                selectTerritoryToggleBtnForAttack(button);
                 break;
             case 3:
                 break;
         }
-
     }
 
-    private void selectButtonsTerritoryForDraft(ToggleButton button) {
-
+    private void selectTerritoryToggleBtnForDraft(ToggleButton button) {
         resetBoard();
         button.setEffect(STANDARD_GLOW_EFFECT);
         draftIndicator.setEffect(STANDARD_GLOW_EFFECT);
 
+        decreaseArmiesToDraftForSelectedTerritory.setDisable(false);
+        increaseArmiesToDraftForSelectedTerritory.setDisable(false);
 
+        selectedTerritoryToggleBtnForDraft = button;
     }
 
-    private void selectButtonsTerritoryForAttack(ToggleButton button) {
-
+    private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
         resetBoard();
 
         // Highlight origin territory.
@@ -175,6 +179,9 @@ public class GameSceneController extends RiskSceneController {
             PLAYER_SELECTED_ORIGIN_TERRITORY = false;
 
         }
+    }
+
+    private void selectTerritoryToggleBtnForFortify(ToggleButton button) {
 
     }
 
@@ -261,12 +268,12 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /* Setters */
+    /**
+     * Sets the game state: defines all Territory-ToggleButtons, setting their color with respect to the Player that
+     * controls that territory and setting their text to display the amount of armies present in Territories.
+     */
     public void setGameState(GameState gameState) {
-        for (Label label : numOfArmiesInTerritoryIndicators) {
-            label.setText(String.valueOf(instance.territories.get(label.getId()).getNumOfArmies()));
-        }
-
-        String styleForPlayerColor = "-fx-background-color-: #" + getColorHexForPlayerColor(gameState.player.getColor());
+        String styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.player.getColor());
         String styleForCpuColor = "-fx-background-color: #6a6f6b";
         Territory territory;
         for (ToggleButton territoryButton : territoryToggleButtons) {
@@ -277,11 +284,45 @@ public class GameSceneController extends RiskSceneController {
                 territoryButton.setStyle(styleForCpuColor);
             }
         }
+
+        for (ToggleButton button : territoryToggleButtons) {
+            button.setText(String.valueOf(instance.territories.get(button.getId()).getNumOfArmies()));
+            button.setGraphic(new Label(button.getText()));
+        }
     }
 
     /** Sets the Label that tells the user how many armies they may place at the beginning of their turn. */
     public void setArmiesToDraftIndicator(int availableArmiesToDraft) {
         armiesToDraftIndicator.setText(String.valueOf(availableArmiesToDraft));
+    }
+
+    private void setNewAmountOfTerritoryArmies(ToggleButton territoryToggleBtn, int difference) {
+
+        // Validate request
+        if (difference < 0) {
+            // User is attempting to remove armies from a territory, but this is only possible if armies have been drafted
+            // to this territory in this turn
+            if (Integer.valueOf(armiesToDraftIndicator.getText()) > 5) {
+                armiesToDraftIndicator.setText(String.valueOf(Integer.valueOf(armiesToDraftIndicator.getText()) + 1));
+            } else {
+                return;
+            }
+        } else if (difference > 0) {
+            // User is attempting to add an army to a territory: this is only possible if they have a valid amount of
+            // armies remaining for drafting
+            int val = Integer.valueOf(armiesToDraftIndicator.getText());
+            if (val > 0 && val <= 5) {
+                armiesToDraftIndicator.setText(String.valueOf(Integer.valueOf(armiesToDraftIndicator.getText()) - 1));
+            } else {
+                return;
+            }
+        }
+
+        // Update remaining data and gui elements
+        Territory territory = instance.territories.get(territoryToggleBtn.getId());
+        instance.setNumOfArmiesForTerritory(territory, territory.getNumOfArmies() + difference);
+        ((Label) territoryToggleBtn.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+
     }
 
 }

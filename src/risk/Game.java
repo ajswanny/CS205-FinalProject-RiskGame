@@ -23,6 +23,11 @@ import java.util.logging.Logger;
 @SuppressWarnings({"FieldCanBeLocal"})
 public class Game extends Application {
 
+    /**
+     * TODO:
+     *      Fix 'setNewAmountOfTerritoryArmies' within GameSceneController
+     */
+
     /* Class Fields */
     /** Game-Scene enumerations */
     public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3, GAME_SETUP = 4;
@@ -32,7 +37,7 @@ public class Game extends Application {
 
     /** The color themes for each continent and those that are available to the user for selection. */
     public final String
-        NORTH_AMERICA_HEX = "EAD3BA",
+        NORTH_AMERICA_HEX = "B78740",
         SOUTH_AMERICA_HEX = "994734",
         EUROPE_HEX = "6A6F6B",
         AFRICA_HEX = "876133",
@@ -387,6 +392,10 @@ public class Game extends Application {
     /* Setters */
     public void setGameIsRunning(boolean gameIsRunning) {
         this.gameIsRunning = gameIsRunning;
+    }
+
+    public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
+        territories.get(territory.getName()).setNumOfArmies(numOfArmies);
     }
 
     /* Main */

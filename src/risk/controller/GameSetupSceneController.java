@@ -43,7 +43,18 @@ public class GameSetupSceneController extends RiskSceneController {
 
         super.initialize(location, resources);
 
-        backToMainMenu.setOnAction(event -> instance.requestDisplayForScene(Game.MAIN_MENU));
+        continueGame.setDisable(true);
+        newGame.setDisable(true);
+
+        backToMainMenu.setOnAction(event -> {
+            continueGame.setDisable(true);
+            newGame.setDisable(true);
+            for (Node node : playerColorToggleButtons.getChildren()) {
+                ((ToggleButton) node).setSelected(false);
+                node.setEffect(null);
+            }
+            instance.requestDisplayForScene(Game.MAIN_MENU);
+        });
 
         // Define toggle buttons for choosing Player color.
         Circle toggleButtonShape = new Circle(34);
@@ -59,8 +70,11 @@ public class GameSetupSceneController extends RiskSceneController {
                 }
                 toggleButton.setEffect(SELECTED_COLOR_EFFECT);
                 playerSelectedColor = toggleButton.getId();
+                continueGame.setDisable(false);
+                newGame.setDisable(false);
             });
         }
+        assert playerSelectedColor != null;
 
         // Continue Game Button
         if (instance.defaultLoadableGameState == null) {
