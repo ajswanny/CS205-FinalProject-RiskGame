@@ -9,12 +9,10 @@ public class Player implements Serializable  {
 
     /* Fields */
     private risk.Game instance;
-
     Game.PlayerColor color;
-
     private ArrayList<Territory> controlledTerritories;
-
     int numOfTotalArmies;
+    private int numOfNewArmies;
 
     Player() {
         controlledTerritories = new ArrayList<>();
@@ -32,8 +30,23 @@ public class Player implements Serializable  {
         controlledTerritories.add(territory);
     }
 
+    public void addTerritory(Territory toAdd){
+        if (!controlledTerritories.contains(toAdd)){
+            controlledTerritories.add(toAdd);
+        }
+    }
+
     public void removeControlledTerritory(Territory territory) {
         controlledTerritories.remove(territory);
+    }
+
+    public void deployArmies(Territory territory, int numArmiesToAdd){
+        int armiesLeft = getNumOfNewArmies();
+        if (numArmiesToAdd <= getNumOfNewArmies()){
+            territory.numOfArmies += numArmiesToAdd;
+            armiesLeft -= numArmiesToAdd;
+            setNumOfNewArmies(armiesLeft);
+        }
     }
 
     /* Getters */
@@ -43,6 +56,14 @@ public class Player implements Serializable  {
 
     public Game.PlayerColor getColor() {
         return color;
+    }
+
+    public void setNumOfNewArmies(int numOfNewArmies) {
+        this.numOfNewArmies = numOfNewArmies;
+    }
+
+    public int getNumOfNewArmies(){
+        return numOfNewArmies;
     }
 
 }

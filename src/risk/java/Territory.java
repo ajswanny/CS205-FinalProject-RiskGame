@@ -44,6 +44,37 @@ public class Territory {
         return neighbors.contains(territory);
     }
 
+    public void moveArmies(Territory territoryToTranferTo, int numToTransfer){
+        if (this.numOfArmies > numToTransfer) {
+            territoryToTranferTo.numOfArmies += numToTransfer;
+            this.numOfArmies -= numToTransfer;
+        }
+    }
+
+    public void addArmies(int numToAdd){
+        this.numOfArmies += numToAdd;
+    }
+
+    public void removeArmies(int numToRemove){
+        this.numOfArmies -= numToRemove;
+    }
+
+    public void attack(Territory toAttack, int selfRollValue, int enemyRollValue){
+        if (toAttack.owner != this.owner) {
+            if (this.numOfArmies > 1) {
+                if (selfRollValue > enemyRollValue) {
+                    toAttack.numOfArmies -= 1;
+                } else {
+                    this.numOfArmies -= 1;
+                }
+
+                if (toAttack.numOfArmies < 1) {
+                    moveArmies(toAttack, 1);
+                }
+            }
+        }
+    }
+
     /* Getters */
     public String getName() {
         return name;
@@ -55,6 +86,10 @@ public class Territory {
 
     public Player getOwner() {
         return owner;
+    }
+
+    public ArrayList<Territory> getNeighbors() {
+        return neighbors;
     }
 
     /* Setters */
