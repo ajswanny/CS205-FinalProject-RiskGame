@@ -1,3 +1,5 @@
+package risk.java;
+
 public class Dice {
 
     private int die1;   // Number showing on the die.
@@ -7,7 +9,12 @@ public class Dice {
     public Dice() {
         // Constructor.  Rolls the dice, so that they initially
         // show some random values.
-        roll();  // Call the roll() method to roll the dice.
+//        roll();  // Call the roll() method to roll the dice.
+
+        die1 = 0;
+        die2 = 0;
+        die3 = 0;
+
     }
 
     public void roll() {

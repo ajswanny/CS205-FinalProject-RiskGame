@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
+import risk.java.Dice;
 import risk.java.GameState;
 import risk.java.Territory;
 
@@ -28,7 +29,7 @@ public class GameSceneController extends RiskSceneController {
 
     private final double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
 
-    private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 17.0;
+    private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 20.0;
 
     private ArrayList<ToggleButton> territoryToggleButtons;
 
@@ -36,9 +37,13 @@ public class GameSceneController extends RiskSceneController {
 
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
 
+    private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
+
     private ToggleButton selectedTerritoryToggleBtnForDraft;
 
     private ToggleButton attackOriginControl, attackTargetControl;
+
+    private Dice playerDice, cpuDice;
 
     @FXML
     public Group boardNodes;
@@ -136,8 +141,16 @@ public class GameSceneController extends RiskSceneController {
         disableButton(makeAttack);
         makeAttack.setOnAction(event -> handleAttackRequest());
 
+        // Init dice
+        playerDice = new Dice();
+        cpuDice = new Dice();
+
     }
 
+    /**
+     * Validates and performs an attack. Currently we are implementing a process where a single attack attempts to
+     * fully conquer a territory.
+     */
     private void handleAttackRequest() {
 
         String originTerritoryName = attackOriginControl.getId();
@@ -151,12 +164,30 @@ public class GameSceneController extends RiskSceneController {
             // from this origin
             for (int t = 0; t < originTerritory.getNumOfArmies(); t++) {
 
-
+                playerDice.roll();
+                cpuDice.roll();
+                if (playerDice.getTotal() > cpuDice.getTotal()) {
+                    decrementNumOfArmiesForTerritory(targetTerritory);
+                } else {
+                    decrementNumOfArmiesForTerritory(originTerritory);
+                }
 
             }
 
         }
 
+    }
+
+    /**
+     * Performs a decrement of a Territory's armies, updating data and GUI.
+     */
+    private void decrementNumOfArmiesForTerritory(Territory territory) {
+        instance.decrementNumOfArmiesForTerritory(territory);
+        for (ToggleButton toggleButton : territoryToggleButtons) {
+            if (toggleButton.getId().equals(territory.getName())) {
+                ((Label) toggleButton.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+            }
+        }
     }
 
     private void indicateEndOfTurnPhase() {
@@ -165,7 +196,9 @@ public class GameSceneController extends RiskSceneController {
                 instance.flagEndOfPlayerDraftPhase();
                 disableButton(decreaseArmiesToDraftForSelectedTerritory);
                 disableButton(increaseArmiesToDraftForSelectedTerritory);
-                armiesToDraftIndicator.setText(null);
+                armiesToDraftIndicator.setVisible(false);
+                makeAttack.setVisible(true);
+                makeAttack.setDisable(false);
                 break;
             case ATTACK:
                 instance.flagEndOfPlayerAttackPhase();
@@ -174,6 +207,7 @@ public class GameSceneController extends RiskSceneController {
                 instance.flagEndOFPlayerFortifyPhase();
                 break;
         }
+        resetBoard();
     }
 
     private void disableButton(Button button) {
@@ -213,38 +247,7 @@ public class GameSceneController extends RiskSceneController {
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
 
-        if (!instance.playerSelectedOriginTerritoryForAttack) {
-            // No territory has been selected as an origin of attack yet
 
-            resetBoard();
-
-            // Player cannot select enemy territory as origin of attack
-            if (instance.territories.get(button.getId()).getOwner() != instance.cpu) {
-                // This territory is an origin of attack.
-                instance.playerSelectedOriginTerritoryForAttack = true;
-
-                // Highlight origin territory.
-                button.setEffect(STANDARD_GLOW_EFFECT);
-                showAttackLinesForTerritory(button.getId());
-                attackOriginControl = button;
-            } else {
-                // Reset game state to: no territory selected by player for attack
-                instance.playerSelectedOriginTerritoryForAttack = false;
-            }
-
-        } else {
-
-            // Target territory must belong the the CPU
-            if (instance.territories.get(button.getId()).getOwner() == instance.cpu) {
-                // This territory is a subject of attack.
-                instance.targetTerritoryName = button.getId();
-                attackTargetControl = button;
-
-                // Tell Game that there is no player selected territory for attack
-                instance.playerSelectedOriginTerritoryForAttack = false;
-            }
-
-        }
     }
 
     private void selectTerritoryToggleBtnForFortify(ToggleButton button) {

@@ -165,7 +165,7 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="746.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" />
+      <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="742.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" text="Go" />
       <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="557.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../resources/images/computer-icon/computerIcon.png" />

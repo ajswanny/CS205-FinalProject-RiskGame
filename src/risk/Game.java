@@ -318,6 +318,7 @@ public class Game extends Application {
     /** High-level method to organize definition of Territory neighbors. */
     private void defineTerritoryRelationships() {
 
+        // North america
         setTerritoryNeighbors("alaska", "northwestTerritory", "alberta", "kamchatka");
         setTerritoryNeighbors("northwestTerritory", "alaska", "alberta", "ontario", "greenland");
         setTerritoryNeighbors("greenland", "northwestTerritory", "ontario", "quebec", "iceland");
@@ -327,6 +328,8 @@ public class Game extends Application {
         setTerritoryNeighbors("westernUnitedStates", "alberta", "ontario", "easternUnitedStates", "centralAmerica");
         setTerritoryNeighbors("easternUnitedStates", "westernUnitedStates", "ontario", "quebec", "centralAmerica");
         setTerritoryNeighbors("centralAmerica", "westernUnitedStates", "easternUnitedStates", "venezuela");
+
+        // South america
 
     }
 
@@ -426,6 +429,10 @@ public class Game extends Application {
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
         territories.get(territory.getName()).setNumOfArmies(numOfArmies);
+    }
+
+    public void decrementNumOfArmiesForTerritory(Territory territory) {
+        territory.setNumOfArmies(territory.getNumOfArmies() - 1);
     }
 
     /* Main */

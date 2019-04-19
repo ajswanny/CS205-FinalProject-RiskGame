@@ -39,6 +39,11 @@ public class Territory {
         }
     }
 
+    /* Methods */
+    public boolean hasNeighbor(Territory territory) {
+        return neighbors.contains(territory);
+    }
+
     /* Getters */
     public String getName() {
         return name;
