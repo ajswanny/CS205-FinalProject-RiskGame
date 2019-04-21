@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="793.0" prefWidth="1067.0" stylesheets="@../css/GameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSceneController">
+<AnchorPane fx:id="root" prefHeight="793.0" prefWidth="1067.0" stylesheets="@../css/GameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSceneController">
    <children>
       <Group fx:id="boardNodes" layoutX="47.0" layoutY="83.0">
          <children>

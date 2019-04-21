@@ -212,6 +212,7 @@ public class GameSceneController extends RiskSceneController {
                 break;
             case ATTACK:
                 instance.flagEndOfPlayerAttackPhase();
+
                 break;
             case FORTIFY:
                 instance.flagEndOFPlayerFortifyPhase();
@@ -325,9 +326,9 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /**
-     * Highlights Labels that tell the Player which turn phase they are in. Draft: 1; Attack: 2; Fortify: 3.
+     * Highlights Labels that tell the Player turnPhase turn phase they are in. Draft: 1; Attack: 2; Fortify: 3.
      */
-    public void setHighlightForAttackPhaseIndicator(Game.TurnPhase which) {
+    public void setHighlightForAttackPhaseIndicator(Game.TurnPhase turnPhase) {
 
         // Reset values.
         draftPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
@@ -335,7 +336,7 @@ public class GameSceneController extends RiskSceneController {
         fortifyPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
 
         // Set value
-        switch (which) {
+        switch (turnPhase) {
             case DRAFT:
                 draftPhaseIndicator.setTextFill(Color.RED);
                 break;
