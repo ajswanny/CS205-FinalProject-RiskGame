@@ -39,9 +39,7 @@ public class GameSceneController extends RiskSceneController {
 
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
 
-    private ToggleButton selectedTerritoryToggleBtnForDraft;
-
-    private ToggleButton attackOriginControl, attackTargetControl;
+    private ToggleButton territoryToggleBtnForDraft, attackOriginControl, attackTargetControl;
 
     private Dice playerDice, cpuDice;
 
@@ -88,15 +86,15 @@ public class GameSceneController extends RiskSceneController {
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
-        armiesToDraftIndicator.setText(String.valueOf(instance.ARMIES_TO_DRAFT));
+        armiesToDraftIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
         // Disable buttons that require action
         decreaseArmiesToDraftForSelectedTerritory.setDisable(true);
         increaseArmiesToDraftForSelectedTerritory.setDisable(true);
 
         // Buttons for increasing and increasing armies in a draft
-        decreaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(selectedTerritoryToggleBtnForDraft, -1));
-        increaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(selectedTerritoryToggleBtnForDraft, 1));
+        decreaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(territoryToggleBtnForDraft, -1));
+        increaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(territoryToggleBtnForDraft, 1));
 
         // Load in references to board objects.
         territoryToggleButtons = new ArrayList<>(42);
@@ -119,7 +117,7 @@ public class GameSceneController extends RiskSceneController {
 
             button.setOnAction(event -> territoryButtonAction(button));
         }
-        selectedTerritoryToggleBtnForDraft = null;
+        territoryToggleBtnForDraft = null;
 
         // Initialize legal-attack-path-indicators.
         for (Line line : legalAttackPathIndicators) {
@@ -241,15 +239,34 @@ public class GameSceneController extends RiskSceneController {
         decreaseArmiesToDraftForSelectedTerritory.setDisable(false);
         increaseArmiesToDraftForSelectedTerritory.setDisable(false);
 
-        selectedTerritoryToggleBtnForDraft = button;
+        territoryToggleBtnForDraft = button;
     }
 
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
-        resetBoard();
+        Territory territory = instance.territories.get(button.getId());
 
-        if (instance.player.getControlledTerritories().contains(instance.territories.get(button.getId()))) {
+        if (instance.playerControlsTerritory(territory)) {
+            // If territory belongs to Player update GUI and flag the territory
+            resetBoard();
             showAttackLinesForTerritory(button.getId());
+            attackOriginControl = button;
+
+        } else if (instance.cpuControlsTerritory(territory) && attackOriginControl != null) {
+            // If territory belongs to CPU and an attack-origin territory has been selected
+            for (Line line : legalAttackPathIndicators) {
+                line.setEffect(null);
+                String lineID = line.getId();
+                if (lineID.contains(attackOriginControl.getId()) && lineID.contains(button.getId())) {
+                    line.setEffect(TARGET_TERRITORY_EFFECT);
+                }
+            }
+            attackTargetControl = button;
+
+        } else {
+            resetBoard();
+            attackOriginControl = null;
+            attackTargetControl = null;
         }
 
     }
@@ -264,6 +281,7 @@ public class GameSceneController extends RiskSceneController {
         // Hide all other attack-paths
         for (Line line : legalAttackPathIndicators) {
             line.setVisible(false);
+            line.setEffect(null);
         }
 
         // Hide all other Glows
@@ -277,7 +295,11 @@ public class GameSceneController extends RiskSceneController {
     private void showAttackLinesForTerritory(String territoryName) {
         for (Line line : legalAttackPathIndicators) {
             if (line.getId().contains(territoryName)) {
-                line.setVisible(true);
+                for (Territory territory : instance.cpu.getControlledTerritories()) {
+                    if (line.getId().contains(territory.getName())) {
+                        line.setVisible(true);
+                    }
+                }
             }
         }
     }
@@ -325,15 +347,15 @@ public class GameSceneController extends RiskSceneController {
     /** Returns a HEX String for the PlayerColor parameter. */
     private String getColorHexForPlayerColor(Game.PlayerColor playerColor) {
         switch (playerColor) {
-            case NORTH_AMERICA:
+            case NA_YELLOW:
                 return instance.NORTH_AMERICA_HEX;
-            case SOUTH_AMERICA:
+            case SA_RED:
                 return instance.SOUTH_AMERICA_HEX;
-            case AFRICA:
+            case AF_BROWN:
                 return instance.AFRICA_HEX;
-            case ASIA:
+            case AS_GREEN:
                 return instance.ASIA_HEX;
-            case AUSTRALIA:
+            case AU_VIOLET:
                 return instance.AUSTRALIA_HEX;
             default:
                 return "#FFFFFF";

@@ -14,11 +14,11 @@
    <children>
       <HBox fx:id="playerColorToggleButtons" alignment="CENTER" layoutX="128.0" layoutY="45.0" prefHeight="140.0" prefWidth="545.0" spacing="20.0">
          <children>
-            <ToggleButton id="NORTH_AMERICA" mnemonicParsing="false" style="-fx-background-color: #B88A40;" />
-            <ToggleButton id="SOUTH_AMERICA" mnemonicParsing="false" style="-fx-background-color: #994734;" />
-            <ToggleButton id="AFRICA" mnemonicParsing="false" style="-fx-background-color: #876133;" />
-            <ToggleButton id="ASIA" mnemonicParsing="false" style="-fx-background-color: #5E693D;" />
-            <ToggleButton id="AUSTRALIA" mnemonicParsing="false" style="-fx-background-color: #8B626A;" />
+            <ToggleButton id="NA_YELLOW" mnemonicParsing="false" style="-fx-background-color: #B88A40;" />
+            <ToggleButton id="SA_RED" mnemonicParsing="false" style="-fx-background-color: #994734;" />
+            <ToggleButton id="AF_BROWN" mnemonicParsing="false" style="-fx-background-color: #876133;" />
+            <ToggleButton id="AS_GREEN" mnemonicParsing="false" style="-fx-background-color: #5E693D;" />
+            <ToggleButton id="AU_VIOLET" mnemonicParsing="false" style="-fx-background-color: #8B626A;" />
          </children>
       </HBox>
       <Label layoutX="380.0" layoutY="185.0" text="VS">

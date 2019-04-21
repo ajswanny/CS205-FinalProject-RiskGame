@@ -29,13 +29,17 @@ public class Game extends Application {
      */
 
     /* Class Fields */
-    /** Game-Scene enumerations */
-    public static final int MAIN_MENU = 0, GAME = 1, ABOUT_GAME = 2, PAUSE_GAME_MENU = 3, GAME_SETUP = 4;
+    public static final int MAIN_MENU = 0;
+    private static final int GAME = 1;
+    public static final int ABOUT_GAME = 2;
+    public static final int PAUSE_GAME_MENU = 3;
+    public static final int GAME_SETUP = 4;
 
     /** Path to the text-file containing all Territory names. */
     private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
 
     /** The color themes for each continent and those that are available to the user for selection. */
+    @SuppressWarnings("unused")
     public final String
         NORTH_AMERICA_HEX = "B78740",
         SOUTH_AMERICA_HEX = "994734",
@@ -45,13 +49,13 @@ public class Game extends Application {
         AUSTRALIA_HEX = "8B626A"
     ;
 
-    public static enum PlayerColor {
-        NORTH_AMERICA,
-        SOUTH_AMERICA,
-        EUROPE,
-        AFRICA,
-        ASIA,
-        AUSTRALIA
+    public enum PlayerColor {
+        NA_YELLOW,
+        SA_RED,
+        EU_GRAY,
+        AF_BROWN,
+        AS_GREEN,
+        AU_VIOLET
     }
 
     public enum TurnPhase {
@@ -94,21 +98,15 @@ public class Game extends Application {
 
     public String targetTerritoryName;
 
-    public Player player;
+    private Player player;
 
     public CPU cpu;
 
-    private boolean gameIsRunning;
-
-    private boolean playerDraftPhaseIsActive, playerAttackPhaseIsActive, playerFortifyPhaseIsActive;
-
     public GameState defaultLoadableGameState;
 
-    public GameState gameState;
+    private GameState gameState;
 
     private static Game instance;
-
-    public boolean playerSelectedOriginTerritoryForAttack = false;
 
     public Game() {
         instance = this;
@@ -125,7 +123,6 @@ public class Game extends Application {
 
             // Load data.
             defineTerritories();
-            gameIsRunning = false;
 
             // Load and initialize all FXML.
             loadFxmlSources();
@@ -159,10 +156,7 @@ public class Game extends Application {
     /** Used for debugging. */
     private void debug() {
 
-
-//        primaryStage.setScene(gameSetupScene);
-
-
+        player = new Player(PlayerColor.SA_RED, STARTING_NUM_OF_ARMIES);
 
     }
 
@@ -185,7 +179,6 @@ public class Game extends Application {
      *  1 = the player is creating a new game.
      */
     public void requestStartOfGame(boolean isNewGame, String playerSelectedColor) {
-        gameIsRunning = true;
         if (isNewGame) {
 
             // Define new Game-state.
@@ -231,19 +224,13 @@ public class Game extends Application {
     private void playerTurn(TurnPhase phase) {
 
 
-        playerDraftPhaseIsActive = false;
-        playerAttackPhaseIsActive = false;
-        playerFortifyPhaseIsActive = false;
-
         switch (phase) {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
-                playerDraftPhaseIsActive = true;
                 gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
                 break;
             case ATTACK:
                 playerTurnPhase = TurnPhase.ATTACK;
-                playerAttackPhaseIsActive = true;
                 gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
                 break;
         }
@@ -345,9 +332,7 @@ public class Game extends Application {
 
     /** Tells Game that it has been requested to change the Scene (or bring up a new Stage). */
     public void requestDisplayForScene(int scene) {
-
         switch (scene) {
-
             case GAME:
                 primaryStage.setScene(gameScene);
                 primaryStage.centerOnScreen();
@@ -369,9 +354,7 @@ public class Game extends Application {
                 primaryStage.setScene(mainMenuScene);
                 primaryStage.centerOnScreen();
                 break;
-
         }
-
     }
 
     /**
@@ -380,7 +363,6 @@ public class Game extends Application {
      */
     private GameState deserializeDefaultLoadableGameState() {
         try {
-
             // Create a file input object to open the file specified by 'file_path'.
             FileInputStream file_in_stream = new FileInputStream("resources/serializations/defaultLoadableGameState.ser");
 
@@ -404,16 +386,22 @@ public class Game extends Application {
     }
 
     public void flagEndOfPlayerAttackPhase() {
-        playerAttackPhaseIsActive = false;
     }
 
     public void flagEndOFPlayerFortifyPhase() {
-        playerFortifyPhaseIsActive = false;
     }
 
     /* Getters */
     public static Game getInstance() {
         return instance;
+    }
+
+    public boolean playerControlsTerritory(Territory territory) {
+        return player.getControlledTerritories().contains(territory);
+    }
+
+    public boolean cpuControlsTerritory(Territory territory) {
+        return cpu.getControlledTerritories().contains(territory);
     }
 
     /** Used to request closing of a Stage and focus the primary Stage */
@@ -424,7 +412,6 @@ public class Game extends Application {
 
     /* Setters */
     public void setGameIsRunning(boolean gameIsRunning) {
-        this.gameIsRunning = gameIsRunning;
     }
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {

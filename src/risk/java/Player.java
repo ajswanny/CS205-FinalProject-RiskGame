@@ -30,12 +30,6 @@ public class Player implements Serializable  {
         controlledTerritories.add(territory);
     }
 
-    public void addTerritory(Territory toAdd){
-        if (!controlledTerritories.contains(toAdd)){
-            controlledTerritories.add(toAdd);
-        }
-    }
-
     public void removeControlledTerritory(Territory territory) {
         controlledTerritories.remove(territory);
     }

@@ -11,7 +11,7 @@ public class CPU extends Player implements Serializable {
     private String aboutTheOneMove;
 
     public CPU(int numOfTotalArmies) {
-        this.color = Game.PlayerColor.EUROPE;
+        this.color = Game.PlayerColor.EU_GRAY;
         this.numOfTotalArmies = numOfTotalArmies;
     }
 
