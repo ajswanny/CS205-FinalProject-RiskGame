@@ -11,15 +11,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
-import risk.java.Dice;
-import risk.java.GameState;
-import risk.java.Territory;
+import risk.java.*;
 
 import static risk.Game.PAUSE_GAME_MENU;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,21 +27,26 @@ import java.util.ResourceBundle;
 @SuppressWarnings("FieldCanBeLocal")
 public class GameSceneController extends RiskSceneController {
 
+    // Shape radius for Territory ToggleButton representations
     private final double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
 
+    // Shape radius for Button for ending a turn-phase
     private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 20.0;
 
+    // Collection of all ToggleButtons for Territories
     private ArrayList<ToggleButton> territoryToggleButtons;
 
+    // Collection of Lines that show the Player which Territories they can attack from any given origin
     private ArrayList<Line> legalAttackPathIndicators;
 
+    // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
-
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
 
+    // Flags for user selections
     private ToggleButton territoryToggleBtnForDraft, attackOriginControl, attackTargetControl;
 
-    private Dice playerDice, cpuDice;
+    private String styleForPlayerColor, styleForCpuColor;
 
     @FXML
     public Group boardNodes;
@@ -139,10 +144,6 @@ public class GameSceneController extends RiskSceneController {
         disableButton(makeAttack);
         makeAttack.setOnAction(event -> handleAttackRequest());
 
-        // Init dice
-        playerDice = new Dice();
-        cpuDice = new Dice();
-
     }
 
     /**
@@ -151,34 +152,44 @@ public class GameSceneController extends RiskSceneController {
      */
     private void handleAttackRequest() {
 
-        String originTerritoryName = attackOriginControl.getId();
-        Territory originTerritory = instance.territories.get(originTerritoryName);
-        String targetTerritoryName = attackTargetControl.getId();
-        Territory targetTerritory = instance.territories.get(targetTerritoryName);
+        try {
+            String originTerritoryName = attackOriginControl.getId();
+            Territory originTerritory = instance.territories.get(originTerritoryName);
+            String targetTerritoryName = attackTargetControl.getId();
+            Territory targetTerritory = instance.territories.get(targetTerritoryName);
+            instance.performPlayerAttack(originTerritory, targetTerritory);
 
-        if (originTerritory.getNumOfArmies() > targetTerritory.getNumOfArmies()) {
-
-            // Attack with each territory until the enemy territory is conquered or player can not longer make an attack
-            // from this origin
-            for (int t = 0; t < originTerritory.getNumOfArmies(); t++) {
-
-                playerDice.roll();
-                cpuDice.roll();
-                if (playerDice.getTotal() > cpuDice.getTotal()) {
-                    decrementNumOfArmiesForTerritory(targetTerritory);
-                } else {
-                    decrementNumOfArmiesForTerritory(originTerritory);
+            // Update GUI for new Territory armies values
+            for (ToggleButton toggleButton : territoryToggleButtons) {
+                if (toggleButton.getId().equals(targetTerritoryName)) {
+                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(targetTerritory.getNumOfArmies()));
                 }
-
+                if (toggleButton.getId().equals(originTerritoryName)) {
+                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(originTerritory.getNumOfArmies()));
+                }
             }
-
+        } catch (NullPointerException e) {
+            Logger.getLogger(Game.class.getName()).log(Level.WARNING, null, e);
         }
 
     }
 
-    /**
-     * Performs a decrement of a Territory's armies, updating data and GUI.
-     */
+    public void updateTerritoryOwner(String territoryName, Player newOwner) {
+        for (ToggleButton toggleButton : territoryToggleButtons) {
+            if (toggleButton.getId().equals(territoryName)) {
+                if (newOwner instanceof CPU) {
+                    toggleButton.setStyle(styleForCpuColor);
+                } else {
+                    toggleButton.setStyle(styleForPlayerColor);
+                }
+            }
+        }
+        resetBoard();
+        attackOriginControl = null;
+        attackTargetControl = null;
+    }
+
+    /** Performs a decrement of a Territory's armies, updating GUI and requesting data update. */
     private void decrementNumOfArmiesForTerritory(Territory territory) {
         instance.decrementNumOfArmiesForTerritory(territory);
         for (ToggleButton toggleButton : territoryToggleButtons) {
@@ -188,6 +199,7 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
+    /** Synchronizes end of turn with 'Game'. */
     private void indicateEndOfTurnPhase() {
         switch (instance.playerTurnPhase) {
             case DRAFT:
@@ -218,10 +230,7 @@ public class GameSceneController extends RiskSceneController {
         switch (instance.playerTurnPhase) {
             case DRAFT:
                 // Return if player selected a CPU-owned territory during DRAFT phase
-                if (instance.territories.get(button.getId()).getOwner() == instance.cpu) {
-                    return;
-                }
-                selectTerritoryToggleBtnForDraft(button);
+                if (instance.territories.get(button.getId()).getOwner() != instance.cpu) selectTerritoryToggleBtnForDraft(button);
                 break;
             case ATTACK:
                 selectTerritoryToggleBtnForAttack(button);
@@ -231,6 +240,7 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
+    /** Action for when a Player selects a Territory ToggleButton during the DRAFT turn-phase. */
     private void selectTerritoryToggleBtnForDraft(ToggleButton button) {
         resetBoard();
         button.setEffect(STANDARD_GLOW_EFFECT);
@@ -242,6 +252,7 @@ public class GameSceneController extends RiskSceneController {
         territoryToggleBtnForDraft = button;
     }
 
+    /** Action for when a Player selects a Territory ToggleButton during the ATTACK turn-phase. */
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
         Territory territory = instance.territories.get(button.getId());
@@ -314,9 +325,7 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /**
-     * Draft: 1;
-     * Attack: 2;
-     * Fortify: 3.
+     * Highlights Labels that tell the Player which turn phase they are in. Draft: 1; Attack: 2; Fortify: 3.
      */
     public void setHighlightForAttackPhaseIndicator(Game.TurnPhase which) {
 
@@ -340,6 +349,7 @@ public class GameSceneController extends RiskSceneController {
 
     }
 
+    /** Highlights the GUI Shape indicating whose turn it is (Player or CPU). */
     public void setPlayerTurnIndicatorColor(Game.PlayerColor playerColor) {
         playerTurnIndicator.setFill(Color.valueOf(getColorHexForPlayerColor(playerColor)));
     }
@@ -368,9 +378,10 @@ public class GameSceneController extends RiskSceneController {
      * controls that territory and setting their text to display the amount of armies present in Territories.
      */
     public void setGameState(GameState gameState) {
-        String styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.player.getColor());
-        String styleForCpuColor = "-fx-background-color: #6a6f6b";
+        styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.player.getColor());
+        styleForCpuColor = "-fx-background-color: #6a6f6b";
         Territory territory;
+
         for (ToggleButton territoryButton : territoryToggleButtons) {
             territory = instance.territories.get(territoryButton.getId());
             if (territory.getOwner() == gameState.player) {
@@ -380,9 +391,9 @@ public class GameSceneController extends RiskSceneController {
             }
         }
 
-        for (ToggleButton button : territoryToggleButtons) {
-            button.setText(String.valueOf(instance.territories.get(button.getId()).getNumOfArmies()));
-            button.setGraphic(new Label(button.getText()));
+        for (ToggleButton territoryButton : territoryToggleButtons) {
+            territoryButton.setText(String.valueOf(instance.territories.get(territoryButton.getId()).getNumOfArmies()));
+            territoryButton.setGraphic(new Label(territoryButton.getText()));
         }
     }
 
@@ -397,13 +408,13 @@ public class GameSceneController extends RiskSceneController {
         int newArmyVal = territory.getNumOfArmies();
         // Player tries to undo a draft
         if (difference < 0 && Integer.valueOf(armiesToDraftIndicator.getText()) == 0) {
-            newArmyVal -= instance.ARMIES_TO_DRAFT;
+            newArmyVal -= Game.ARMIES_TO_DRAFT;
             armiesToDraftIndicator.setText("5");
             nextPhaseOrTurn.setDisable(true);
 
         //Player tries to draft armies
         } else if (difference > 0 && Integer.valueOf(armiesToDraftIndicator.getText()) == 5){
-            newArmyVal += instance.ARMIES_TO_DRAFT;
+            newArmyVal += Game.ARMIES_TO_DRAFT;
             armiesToDraftIndicator.setText("0");
             nextPhaseOrTurn.setDisable(false);
         }

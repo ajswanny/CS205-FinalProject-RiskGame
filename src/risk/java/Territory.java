@@ -59,20 +59,23 @@ public class Territory {
         this.numOfArmies -= numToRemove;
     }
 
-    public void attack(Territory toAttack, int selfRollValue, int enemyRollValue){
-        if (toAttack.owner != this.owner) {
-            if (this.numOfArmies > 1) {
-                if (selfRollValue > enemyRollValue) {
-                    toAttack.numOfArmies -= 1;
-                } else {
-                    this.numOfArmies -= 1;
-                }
+    /**
+     * Performs an attack from this Territory to the given target Territory.
+     */
+    public boolean attack(Territory toAttack, int selfRollValue, int enemyRollValue){
+        if (this.numOfArmies > 1) {
+            if (selfRollValue > enemyRollValue) {
+                toAttack.numOfArmies -= 1;
+            } else {
+                this.numOfArmies -= 1;
+            }
 
-                if (toAttack.numOfArmies < 1) {
-                    moveArmies(toAttack, 1);
-                }
+            if (toAttack.numOfArmies < 1) {
+                moveArmies(toAttack, 1);
+                return true;
             }
         }
+        return false;
     }
 
     /* Getters */

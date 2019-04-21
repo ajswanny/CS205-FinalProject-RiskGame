@@ -7,10 +7,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import risk.controller.*;
-import risk.java.CPU;
-import risk.java.GameState;
-import risk.java.Player;
-import risk.java.Territory;
+import risk.java.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -102,6 +99,8 @@ public class Game extends Application {
 
     public CPU cpu;
 
+    private Dice playerDice, cpuDice;
+
     public GameState defaultLoadableGameState;
 
     private GameState gameState;
@@ -123,6 +122,10 @@ public class Game extends Application {
 
             // Load data.
             defineTerritories();
+
+            // Init dice
+            playerDice = new Dice();
+            cpuDice = new Dice();
 
             // Load and initialize all FXML.
             loadFxmlSources();
@@ -156,7 +159,8 @@ public class Game extends Application {
     /** Used for debugging. */
     private void debug() {
 
-        player = new Player(PlayerColor.SA_RED, STARTING_NUM_OF_ARMIES);
+        requestStartOfGame(true, "SA_RED");
+
 
     }
 
@@ -389,6 +393,21 @@ public class Game extends Application {
     }
 
     public void flagEndOFPlayerFortifyPhase() {
+    }
+
+    public void performPlayerAttack(Territory attackOrigin, Territory attackTarget) {
+
+        playerDice.roll();
+        cpuDice.roll();
+        boolean didConquerTarget = attackOrigin.attack(attackTarget, playerDice.getTotal(), cpuDice.getTotal());
+
+        if (didConquerTarget) {
+            attackTarget.setOwner(player);
+            cpu.removeControlledTerritory(attackTarget);
+            player.addNewControlledTerritory(attackTarget);
+            gameSceneController.updateTerritoryOwner(attackTarget.getName(), player);
+        }
+
     }
 
     /* Getters */
