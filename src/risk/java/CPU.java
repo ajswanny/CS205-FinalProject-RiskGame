@@ -16,7 +16,7 @@ public class CPU extends Player implements Serializable {
     }
 
     public void CpuPlaceArmies(){
-        ArrayList<Territory> tempArr = this.getTerritories();
+        ArrayList<Territory> tempArr = getControlledTerritories();
         int largestArmyIndex = 0;
         int largestArmy = 0;
         for (int i = 0; i < tempArr.size(); i++) {
@@ -28,11 +28,11 @@ public class CPU extends Player implements Serializable {
 
         int armiesToAdd = this.getNumOfNewArmies();
 
-        this.deployArmies(this.getTerritories().get(largestArmyIndex), armiesToAdd);
+        this.deployArmies(getControlledTerritories().get(largestArmyIndex), armiesToAdd);
     }
 
     public void CpuAttack(int myRoll, int enemyRoll){
-        ArrayList<Territory> tempArr = this.getTerritories();
+        ArrayList<Territory> tempArr = getControlledTerritories();
         int biggestAdvantage = -10000;
         Territory from = null;
         Territory to = null;
@@ -56,6 +56,6 @@ public class CPU extends Player implements Serializable {
 //        Dice roll goes here !!!!!!!!
         CpuPlaceArmies();
 //        CpuAttack(dice roll1, dice roll2);
-        this.setEndOfTurn(true);
     }
+
 }

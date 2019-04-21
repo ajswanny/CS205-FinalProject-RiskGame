@@ -62,7 +62,7 @@ public class Game extends Application {
 
     private final int STARTING_NUM_OF_ARMIES = 40;
 
-    public final int ARMIES_TO_DRAFT= 5;
+    public static final int ARMIES_TO_DRAFT= 5;
 
     public TurnPhase playerTurnPhase;
 
@@ -94,7 +94,7 @@ public class Game extends Application {
 
     public String targetTerritoryName;
 
-    private Player player;
+    public Player player;
 
     public CPU cpu;
 

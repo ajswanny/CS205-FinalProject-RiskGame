@@ -246,7 +246,11 @@ public class GameSceneController extends RiskSceneController {
 
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
+        resetBoard();
 
+        if (instance.player.getControlledTerritories().contains(instance.territories.get(button.getId()))) {
+            showAttackLinesForTerritory(button.getId());
+        }
 
     }
 
