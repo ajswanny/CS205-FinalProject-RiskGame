@@ -171,9 +171,9 @@
             <Image url="@../../resources/images/computer-icon/computerIcon.png" />
          </image>
       </ImageView>
-      <Button fx:id="increaseArmiesToDraftForSelectedTerritory" layoutX="393.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="+" />
-      <Button fx:id="decreaseArmiesToDraftForSelectedTerritory" layoutX="327.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="-" />
-      <Label fx:id="armiesToDraftIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
+      <Button fx:id="increaseArmiesToDraftOrFortify" layoutX="393.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="+" />
+      <Button fx:id="decreaseArmiesToDraftOrFortify" layoutX="327.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="-" />
+      <Label fx:id="armiesToMoveIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

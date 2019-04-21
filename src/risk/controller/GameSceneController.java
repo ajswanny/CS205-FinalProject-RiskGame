@@ -37,16 +37,18 @@ public class GameSceneController extends RiskSceneController {
     private ArrayList<ToggleButton> territoryToggleButtons;
 
     // Collection of Lines that show the Player which Territories they can attack from any given origin
-    private ArrayList<Line> legalAttackPathIndicators;
+    private ArrayList<Line> legalPathIndicators;
 
     // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
 
     // Flags for user selections
-    private ToggleButton territoryToggleBtnForDraft, attackOriginControl, attackTargetControl;
+    private ToggleButton draftTerritoryControl, attackOriginControl, attackTargetControl, fortifyTerritoryControl;
 
     private String styleForPlayerColor, styleForCpuColor;
+
+    private int armiesToMoveForFortification = 0;
 
     @FXML
     public Group boardNodes;
@@ -58,13 +60,13 @@ public class GameSceneController extends RiskSceneController {
     public Button nextPhaseOrTurn;
 
     @FXML
-    public Button decreaseArmiesToDraftForSelectedTerritory;
+    public Button decreaseArmiesToDraftOrFortify;
 
     @FXML
-    public Button increaseArmiesToDraftForSelectedTerritory;
+    public Button increaseArmiesToDraftOrFortify;
 
     @FXML
-    public Label armiesToDraftIndicator;
+    public Label armiesToMoveIndicator;
 
     @FXML
     public Label fortifyPhaseIndicator;
@@ -91,24 +93,24 @@ public class GameSceneController extends RiskSceneController {
         super.initialize(location, resources);
         initializeKeyboardListeners();
 
-        armiesToDraftIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
+        armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
         // Disable buttons that require action
-        decreaseArmiesToDraftForSelectedTerritory.setDisable(true);
-        increaseArmiesToDraftForSelectedTerritory.setDisable(true);
+        decreaseArmiesToDraftOrFortify.setDisable(true);
+        increaseArmiesToDraftOrFortify.setDisable(true);
 
         // Buttons for increasing and increasing armies in a draft
-        decreaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(territoryToggleBtnForDraft, -1));
-        increaseArmiesToDraftForSelectedTerritory.setOnAction(event -> setNewAmountOfTerritoryArmies(territoryToggleBtnForDraft, 1));
+        decreaseArmiesToDraftOrFortify.setOnAction(event -> setNewAmountOfArmiesForTerritory(-1));
+        increaseArmiesToDraftOrFortify.setOnAction(event -> setNewAmountOfArmiesForTerritory(1));
 
         // Load in references to board objects.
         territoryToggleButtons = new ArrayList<>(42);
-        legalAttackPathIndicators = new ArrayList<>(84);
+        legalPathIndicators = new ArrayList<>(84);
         for (Node node : boardNodes.getChildren()) {
             if (node instanceof ToggleButton) {
                 territoryToggleButtons.add((ToggleButton) node);
             } else if (node instanceof  Line) {
-                legalAttackPathIndicators.add((Line) node);
+                legalPathIndicators.add((Line) node);
             }
         }
 
@@ -122,10 +124,10 @@ public class GameSceneController extends RiskSceneController {
 
             button.setOnAction(event -> territoryButtonAction(button));
         }
-        territoryToggleBtnForDraft = null;
+        draftTerritoryControl = null;
 
         // Initialize legal-attack-path-indicators.
-        for (Line line : legalAttackPathIndicators) {
+        for (Line line : legalPathIndicators) {
             line.setVisible(false);
         }
 
@@ -137,7 +139,7 @@ public class GameSceneController extends RiskSceneController {
         nextPhaseOrTurn.setMaxSize(size, size);
 
         // Button to go to next turn phase
-        nextPhaseOrTurn.setOnAction(event -> indicateEndOfTurnPhase());
+        nextPhaseOrTurn.setOnAction(event -> endTurnPhase());
         nextPhaseOrTurn.setDisable(true);
 
         // Attack command btn
@@ -199,23 +201,38 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
-    /** Synchronizes end of turn with 'Game'. */
-    private void indicateEndOfTurnPhase() {
+    /** Synchronizes end of turn-phases with 'Game'. */
+    private void endTurnPhase() {
         switch (instance.playerTurnPhase) {
             case DRAFT:
-                instance.flagEndOfPlayerDraftPhase();
-                disableButton(decreaseArmiesToDraftForSelectedTerritory);
-                disableButton(increaseArmiesToDraftForSelectedTerritory);
-                armiesToDraftIndicator.setVisible(false);
+                // Prepare GUI controls for DRAFT phase
+                disableButton(decreaseArmiesToDraftOrFortify);
+                disableButton(increaseArmiesToDraftOrFortify);
+                armiesToMoveIndicator.setVisible(false);
                 makeAttack.setVisible(true);
                 makeAttack.setDisable(false);
-                break;
-            case ATTACK:
-                instance.flagEndOfPlayerAttackPhase();
 
+                instance.flagEndOfPlayerDraftPhase();
                 break;
+
+            case ATTACK:
+                disableButton(makeAttack);
+
+                // Prepare GUI controls for FORTIFY phase
+                enableButton(decreaseArmiesToDraftOrFortify);
+                enableButton(increaseArmiesToDraftOrFortify);
+                armiesToMoveIndicator.setVisible(true);
+
+                instance.flagEndOfPlayerAttackPhase();
+                break;
+
             case FORTIFY:
-                instance.flagEndOFPlayerFortifyPhase();
+                disableButton(decreaseArmiesToDraftOrFortify);
+                disableButton(increaseArmiesToDraftOrFortify);
+                disableButton(nextPhaseOrTurn);
+                armiesToMoveIndicator.setVisible(false);
+
+                instance.flagEndOfPlayerFortifyPhase();
                 break;
         }
         resetBoard();
@@ -226,17 +243,24 @@ public class GameSceneController extends RiskSceneController {
         button.setDisable(true);
     }
 
+    private void enableButton(Button button) {
+        button.setVisible(true);
+        button.setDisable(false);
+    }
+
     /** Specifies the action of a TerritoryToggleButton with respect to the current Player-turn-phase. */
     private void territoryButtonAction(ToggleButton button) {
         switch (instance.playerTurnPhase) {
             case DRAFT:
-                // Return if player selected a CPU-owned territory during DRAFT phase
+                // Proceed if player selected a Player-owned territory
                 if (instance.territories.get(button.getId()).getOwner() != instance.cpu) selectTerritoryToggleBtnForDraft(button);
                 break;
             case ATTACK:
                 selectTerritoryToggleBtnForAttack(button);
                 break;
             case FORTIFY:
+                // Proceed if player selected a Player-owned territory
+                if (instance.territories.get(button.getId()).getOwner() != instance.cpu) selectTerritoryToggleBtnForFortify(button);
                 break;
         }
     }
@@ -246,27 +270,24 @@ public class GameSceneController extends RiskSceneController {
         resetBoard();
         button.setEffect(STANDARD_GLOW_EFFECT);
         draftPhaseIndicator.setEffect(STANDARD_GLOW_EFFECT);
-
-        decreaseArmiesToDraftForSelectedTerritory.setDisable(false);
-        increaseArmiesToDraftForSelectedTerritory.setDisable(false);
-
-        territoryToggleBtnForDraft = button;
+        draftTerritoryControl = button;
     }
 
     /** Action for when a Player selects a Territory ToggleButton during the ATTACK turn-phase. */
+    @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
-        Territory territory = instance.territories.get(button.getId());
+        Territory selectedTerritory = instance.territories.get(button.getId());
 
-        if (instance.playerControlsTerritory(territory)) {
+        if (instance.playerControlsTerritory(selectedTerritory)) {
             // If territory belongs to Player update GUI and flag the territory
             resetBoard();
-            showAttackLinesForTerritory(button.getId());
+            showLegalAttackLinesForTerritory(button.getId());
             attackOriginControl = button;
 
-        } else if (instance.cpuControlsTerritory(territory) && attackOriginControl != null) {
+        } else if (instance.cpuControlsTerritory(selectedTerritory) && attackOriginControl != null) {
             // If territory belongs to CPU and an attack-origin territory has been selected
-            for (Line line : legalAttackPathIndicators) {
+            for (Line line : legalPathIndicators) {
                 line.setEffect(null);
                 String lineID = line.getId();
                 if (lineID.contains(attackOriginControl.getId()) && lineID.contains(button.getId())) {
@@ -283,7 +304,17 @@ public class GameSceneController extends RiskSceneController {
 
     }
 
+    @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForFortify(ToggleButton button) {
+
+        Territory selectedTerritory = instance.territories.get(button.getId());
+
+        if (instance.playerControlsTerritory(selectedTerritory)) {
+            // If territory belongs to Player update GUI and flag the territory
+            resetBoard();
+            showLegalAlliedPathLinesForTerritory(selectedTerritory.getName());
+            fortifyTerritoryControl = button;
+        }
 
     }
 
@@ -291,7 +322,7 @@ public class GameSceneController extends RiskSceneController {
     private void resetBoard() {
 
         // Hide all other attack-paths
-        for (Line line : legalAttackPathIndicators) {
+        for (Line line : legalPathIndicators) {
             line.setVisible(false);
             line.setEffect(null);
         }
@@ -304,16 +335,42 @@ public class GameSceneController extends RiskSceneController {
 
     }
 
-    private void showAttackLinesForTerritory(String territoryName) {
-        for (Line line : legalAttackPathIndicators) {
+    /** Shows all paths that a user can take from a controlled Territory for an attack. */
+    private void showLegalAttackLinesForTerritory(String territoryName) {
+        for (Line line : legalPathIndicators) {
             if (line.getId().contains(territoryName)) {
                 for (Territory territory : instance.cpu.getControlledTerritories()) {
+                    // Show path if it links to an enemy-controlled territory
                     if (line.getId().contains(territory.getName())) {
                         line.setVisible(true);
                     }
                 }
             }
         }
+    }
+
+    /** Shows all paths that a user can take from a controlled Territory to another neighboring controlled Territory */
+    private void showLegalAlliedPathLinesForTerritory(String territoryName) {
+
+        // Scan all lines
+        for (Line line : legalPathIndicators) {
+
+            // Get the name of the Territory opposite to 'territoryName' along 'line'
+            String[] strings = line.getId().split("-");
+            String oppositeTerritory = "";
+            for (String string : strings) {
+                if (!string.equals(territoryName)) {
+                    oppositeTerritory = string;
+                }
+            }
+
+            // Show line if it links to Player owned territory
+            if (line.getId().contains(territoryName) && instance.playerControlsTerritory(instance.territories.get(oppositeTerritory))) {
+                line.setVisible(true);
+            }
+
+        }
+
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
@@ -345,6 +402,11 @@ public class GameSceneController extends RiskSceneController {
                 break;
             case FORTIFY:
                 fortifyPhaseIndicator.setTextFill(Color.RED);
+                break;
+            case CPU:
+                draftPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
+                attackPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
+                fortifyPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
                 break;
         }
 
@@ -396,33 +458,79 @@ public class GameSceneController extends RiskSceneController {
             territoryButton.setText(String.valueOf(instance.territories.get(territoryButton.getId()).getNumOfArmies()));
             territoryButton.setGraphic(new Label(territoryButton.getText()));
         }
+
+        // Enable DRAFT controls
+        enableButton(decreaseArmiesToDraftOrFortify);
+        enableButton(increaseArmiesToDraftOrFortify);
     }
 
     /**
-     * Updates the GUI and data for a new amount of armies for a Territory.
-     * Current implementation: only allow the user to draft armies in one territory. Could change later.
+     * Updates the GUI and data for a new amount of armies for a Territory, whether this is done in draft or fortify phase
      */
-    private void setNewAmountOfTerritoryArmies(ToggleButton territoryToggleBtn, int difference) {
+    @SuppressWarnings({"Duplicates"})
+    private void setNewAmountOfArmiesForTerritory(int difference) {
+        Territory territory;
+        int newArmyVal;
+        switch (instance.playerTurnPhase) {
+            case DRAFT:
+                // Fetch territory button to draft for
+                territory = instance.territories.get(draftTerritoryControl.getId());
+                newArmyVal = territory.getNumOfArmies();
 
-        Territory territory = instance.territories.get(territoryToggleBtn.getId());
+                // Player tries to undo a draft
+                if (difference < 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 0) {
+                    newArmyVal -= Game.ARMIES_TO_DRAFT;
+                    armiesToMoveIndicator.setText("5");
+                    nextPhaseOrTurn.setDisable(true);
 
-        int newArmyVal = territory.getNumOfArmies();
-        // Player tries to undo a draft
-        if (difference < 0 && Integer.valueOf(armiesToDraftIndicator.getText()) == 0) {
-            newArmyVal -= Game.ARMIES_TO_DRAFT;
-            armiesToDraftIndicator.setText("5");
-            nextPhaseOrTurn.setDisable(true);
+                //Player tries to draft armies
+                } else if (difference > 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 5){
+                    newArmyVal += Game.ARMIES_TO_DRAFT;
+                    armiesToMoveIndicator.setText("0");
+                    nextPhaseOrTurn.setDisable(false);
+                }
 
-        //Player tries to draft armies
-        } else if (difference > 0 && Integer.valueOf(armiesToDraftIndicator.getText()) == 5){
-            newArmyVal += Game.ARMIES_TO_DRAFT;
-            armiesToDraftIndicator.setText("0");
-            nextPhaseOrTurn.setDisable(false);
+                // Update Territory GUI and data
+                instance.setNumOfArmiesForTerritory(territory, newArmyVal);
+                ((Label) draftTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+                break;
+
+            case FORTIFY:
+                // Fetch territory button to fortify for
+                territory = instance.territories.get(fortifyTerritoryControl.getId());
+                newArmyVal = territory.getNumOfArmies();
+
+                // Player tries to remove an army from a territory
+                if (difference < 0 && territory.getNumOfArmies() > 1) {
+                    newArmyVal -= 1;
+                    armiesToMoveForFortification += 1;   // Var indicating how many armies are being moved from a territory
+                    armiesToMoveIndicator.setText(String.valueOf(armiesToMoveForFortification));    // Update GUI indicator
+
+                // Player tries to add an army to a territory
+                } else if (difference > 0 && armiesToMoveForFortification > 0){
+                    newArmyVal += 1;
+                    armiesToMoveForFortification -= 1;
+                    armiesToMoveIndicator.setText(String.valueOf(armiesToMoveForFortification));
+                }
+
+                // Prevent player from ending turn if they have pending armies to move
+                if (armiesToMoveForFortification == 0) {
+                    nextPhaseOrTurn.setDisable(false);
+                } else {
+                    nextPhaseOrTurn.setDisable(true);
+                }
+
+                // Update Territory GUI and data
+                instance.setNumOfArmiesForTerritory(territory, newArmyVal);
+                ((Label) fortifyTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
         }
+    }
 
-        instance.setNumOfArmiesForTerritory(territory, newArmyVal);
-        ((Label) territoryToggleBtn.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
-
+    /** Sets board for new Player turn (all GUI stuff begins here) */
+    public void setupBoardForNewPlayerTurn() {
+        enableButton(decreaseArmiesToDraftOrFortify);
+        enableButton(increaseArmiesToDraftOrFortify);
+        armiesToMoveIndicator.setVisible(true);
     }
 
 }

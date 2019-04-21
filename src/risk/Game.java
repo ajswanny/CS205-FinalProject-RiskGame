@@ -58,7 +58,8 @@ public class Game extends Application {
     public enum TurnPhase {
         DRAFT,
         ATTACK,
-        FORTIFY
+        FORTIFY,
+        CPU
     }
 
     private final int STARTING_NUM_OF_ARMIES = 40;
@@ -95,7 +96,7 @@ public class Game extends Application {
 
     public String targetTerritoryName;
 
-    private Player player;
+    public Player player;
 
     public CPU cpu;
 
@@ -164,18 +165,6 @@ public class Game extends Application {
 
     }
 
-    /** Controls the game. */
-    private void game() {
-
-        requestDisplayForScene(GAME);
-
-        gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
-
-        // Player turn
-        playerTurn(TurnPhase.DRAFT);
-
-    }
-
     /**
      * Validates and completes a request to begin the game.
      * Game states:
@@ -219,6 +208,14 @@ public class Game extends Application {
         }
     }
 
+    /** Controls the game. */
+    private void game() {
+        requestDisplayForScene(GAME);
+        gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
+
+        playerTurn(TurnPhase.DRAFT);
+    }
+
     /**
      * Three phases:
      *  Draft (1) - Place armies granted at the beginning of each turn;
@@ -226,27 +223,39 @@ public class Game extends Application {
      *  Fortify (3) - Move armies to friendly territories.
      */
     private void playerTurn(TurnPhase phase) {
-
-
         switch (phase) {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
                 gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
+                gameSceneController.setupBoardForNewPlayerTurn();
                 break;
             case ATTACK:
                 playerTurnPhase = TurnPhase.ATTACK;
                 gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
                 break;
+            case FORTIFY:
+                playerTurnPhase = TurnPhase.FORTIFY;
+                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY);
+                break;
         }
-
-//        gameSceneController.setHighlightForAttackPhaseIndicator(2);
-//
-//        gameSceneController.setHighlightForAttackPhaseIndicator(3);
-
     }
 
     private void cpuTurn() {
 
+        gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.CPU);
+
+    }
+
+    public void flagEndOfPlayerDraftPhase() {
+        playerTurn(TurnPhase.ATTACK);
+    }
+
+    public void flagEndOfPlayerAttackPhase() {
+        playerTurn(TurnPhase.FORTIFY);
+    }
+
+    public void flagEndOfPlayerFortifyPhase() {
+        cpuTurn();
     }
 
     /** Loads FXML data for access to FXMLControllers. */
@@ -383,16 +392,6 @@ public class Game extends Application {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
             return null;
         }
-    }
-
-    public void flagEndOfPlayerDraftPhase() {
-        playerTurn(TurnPhase.ATTACK);
-    }
-
-    public void flagEndOfPlayerAttackPhase() {
-    }
-
-    public void flagEndOFPlayerFortifyPhase() {
     }
 
     public void performPlayerAttack(Territory attackOrigin, Territory attackTarget) {
