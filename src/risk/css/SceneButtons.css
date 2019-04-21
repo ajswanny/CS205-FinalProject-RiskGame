@@ -1,0 +1,18 @@
+
+Button {
+    -fx-background-color: #7e0003;
+    -fx-font: helvetica;
+    -fx-text-fill: #C1946C;
+    -fx-tile-alignment: center;
+}
+Button playGame {
+    -fx-font-size: 17px;
+}
+
+Button quitGame {
+    -fx-font-size: 15px;
+}
+
+Button aboutGame {
+    -fx-font-size: 15px;
+}

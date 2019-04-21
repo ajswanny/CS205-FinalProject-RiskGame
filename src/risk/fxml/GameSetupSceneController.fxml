@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #E7CDB2;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSetupSceneController">
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #E7CDB2;" stylesheets="@../css/SceneButtons.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSetupSceneController">
    <children>
       <HBox fx:id="playerColorToggleButtons" alignment="CENTER" layoutX="128.0" layoutY="45.0" prefHeight="140.0" prefWidth="545.0" spacing="20.0">
          <children>
