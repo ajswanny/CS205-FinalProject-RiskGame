@@ -330,6 +330,17 @@ public class Game extends Application {
         setTerritoryNeighbors("centralAmerica", "westernUnitedStates", "easternUnitedStates", "venezuela");
 
         // South america
+        setTerritoryNeighbors("venezuela","centralAmerica","peru","brazil");
+        setTerritoryNeighbors("peru","venezuela", "brazil", "argentina");
+        setTerritoryNeighbors("brazil", "venezuela", "peru", "argentina", "northAfrica");
+        setTerritoryNeighbors("argentina", "peru", "brazil");
+
+        // Africa
+        setTerritoryNeighbors("northAfrica", "southernEurope", "egypt", "eastAfrica", "congo");
+        setTerritoryNeighbors("egypt", "southernEurope", "eastAfrica", "northAfrica");
+        setTerritoryNeighbors("eastAfrica", "northAfrica", "egypt", "middleEast", "congo", "southAfrica", "madagascar");
+        setTerritoryNeighbors("congo", "northAfrica", "eastAfrica", "southAfrica");
+        setTerritoryNeighbors("southAfrica", "congo", "eastAfrica", "madagascar");
 
     }
 
