@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -42,6 +43,8 @@ public class GameSceneController extends RiskSceneController {
     // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
+
+    private final DropShadow CURRENT_TURN_OWNER = new DropShadow();
 
     // Flags for user selections
     private ToggleButton draftTerritoryControl, attackOriginControl, attackTargetControl, fortifyTerritoryControl;
@@ -100,8 +103,8 @@ public class GameSceneController extends RiskSceneController {
         increaseArmiesToDraftOrFortify.setDisable(true);
 
         // Buttons for increasing and increasing armies in a draft
-        decreaseArmiesToDraftOrFortify.setOnAction(event -> setNewAmountOfArmiesForTerritory(-1));
-        increaseArmiesToDraftOrFortify.setOnAction(event -> setNewAmountOfArmiesForTerritory(1));
+        decreaseArmiesToDraftOrFortify.setOnAction(event -> setAmountOfArmiesForTerritory(-1));
+        increaseArmiesToDraftOrFortify.setOnAction(event -> setAmountOfArmiesForTerritory(1));
 
         // Load in references to board objects.
         territoryToggleButtons = new ArrayList<>(42);
@@ -403,11 +406,6 @@ public class GameSceneController extends RiskSceneController {
             case FORTIFY:
                 fortifyPhaseIndicator.setTextFill(Color.RED);
                 break;
-            case CPU:
-                draftPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-                attackPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-                fortifyPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-                break;
         }
 
     }
@@ -468,7 +466,7 @@ public class GameSceneController extends RiskSceneController {
      * Updates the GUI and data for a new amount of armies for a Territory, whether this is done in draft or fortify phase
      */
     @SuppressWarnings({"Duplicates"})
-    private void setNewAmountOfArmiesForTerritory(int difference) {
+    private void setAmountOfArmiesForTerritory(int difference) {
         Territory territory;
         int newArmyVal;
         switch (instance.playerTurnPhase) {
@@ -526,11 +524,34 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
+    public void resetAmountOfArmiesForTerritory(Territory territory) {
+        for (ToggleButton button : territoryToggleButtons) {
+            if (button.getId().equals(territory.getName())) {
+                ((Label) button.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+            }
+        }
+    }
+
+    public void resetAmountOfArmiesForTerritories() {
+        for (ToggleButton territoryToggleButton : territoryToggleButtons) {
+            ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
+        }
+    }
+
     /** Sets board for new Player turn (all GUI stuff begins here) */
     public void setupBoardForNewPlayerTurn() {
+        // Controls
         enableButton(decreaseArmiesToDraftOrFortify);
         enableButton(increaseArmiesToDraftOrFortify);
         armiesToMoveIndicator.setVisible(true);
+
+        // Effects
+        playerTurnIndicator.setEffect(CURRENT_TURN_OWNER);
+    }
+
+    public void setupBoardForNewCpuTurn() {
+        playerTurnIndicator.setEffect(null);
+        cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
     }
 
 }

@@ -15,7 +15,7 @@ public class CPU extends Player implements Serializable {
         this.numOfTotalArmies = numOfTotalArmies;
     }
 
-    public void CpuPlaceArmies(){
+    public void CpuPlaceArmies() {
         ArrayList<Territory> tempArr = getControlledTerritories();
         int largestArmyIndex = 0;
         int largestArmy = 0;
@@ -31,25 +31,66 @@ public class CPU extends Player implements Serializable {
         this.deployArmies(getControlledTerritories().get(largestArmyIndex), armiesToAdd);
     }
 
-    public void CpuAttack(int myRoll, int enemyRoll){
-        ArrayList<Territory> tempArr = getControlledTerritories();
+    public Territory CpuAttack(int myRoll, int enemyRoll) {
         int biggestAdvantage = -10000;
         Territory from = null;
         Territory to = null;
-        for (int i = 0; i < tempArr.size(); i++) {
-            Territory currentFrom = tempArr.get(i);
+        for (Territory currentFrom : controlledTerritories) {
             ArrayList<Territory> currentNeighbors = currentFrom.getNeighbors();
-            for (int j = 0; j < currentNeighbors.size(); j++) {
-                if (currentFrom.owner != currentNeighbors.get(j).owner) {
-                    if ((currentFrom.numOfArmies - currentNeighbors.get(j).numOfArmies) > biggestAdvantage) {
-                        biggestAdvantage = (currentFrom.numOfArmies - currentNeighbors.get(j).numOfArmies);
+            for (Territory currentNeighbor : currentNeighbors) {
+                if (currentFrom.owner != currentNeighbor.owner) {
+                    if ((currentFrom.numOfArmies - currentNeighbor.numOfArmies) > biggestAdvantage) {
+                        biggestAdvantage = (currentFrom.numOfArmies - currentNeighbor.numOfArmies);
                         from = currentFrom;
-                        to = currentNeighbors.get(j);
+                        to = currentNeighbor;
                     }
                 }
             }
         }
-        from.attack(to, myRoll, enemyRoll);
+
+        // Test if CPU conquered a territory
+        assert from != null;
+        boolean didConquerTerritory = from.attack(to, myRoll, enemyRoll);
+        if (didConquerTerritory) {
+            return to;
+        } else {
+            return null;
+        }
+    }
+
+    public Territory draftArmies() {
+        int min = 40;
+        Territory t = null;
+        for (Territory territory : controlledTerritories) {
+            if (territory.getNumOfArmies() < min) {
+                min = territory.getNumOfArmies();
+                t = territory;
+            }
+        }
+        return t;
+    }
+
+    public boolean fortifyTerritories() {
+        int max = 2;
+        int min = Integer.MAX_VALUE;
+        Territory maxT = null;
+        Territory minT = null;
+        for (Territory territory : controlledTerritories) {
+            if (territory.getNumOfArmies() > max) {
+                max = territory.getNumOfArmies();
+                maxT = territory;
+            }
+            if (territory.getNumOfArmies() < min) {
+                min = territory.getNumOfArmies();
+                minT = territory;
+            }
+        }
+        if (maxT != null) {
+            maxT.moveArmies(minT, maxT.getNumOfArmies()/2);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void theOneMove(){

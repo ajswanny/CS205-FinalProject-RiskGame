@@ -1,5 +1,7 @@
 package risk.java;
 
+import risk.Game;
+
 import java.util.ArrayList;
 
 public class Territory {
@@ -44,9 +46,9 @@ public class Territory {
         return neighbors.contains(territory);
     }
 
-    public void moveArmies(Territory territoryToTranferTo, int numToTransfer){
+    void moveArmies(Territory territoryToTransferTo, int numToTransfer) {
         if (this.numOfArmies > numToTransfer) {
-            territoryToTranferTo.numOfArmies += numToTransfer;
+            territoryToTransferTo.numOfArmies += numToTransfer;
             this.numOfArmies -= numToTransfer;
         }
     }
