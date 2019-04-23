@@ -13,17 +13,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 @SuppressWarnings({"FieldCanBeLocal"})
 public class Game extends Application {
-
-    /**
-     * TODO:
-     *      Fix 'setNewAmountOfTerritoryArmies' within GameSceneController
-     */
 
     /* Class Fields */
     public static final int MAIN_MENU = 0;
@@ -66,6 +62,8 @@ public class Game extends Application {
 
     public static final int ARMIES_TO_DRAFT= 5;
 
+    private final int NUM_OF_CPU_ATTACKS_ROOF = 20;
+
     public TurnPhase playerTurnPhase;
 
     /** Primary Stage of the Application */
@@ -92,13 +90,11 @@ public class Game extends Application {
     /** Collection of Territories referenced by their name. */
     public HashMap<String, Territory> territories;
 
-    public String originTerritoryName;
-
-    public String targetTerritoryName;
-
     public Player player;
 
     public CPU cpu;
+
+    public Territory cpuConqueredTerritory;
 
     private Dice playerDice, cpuDice;
 
@@ -242,7 +238,48 @@ public class Game extends Application {
 
     private void cpuTurn() {
 
-        gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.CPU);
+        gameSceneController.setupBoardForNewCpuTurn();
+
+        try {
+
+            // Draft
+            TimeUnit.SECONDS.sleep(1);
+            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
+            Territory territoryToDraftArmiesTo = cpu.draftArmies();
+            territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
+            gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo);
+
+            // Attack
+            TimeUnit.SECONDS.sleep(1);
+            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
+            // While CPU can continue to do battles
+            int numOfAttacks = 0;
+            playerDice.roll();
+            cpuDice.roll();
+            while (cpuConqueredTerritory == null && numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
+                cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+                if (cpuConqueredTerritory != null) {
+                    System.out.println("Conquered: " + cpuConqueredTerritory.getName());
+                    cpuConqueredTerritory.setOwner(cpu);
+                    gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu);
+                }
+                gameSceneController.resetAmountOfArmiesForTerritories();
+                numOfAttacks++;
+            }
+            cpuConqueredTerritory = null;
+
+            // Fortify
+            TimeUnit.SECONDS.sleep(1);
+            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY);
+            boolean cpuDidFortifyATerritory = cpu.fortifyTerritories();
+            if (cpuDidFortifyATerritory) gameSceneController.resetAmountOfArmiesForTerritories();
+
+            // End turn
+            playerTurn(TurnPhase.DRAFT);
+
+        } catch (InterruptedException e) {
+            stop();
+        }
 
     }
 
@@ -395,7 +432,6 @@ public class Game extends Application {
     }
 
     public void performPlayerAttack(Territory attackOrigin, Territory attackTarget) {
-
         playerDice.roll();
         cpuDice.roll();
         boolean didConquerTarget = attackOrigin.attack(attackTarget, playerDice.getTotal(), cpuDice.getTotal());
@@ -406,7 +442,6 @@ public class Game extends Application {
             player.addNewControlledTerritory(attackTarget);
             gameSceneController.updateTerritoryOwner(attackTarget.getName(), player);
         }
-
     }
 
     /* Getters */
@@ -427,7 +462,6 @@ public class Game extends Application {
         gamePauseMenuStage.close();
     }
 
-
     /* Setters */
     public void setGameIsRunning(boolean gameIsRunning) {
     }
@@ -438,6 +472,10 @@ public class Game extends Application {
 
     public void decrementNumOfArmiesForTerritory(Territory territory) {
         territory.setNumOfArmies(territory.getNumOfArmies() - 1);
+    }
+
+    public void setCpuConqueredTerritory(Territory cpuConqueredTerritory) {
+        this.cpuConqueredTerritory = cpuConqueredTerritory;
     }
 
     /* Main */
