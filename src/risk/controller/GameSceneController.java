@@ -540,9 +540,12 @@ public class GameSceneController extends RiskSceneController {
 
     /** Sets board for new Player turn (all GUI stuff begins here) */
     public void setupBoardForNewPlayerTurn() {
+        armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
+
         // Controls
         enableButton(decreaseArmiesToDraftOrFortify);
         enableButton(increaseArmiesToDraftOrFortify);
+        enableButton(nextPhaseOrTurn);
         armiesToMoveIndicator.setVisible(true);
 
         // Effects

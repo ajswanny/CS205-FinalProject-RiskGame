@@ -192,7 +192,6 @@ public class Game extends Application {
 
             // Update the GUI with the newly defined GameState.
             gameSceneController.setGameState(gameState);
-
             game();
 
         } else {
@@ -266,6 +265,7 @@ public class Game extends Application {
                 gameSceneController.resetAmountOfArmiesForTerritories();
                 numOfAttacks++;
             }
+            System.out.println("Num: " + numOfAttacks);
             cpuConqueredTerritory = null;
 
             // Fortify
@@ -367,17 +367,45 @@ public class Game extends Application {
         setTerritoryNeighbors("centralAmerica", "westernUnitedStates", "easternUnitedStates", "venezuela");
 
         // South america
-        setTerritoryNeighbors("venezuela","centralAmerica","peru","brazil");
-        setTerritoryNeighbors("peru","venezuela", "brazil", "argentina");
+        setTerritoryNeighbors("venezuela", "centralAmerica", "peru", "brazil");
+        setTerritoryNeighbors("peru", "venezuela", "brazil", "argentina");
         setTerritoryNeighbors("brazil", "venezuela", "peru", "argentina", "northAfrica");
         setTerritoryNeighbors("argentina", "peru", "brazil");
 
         // Africa
-        setTerritoryNeighbors("northAfrica", "southernEurope", "egypt", "eastAfrica", "congo");
-        setTerritoryNeighbors("egypt", "southernEurope", "eastAfrica", "northAfrica");
-        setTerritoryNeighbors("eastAfrica", "northAfrica", "egypt", "middleEast", "congo", "southAfrica", "madagascar");
+        setTerritoryNeighbors("northAfrica", "westernEurope", "southernEurope", "egypt", "eastAfrica", "congo");
+        setTerritoryNeighbors("egypt", "southernEurope", "middleEast", "eastAfrica", "northAfrica");
+        setTerritoryNeighbors("eastAfrica", "northAfrica", "egypt", "congo", "southAfrica", "madagascar");
         setTerritoryNeighbors("congo", "northAfrica", "eastAfrica", "southAfrica");
         setTerritoryNeighbors("southAfrica", "congo", "eastAfrica", "madagascar");
+
+        // Europe
+        setTerritoryNeighbors("iceland", "greenland", "greatBritain", "scandinavia");
+        setTerritoryNeighbors("scandinavia", "iceland", "greatBritain", "northernEurope", "ukraine");
+        setTerritoryNeighbors("ukraine", "scandinavia", "northernEurope", "southernEurope", "middleEast", "afghanistan", "ural");
+        setTerritoryNeighbors("greatBritain", "iceland", "scandinavia", "northernEurope", "westernEurope");
+        setTerritoryNeighbors("northernEurope", "scandinavia", "greatBritain", "westernEurope", "southernEurope", "ukraine");
+        setTerritoryNeighbors("westernEurope", "greatBritain", "northAfrica", "southernEurope", "northernEurope");
+        setTerritoryNeighbors("southernEurope", "northernEurope", "westernEurope", "northAfrica", "egypt", "middleEast", "ukraine");
+
+        // Asia
+        setTerritoryNeighbors("ural", "ukraine", "afghanistan", "china", "siberia");
+        setTerritoryNeighbors("siberia", "ural", "china", "mongolia", "irkutsk", "yakutsk");
+        setTerritoryNeighbors("yakutsk", "siberia", "irkutsk", "kamchatka");
+        setTerritoryNeighbors("kamchatka", "yakutsk", "irkutsk", "mongolia", "japan", "alaska");
+        setTerritoryNeighbors("irkutsk", "yakutsk", "siberia", "mongolia", "kamchatka");
+        setTerritoryNeighbors("mongolia", "irkutsk", "siberia", "china", "japan", "kamchatka");
+        setTerritoryNeighbors("afghanistan", "ural", "ukraine", "middleEast", "india", "china");
+        setTerritoryNeighbors("china", "mongolia", "siberia", "ural", "afghanistan", "india", "siam");
+        setTerritoryNeighbors("middleEast", "ukraine", "southernEurope", "egypt", "india", "afghanistan");
+        setTerritoryNeighbors("india", "china", "afghanistan", "middleEast", "siam");
+        setTerritoryNeighbors("siam", "china", "india", "indonesia");
+
+        // Australia
+        setTerritoryNeighbors("indonesia", "siam", "westernAustralia");
+        setTerritoryNeighbors("newGuinea", "indonesia", "westernAustralia", "easternAustralia");
+        setTerritoryNeighbors("westernAustralia", "indonesia", "easternAustralia", "newGuinea");
+        setTerritoryNeighbors("easternAustralia", "newGuinea", "westernAustralia");
 
     }
 
