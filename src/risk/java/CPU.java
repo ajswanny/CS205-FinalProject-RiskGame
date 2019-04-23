@@ -32,19 +32,17 @@ public class CPU extends Player implements Serializable {
     }
 
     public Territory CpuAttack(int myRoll, int enemyRoll) {
-        ArrayList<Territory> tempArr = getControlledTerritories();
         int biggestAdvantage = -10000;
         Territory from = null;
         Territory to = null;
-        for (int i = 0; i < tempArr.size(); i++) {
-            Territory currentFrom = tempArr.get(i);
+        for (Territory currentFrom : controlledTerritories) {
             ArrayList<Territory> currentNeighbors = currentFrom.getNeighbors();
-            for (int j = 0; j < currentNeighbors.size(); j++) {
-                if (currentFrom.owner != currentNeighbors.get(j).owner) {
-                    if ((currentFrom.numOfArmies - currentNeighbors.get(j).numOfArmies) > biggestAdvantage) {
-                        biggestAdvantage = (currentFrom.numOfArmies - currentNeighbors.get(j).numOfArmies);
+            for (Territory currentNeighbor : currentNeighbors) {
+                if (currentFrom.owner != currentNeighbor.owner) {
+                    if ((currentFrom.numOfArmies - currentNeighbor.numOfArmies) > biggestAdvantage) {
+                        biggestAdvantage = (currentFrom.numOfArmies - currentNeighbor.numOfArmies);
                         from = currentFrom;
-                        to = currentNeighbors.get(j);
+                        to = currentNeighbor;
                     }
                 }
             }
