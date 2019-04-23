@@ -1,7 +1,7 @@
 
 Button {
     -fx-background-color: #7e0003;
-    -fx-font: helvetica;
+    -fx-font-family: helvetica;
     -fx-text-fill: #C1946C;
     -fx-tile-alignment: center;
 }

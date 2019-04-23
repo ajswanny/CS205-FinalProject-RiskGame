@@ -156,7 +156,7 @@ public class Game extends Application {
     /** Used for debugging. */
     private void debug() {
 
-        requestStartOfGame(true, "SA_RED");
+//        requestStartOfGame(true, "SA_RED");
 
 
     }
