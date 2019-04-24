@@ -1,8 +1,6 @@
 package risk.java;
 
 import risk.Game;
-import risk.Continent;
-import risk.Territory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
