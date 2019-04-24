@@ -5,14 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="190.0" prefWidth="412.0" style="-fx-background-color: transparent;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="risk.controller.GameEndSceneController">
-   <Label fx:id="result" alignment="CENTER" layoutX="50.0" layoutY="34.0" prefHeight="96.0" prefWidth="312.0"
-          text="Victory/Defeat">
+<AnchorPane fx:id="root" prefHeight="259.0" prefWidth="523.0" stylesheets="@../css/EndGameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameEndSceneController">
+   <Label fx:id="result" alignment="CENTER" layoutX="309.0" prefHeight="96.0" prefWidth="214.0" text="Result" textFill="#bf1b1b">
       <font>
-         <Font size="41.0"/>
+         <Font name="Euphemia UCAS" size="41.0" />
       </font>
    </Label>
-   <Button fx:id="backToMainMenu" layoutX="163.0" layoutY="130.0" mnemonicParsing="false" text="Main menu"/>
+   <Button fx:id="backToMainMenu" layoutX="14.0" layoutY="219.0" mnemonicParsing="false" stylesheets="@../css/SceneButtons.css" text="Main menu" />
 </AnchorPane>

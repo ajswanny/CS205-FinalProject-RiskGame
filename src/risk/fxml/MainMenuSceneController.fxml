@@ -2,27 +2,31 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="500" prefWidth="800.0" stylesheets="@../css/MainMenuScene.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="risk.controller.MainMenuSceneController">
-   <VBox alignment="CENTER" layoutX="40.0" layoutY="130.0" prefHeight="240.0" prefWidth="208.0" spacing="10.0"
-         stylesheets="@../css/SceneButtons.css" AnchorPane.bottomAnchor="130.0" AnchorPane.topAnchor="130.0">
+<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" stylesheets="@../css/MainMenuScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.MainMenuSceneController">
+   <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="146.0" prefWidth="106.0" spacing="10.0" stylesheets="@../css/SceneButtons.css" AnchorPane.bottomAnchor="372.0" AnchorPane.topAnchor="14.0">
       <cursor>
-         <Cursor fx:constant="DEFAULT"/>
+         <Cursor fx:constant="DEFAULT" />
       </cursor>
-      <Button fx:id="playGame" mnemonicParsing="false" prefHeight="48.0" prefWidth="89.0"
-              stylesheets="@../css/SceneButtons.css" text="Play">
+      <Button fx:id="playGame" mnemonicParsing="false" prefHeight="37.0" prefWidth="89.0" stylesheets="@../css/SceneButtons.css" text="Play">
          <font>
-            <Font name="Helvetica" size="15.0"/>
+            <Font name="Helvetica" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="quitGame" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="46.0" prefWidth="80.0"
-              text="Quit"/>
-      <Button fx:id="aboutGame" alignment="CENTER" mnemonicParsing="false" prefHeight="46.0" prefWidth="80.0"
-              text="About"/>
+      <Button fx:id="aboutGame" alignment="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="About" />
+      <Button fx:id="quitGame" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Quit" />
    </VBox>
+   <Label alignment="CENTER" layoutX="745.0" layoutY="406.0" prefHeight="126.0" prefWidth="211.0" text="Risk" textFill="#ab0000">
+      <font>
+         <Font name="Georgia" size="82.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Label>
 </AnchorPane>

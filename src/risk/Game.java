@@ -138,9 +138,6 @@ public class Game extends Application {
     /** Used for debugging. */
     private void debug() {
 
-//        requestStartOfGame(true, "SA_RED");
-
-
     }
 
     /**
@@ -284,13 +281,15 @@ public class Game extends Application {
     }
 
     private void checkForVictory() {
-        if (player.getControlledTerritories().size() == 0) {
-            gameEndSceneController.setVictor(player);
-            requestDisplayForScene(GAME_END);
-        } else if (cpu.getControlledTerritories().size() == 0) {
-            gameEndSceneController.setVictor(cpu);
-            requestDisplayForScene(GAME_END);
-        }
+        gameEndSceneController.setVictor(player);
+        requestDisplayForScene(GAME_END);
+//        if (player.getControlledTerritories().size() == 0) {
+//            gameEndSceneController.setVictor(player);
+//            requestDisplayForScene(GAME_END);
+//        } else if (cpu.getControlledTerritories().size() == 0) {
+//            gameEndSceneController.setVictor(cpu);
+//            requestDisplayForScene(GAME_END);
+//        }
     }
 
     /** Loads FXML data for access to FXMLControllers. */
