@@ -1,6 +1,8 @@
 package risk.java;
 
 import risk.Game;
+import risk.Continent;
+import risk.Territory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -96,6 +98,24 @@ public class CPU extends Player implements Serializable {
 //        Dice roll goes here !!!!!!!!
         CpuPlaceArmies();
 //        CpuAttack(dice roll1, dice roll2);
+    }
+
+    /*
+    bool occupy; whether the territory has been occupied
+    int terrSelect_prority; set southAmerica and Australia as 1, other continents as 0
+
+    Strategy:
+        1. AI will try to occupy southAmerica or Australia first, and place armies on the entry of
+           the continents.
+        2. AI will not attack players until they accumulate a specific number of armies. When defend, AI will
+           always choose to roll two dices.
+     */
+    public void basic_strategy(prority,occupy){
+        int terrSelect_prority = 1;
+        boolean occupy = false;
+        if(terrSelect_prority == 1 && !occupy){
+            Territory(Austrila, 6);
+        }
     }
 
 }
