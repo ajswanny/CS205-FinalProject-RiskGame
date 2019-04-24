@@ -12,6 +12,7 @@ public class Territory {
     Player owner;
     private String name;
     private Continent continent;
+    private int continentNumId;
 
     /* Constructors */
     /** Default constructor. */
@@ -20,19 +21,19 @@ public class Territory {
         neighbors = new ArrayList<>();
 
         switch (continentNumId) {
-            case 1:
+            case 4:
                 continent = Continent.NORTH_AMERICA;
                 break;
-            case 2:
+            case 5:
                 continent = Continent.SOUTH_AMERICA;
                 break;
-            case 3:
+            case 2:
                 continent = Continent.EUROPE;
                 break;
-            case 4:
+            case 3:
                 continent = Continent.AFRICA;
                 break;
-            case 5:
+            case 1:
                 continent = Continent.ASIA;
                 break;
             case 6:
@@ -95,6 +96,10 @@ public class Territory {
 
     public ArrayList<Territory> getNeighbors() {
         return neighbors;
+    }
+
+    public int getContinentID() {
+        return continentNumId;
     }
 
     /* Setters */

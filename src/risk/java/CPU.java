@@ -57,6 +57,18 @@ public class CPU extends Player implements Serializable {
         }
     }
 
+    public Territory AI_attack() {
+        Player p = new Player();
+        ArrayList<Territory> playerControl = p.getControlledTerritories();
+        Territory t = null;
+        for (Territory territory : controlledTerritories) {
+            if(t.){
+
+            }
+        }
+
+    }
+
     public Territory draftArmies() {
         int min = 40;
         Territory t = null;
