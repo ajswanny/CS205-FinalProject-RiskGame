@@ -29,7 +29,6 @@ public class GamePauseMenuSceneController extends RiskSceneController {
             System.out.println("Exiting GameScene from 'exitToMainMenu' Button used within 'GamePauseMenuScene.");
             instance.closeGamePauseMenuStage();
             instance.requestDisplayForScene(Game.MAIN_MENU);
-            instance.setGameIsRunning(false);
         });
 
     }

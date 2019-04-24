@@ -173,8 +173,7 @@ public class GameSceneController extends RiskSceneController {
                     ((Label) toggleButton.getGraphic()).setText(String.valueOf(originTerritory.getNumOfArmies()));
                 }
             }
-        } catch (NullPointerException e) {
-            Logger.getLogger(Game.class.getName()).log(Level.WARNING, null, e);
+        } catch (NullPointerException ignored) {
         }
 
     }
@@ -194,16 +193,6 @@ public class GameSceneController extends RiskSceneController {
         attackTargetControl = null;
     }
 
-    /** Performs a decrement of a Territory's armies, updating GUI and requesting data update. */
-    private void decrementNumOfArmiesForTerritory(Territory territory) {
-        instance.decrementNumOfArmiesForTerritory(territory);
-        for (ToggleButton toggleButton : territoryToggleButtons) {
-            if (toggleButton.getId().equals(territory.getName())) {
-                ((Label) toggleButton.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
-            }
-        }
-    }
-
     /** Synchronizes end of turn-phases with 'Game'. */
     private void endTurnPhase() {
         switch (instance.playerTurnPhase) {
@@ -215,7 +204,7 @@ public class GameSceneController extends RiskSceneController {
                 makeAttack.setVisible(true);
                 makeAttack.setDisable(false);
 
-                instance.flagEndOfPlayerDraftPhase();
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.DRAFT);
                 break;
 
             case ATTACK:
@@ -226,7 +215,7 @@ public class GameSceneController extends RiskSceneController {
                 enableButton(increaseArmiesToDraftOrFortify);
                 armiesToMoveIndicator.setVisible(true);
 
-                instance.flagEndOfPlayerAttackPhase();
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
                 break;
 
             case FORTIFY:
@@ -235,7 +224,7 @@ public class GameSceneController extends RiskSceneController {
                 disableButton(nextPhaseOrTurn);
                 armiesToMoveIndicator.setVisible(false);
 
-                instance.flagEndOfPlayerFortifyPhase();
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
                 break;
         }
         resetBoard();

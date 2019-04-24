@@ -3,6 +3,7 @@ package risk;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,6 +28,7 @@ public class Game extends Application {
     public static final int ABOUT_GAME = 2;
     public static final int PAUSE_GAME_MENU = 3;
     public static final int GAME_SETUP = 4;
+    private final int GAME_END = 5;
 
     /** Path to the text-file containing all Territory names. */
     private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
@@ -54,11 +56,8 @@ public class Game extends Application {
     public enum TurnPhase {
         DRAFT,
         ATTACK,
-        FORTIFY,
-        CPU
+        FORTIFY
     }
-
-    private final int STARTING_NUM_OF_ARMIES = 40;
 
     public static final int ARMIES_TO_DRAFT= 5;
 
@@ -67,10 +66,10 @@ public class Game extends Application {
     public TurnPhase playerTurnPhase;
 
     /** Primary Stage of the Application */
-    private Stage primaryStage, gamePauseMenuStage;
+    private Stage primaryStage, gamePauseMenuStage, gameEndStage;
 
     /** The Game's Scenes */
-    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene;
+    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene, gameEndScene;
 
     /** Controller for the Menu Scene */
     private MainMenuSceneController mainMenuSceneController;
@@ -87,6 +86,8 @@ public class Game extends Application {
     /** Controller for the GameSetup Scene */
     private GameSetupSceneController gameSetupSceneController;
 
+    private GameEndSceneController gameEndSceneController;
+
     /** Collection of Territories referenced by their name. */
     public HashMap<String, Territory> territories;
 
@@ -94,7 +95,7 @@ public class Game extends Application {
 
     public CPU cpu;
 
-    public Territory cpuConqueredTerritory;
+    private Territory cpuConqueredTerritory;
 
     private Dice playerDice, cpuDice;
 
@@ -127,10 +128,14 @@ public class Game extends Application {
             // Load and initialize all FXML.
             loadFxmlSources();
 
-            // Initialize the alternate Stage.
+            // Initialize the alternate Stages.
             gamePauseMenuStage = new Stage(StageStyle.UNIFIED);
             gamePauseMenuStage.initModality(Modality.APPLICATION_MODAL);
             gamePauseMenuStage.setScene(gamePauseMenuScene);
+
+            gameEndStage = new Stage(StageStyle.TRANSPARENT);
+            gameEndStage.initModality(Modality.APPLICATION_MODAL);
+            gameEndStage.setScene(gameEndScene);
 
             // Initialize the Application and its default Scene.
             primaryStage.setTitle("Risk");
@@ -171,8 +176,8 @@ public class Game extends Application {
         if (isNewGame) {
 
             // Define new Game-state.
-            player = new Player(PlayerColor.valueOf(playerSelectedColor), STARTING_NUM_OF_ARMIES);
-            cpu = new CPU(STARTING_NUM_OF_ARMIES);
+            player = new Player(PlayerColor.valueOf(playerSelectedColor));
+            cpu = new CPU();
 
             // Randomly distribute controlled territories between 'player' and 'cpu'.
             Random random = new Random();
@@ -186,7 +191,7 @@ public class Game extends Application {
                     cpu.addNewControlledTerritory(territory);
                     territory.setOwner(cpu);
                 }
-                territory.setNumOfArmies(4-n%2);
+                territory.setNumOfArmies(3 - n%2 + n%3);
             }
             this.gameState = new GameState(player, cpu);
 
@@ -207,7 +212,6 @@ public class Game extends Application {
     private void game() {
         requestDisplayForScene(GAME);
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
-
         playerTurn(TurnPhase.DRAFT);
     }
 
@@ -258,14 +262,13 @@ public class Game extends Application {
             while (cpuConqueredTerritory == null && numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
                 cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
                 if (cpuConqueredTerritory != null) {
-                    System.out.println("Conquered: " + cpuConqueredTerritory.getName());
                     cpuConqueredTerritory.setOwner(cpu);
                     gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu);
                 }
                 gameSceneController.resetAmountOfArmiesForTerritories();
                 numOfAttacks++;
             }
-            System.out.println("Num: " + numOfAttacks);
+            checkForVictory();
             cpuConqueredTerritory = null;
 
             // Fortify
@@ -283,16 +286,33 @@ public class Game extends Application {
 
     }
 
-    public void flagEndOfPlayerDraftPhase() {
-        playerTurn(TurnPhase.ATTACK);
+    /** Midpoint for all turn-phase transitions. */
+    public void flagEndOfTurnPhase(Player player, TurnPhase turnPhase) {
+        if (player == this.player) {
+            switch (turnPhase) {
+                case DRAFT:
+                    playerTurn(TurnPhase.ATTACK);
+                    break;
+                case ATTACK:
+                    playerTurn(TurnPhase.FORTIFY);
+                    break;
+                case FORTIFY:
+                    cpuTurn();
+                    break;
+            }
+        } else {
+            playerTurn(TurnPhase.DRAFT);
+        }
     }
 
-    public void flagEndOfPlayerAttackPhase() {
-        playerTurn(TurnPhase.FORTIFY);
-    }
-
-    public void flagEndOfPlayerFortifyPhase() {
-        cpuTurn();
+    private void checkForVictory() {
+        if (player.getControlledTerritories().size() == 0) {
+            gameEndSceneController.setVictor(player);
+            requestDisplayForScene(GAME_END);
+        } else if (cpu.getControlledTerritories().size() == 0) {
+            gameEndSceneController.setVictor(cpu);
+            requestDisplayForScene(GAME_END);
+        }
     }
 
     /** Loads FXML data for access to FXMLControllers. */
@@ -317,6 +337,10 @@ public class Game extends Application {
         // GameSetupSceneController
         gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
         gameSetupScene = gameSetupSceneController.getPrimaryScene();
+
+        // GameEnd
+        gameEndSceneController = (GameEndSceneController) loadFxmlController("fxml/GameEndSceneController.fxml");
+        gameEndScene = gameEndSceneController.getPrimaryScene();
 
     }
 
@@ -426,19 +450,18 @@ public class Game extends Application {
                 primaryStage.setScene(gameScene);
                 primaryStage.centerOnScreen();
                 break;
-
             case ABOUT_GAME:
                 primaryStage.setScene(aboutGameScene);
                 break;
-
             case PAUSE_GAME_MENU:
                 gamePauseMenuStage.show();
                 break;
-
             case GAME_SETUP:
                 primaryStage.setScene(gameSetupScene);
                 break;
-
+            case GAME_END:
+                gameEndStage.show();
+                break;
             default:
                 primaryStage.setScene(mainMenuScene);
                 primaryStage.centerOnScreen();
@@ -481,6 +504,8 @@ public class Game extends Application {
             player.addNewControlledTerritory(attackTarget);
             gameSceneController.updateTerritoryOwner(attackTarget.getName(), player);
         }
+
+        checkForVictory();
     }
 
     /* Getters */
@@ -501,8 +526,8 @@ public class Game extends Application {
         gamePauseMenuStage.close();
     }
 
-    /* Setters */
-    public void setGameIsRunning(boolean gameIsRunning) {
+    public void closeGameVictoryDialogue() {
+        gameEndStage.close();
     }
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
@@ -511,10 +536,6 @@ public class Game extends Application {
 
     public void decrementNumOfArmiesForTerritory(Territory territory) {
         territory.setNumOfArmies(territory.getNumOfArmies() - 1);
-    }
-
-    public void setCpuConqueredTerritory(Territory cpuConqueredTerritory) {
-        this.cpuConqueredTerritory = cpuConqueredTerritory;
     }
 
     /* Main */

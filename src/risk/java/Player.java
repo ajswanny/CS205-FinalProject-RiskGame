@@ -19,10 +19,9 @@ public class Player implements Serializable  {
     }
 
     /* Constructors */
-    public Player(Game.PlayerColor color, int numOfTotalArmies) {
+    public Player(Game.PlayerColor color) {
         this();
         this.color = color;
-        this.numOfTotalArmies = numOfTotalArmies;
     }
 
     /* Methods */
