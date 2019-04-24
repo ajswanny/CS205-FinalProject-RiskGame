@@ -13,8 +13,15 @@ import risk.Game;
 */
 
 public class AI {
+    Territory territory;
+    private int terrSelect_prority = 1;
+    private boolean occupy = false;
+
     public AI(){
-        Territory();
+        if(terrSelect_prority == 1 && !occupy) {
+            territory(Australia,6);
+        }
+
     }
     public void attack(){
 
