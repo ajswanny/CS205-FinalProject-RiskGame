@@ -13,21 +13,23 @@ import risk.Game;
 */
 
 public class AI {
-    Territory territory;
-    private int terrSelect_prority = 1;
-    private boolean occupy = false;
+    Territory territory = new Territory();
+    Dice dice = new Dice();
+//    private int terrSelect_prority;
+//    private boolean occupy;
 
-    public AI(){
+    public AI(terrSelect_prority,occupy){
+
         if(terrSelect_prority == 1 && !occupy) {
             territory(Australia,6);
         }
-
     }
     public void attack(){
 
     }
-    public void defend(){
-
+    public int defend(){
+        dice.roll();
+        return dice.getDie1(), dice.getDie2();
     }
 
 }
