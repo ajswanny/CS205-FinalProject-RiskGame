@@ -3,7 +3,6 @@ package risk;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-@SuppressWarnings({"FieldCanBeLocal"})
 public class Game extends Application {
 
     /* Class Fields */
@@ -30,19 +28,12 @@ public class Game extends Application {
     public static final int GAME_SETUP = 4;
     private final int GAME_END = 5;
 
-    /** Path to the text-file containing all Territory names. */
-    private final String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
-
     /** The color themes for each continent and those that are available to the user for selection. */
-    @SuppressWarnings("unused")
-    public final String
-        NORTH_AMERICA_HEX = "B78740",
-        SOUTH_AMERICA_HEX = "994734",
-        EUROPE_HEX = "6A6F6B",
-        AFRICA_HEX = "876133",
-        ASIA_HEX = "5E693D",
-        AUSTRALIA_HEX = "8B626A"
-    ;
+    public final String NORTH_AMERICA_HEX = "B78740";
+    public final String SOUTH_AMERICA_HEX = "994734";
+    public final String AFRICA_HEX = "876133";
+    public final String ASIA_HEX = "5E693D";
+    public final String AUSTRALIA_HEX = "8B626A";
 
     public enum PlayerColor {
         NA_YELLOW,
@@ -61,8 +52,6 @@ public class Game extends Application {
 
     public static final int ARMIES_TO_DRAFT= 5;
 
-    private final int NUM_OF_CPU_ATTACKS_ROOF = 20;
-
     public TurnPhase playerTurnPhase;
 
     /** Primary Stage of the Application */
@@ -71,20 +60,8 @@ public class Game extends Application {
     /** The Game's Scenes */
     private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene, gameEndScene;
 
-    /** Controller for the Menu Scene */
-    private MainMenuSceneController mainMenuSceneController;
-
     /** Controller for the Game Scene */
     private GameSceneController gameSceneController;
-
-    /** Controller for the AboutGame Scene */
-    private AboutGameSceneController aboutGameSceneController;
-
-    /** Controller for the GamePauseMenu Scene */
-    private GamePauseMenuSceneController gamePauseMenuSceneController;
-
-    /** Controller for the GameSetup Scene */
-    private GameSetupSceneController gameSetupSceneController;
 
     private GameEndSceneController gameEndSceneController;
 
@@ -259,6 +236,7 @@ public class Game extends Application {
             int numOfAttacks = 0;
             playerDice.roll();
             cpuDice.roll();
+            int NUM_OF_CPU_ATTACKS_ROOF = 20;
             while (cpuConqueredTerritory == null && numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
                 cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
                 if (cpuConqueredTerritory != null) {
@@ -319,7 +297,7 @@ public class Game extends Application {
     private void loadFxmlSources() throws Exception {
 
         // Loader for MenuSceneController
-        mainMenuSceneController = (MainMenuSceneController) loadFxmlController("fxml/MainMenuSceneController.fxml");
+        MainMenuSceneController mainMenuSceneController = (MainMenuSceneController) loadFxmlController("fxml/MainMenuSceneController.fxml");
         mainMenuScene = mainMenuSceneController.getPrimaryScene();
 
         // Loader for GameSceneController
@@ -327,15 +305,15 @@ public class Game extends Application {
         gameScene = gameSceneController.getPrimaryScene();
 
         // Loader for AboutGameSceneController
-        aboutGameSceneController = (AboutGameSceneController) loadFxmlController("fxml/AboutGameSceneController.fxml");
+        AboutGameSceneController aboutGameSceneController = (AboutGameSceneController) loadFxmlController("fxml/AboutGameSceneController.fxml");
         aboutGameScene = aboutGameSceneController.getPrimaryScene();
 
         // Loader for GamePauseMenuSceneController
-        gamePauseMenuSceneController = (GamePauseMenuSceneController) loadFxmlController("fxml/GamePauseMenuScene.fxml");
+        GamePauseMenuSceneController gamePauseMenuSceneController = (GamePauseMenuSceneController) loadFxmlController("fxml/GamePauseMenuScene.fxml");
         gamePauseMenuScene = gamePauseMenuSceneController.getPrimaryScene();
 
         // GameSetupSceneController
-        gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
+        GameSetupSceneController gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
         gameSetupScene = gameSetupSceneController.getPrimaryScene();
 
         // GameEnd
@@ -356,6 +334,7 @@ public class Game extends Application {
 
         // Input Territory info and map these to objects.
         territories = new HashMap<>(42);
+        String TERRITORY_NAMES_FP = "resources/territoriesInfo.txt";
         InputStream stream = getClass().getClassLoader().getResourceAsStream(TERRITORY_NAMES_FP);
         assert stream != null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -364,8 +343,8 @@ public class Game extends Application {
             while ((line = reader.readLine()) != null) {
 
                 // Read name and continent-numerical-id for Territory.
-                String[] vals = line.split(",");
-                territories.put(vals[0], new Territory(vals[0], Integer.valueOf(vals[1])));
+                String[] val = line.split(",");
+                territories.put(val[0], new Territory(val[0]));
 
             }
         } catch (IOException e) {
@@ -532,10 +511,6 @@ public class Game extends Application {
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
         territories.get(territory.getName()).setNumOfArmies(numOfArmies);
-    }
-
-    public void decrementNumOfArmiesForTerritory(Territory territory) {
-        territory.setNumOfArmies(territory.getNumOfArmies() - 1);
     }
 
     /* Main */

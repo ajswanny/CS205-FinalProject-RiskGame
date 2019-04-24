@@ -12,27 +12,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import risk.Game;
-import risk.java.*;
-
-import static risk.Game.PAUSE_GAME_MENU;
+import risk.java.CPU;
+import risk.java.GameState;
+import risk.java.Player;
+import risk.java.Territory;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static risk.Game.PAUSE_GAME_MENU;
 
 /**
  *
  */
-@SuppressWarnings("FieldCanBeLocal")
 public class GameSceneController extends RiskSceneController {
-
-    // Shape radius for Territory ToggleButton representations
-    private final double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
-
-    // Shape radius for Button for ending a turn-phase
-    private final double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 20.0;
 
     // Collection of all ToggleButtons for Territories
     private ArrayList<ToggleButton> territoryToggleButtons;
@@ -118,10 +112,11 @@ public class GameSceneController extends RiskSceneController {
         }
 
         // Initialize territory ToggleButtons.
+        double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
         Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
         for (ToggleButton button : territoryToggleButtons) {
             button.setShape(circle);
-            double size = 2*TERRITORY_BUTTON_SHAPE_RAD;
+            double size = 2* TERRITORY_BUTTON_SHAPE_RAD;
             button.setMinSize(size, size);
             button.setMaxSize(size, size);
 
@@ -135,9 +130,10 @@ public class GameSceneController extends RiskSceneController {
         }
 
         // Initialize button for controlling turn phases.
+        double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 20.0;
         circle = new Circle(NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
         nextPhaseOrTurn.setShape(circle);
-        double size = 2*NEXT_PHASE_TURN_BUTTON_SHAPE_RAD;
+        double size = 2* NEXT_PHASE_TURN_BUTTON_SHAPE_RAD;
         nextPhaseOrTurn.setMinSize(size, size);
         nextPhaseOrTurn.setMaxSize(size, size);
 
@@ -428,13 +424,13 @@ public class GameSceneController extends RiskSceneController {
      * controls that territory and setting their text to display the amount of armies present in Territories.
      */
     public void setGameState(GameState gameState) {
-        styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.player.getColor());
+        styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.getPlayer().getColor());
         styleForCpuColor = "-fx-background-color: #6a6f6b";
         Territory territory;
 
         for (ToggleButton territoryButton : territoryToggleButtons) {
             territory = instance.territories.get(territoryButton.getId());
-            if (territory.getOwner() == gameState.player) {
+            if (territory.getOwner() == gameState.getPlayer()) {
                 territoryButton.setStyle(styleForPlayerColor);
             } else {
                 territoryButton.setStyle(styleForCpuColor);

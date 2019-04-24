@@ -1,13 +1,12 @@
 package risk.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
-import static risk.Game.MAIN_MENU;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static risk.Game.MAIN_MENU;
 
 public class AboutGameSceneController extends RiskSceneController {
 

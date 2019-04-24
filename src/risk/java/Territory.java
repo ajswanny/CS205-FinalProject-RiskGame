@@ -1,7 +1,5 @@
 package risk.java;
 
-import risk.Game;
-
 import java.util.ArrayList;
 
 public class Territory {
@@ -11,41 +9,15 @@ public class Territory {
     private ArrayList<Territory> neighbors;
     Player owner;
     private String name;
-    private Continent continent;
 
     /* Constructors */
     /** Default constructor. */
-    public Territory(String name, int continentNumId) {
+    public Territory(String name) {
         this.name = name;
         neighbors = new ArrayList<>();
-
-        switch (continentNumId) {
-            case 1:
-                continent = Continent.NORTH_AMERICA;
-                break;
-            case 2:
-                continent = Continent.SOUTH_AMERICA;
-                break;
-            case 3:
-                continent = Continent.EUROPE;
-                break;
-            case 4:
-                continent = Continent.AFRICA;
-                break;
-            case 5:
-                continent = Continent.ASIA;
-                break;
-            case 6:
-                continent = Continent.AUSTRALIA;
-                break;
-        }
     }
 
     /* Methods */
-    public boolean hasNeighbor(Territory territory) {
-        return neighbors.contains(territory);
-    }
-
     void moveArmies(Territory territoryToTransferTo, int numToTransfer) {
         if (this.numOfArmies > numToTransfer) {
             territoryToTransferTo.numOfArmies += numToTransfer;
@@ -55,10 +27,6 @@ public class Territory {
 
     public void addArmies(int numToAdd){
         this.numOfArmies += numToAdd;
-    }
-
-    public void removeArmies(int numToRemove){
-        this.numOfArmies -= numToRemove;
     }
 
     /**
@@ -93,7 +61,7 @@ public class Territory {
         return owner;
     }
 
-    public ArrayList<Territory> getNeighbors() {
+    ArrayList<Territory> getNeighbors() {
         return neighbors;
     }
 

@@ -7,27 +7,8 @@ import java.util.ArrayList;
 
 public class CPU extends Player implements Serializable {
 
-    private String about;
-    private String aboutTheOneMove;
-
     public CPU() {
         this.color = Game.PlayerColor.EU_GRAY;
-    }
-
-    public void CpuPlaceArmies() {
-        ArrayList<Territory> tempArr = getControlledTerritories();
-        int largestArmyIndex = 0;
-        int largestArmy = 0;
-        for (int i = 0; i < tempArr.size(); i++) {
-            if (tempArr.get(i).numOfArmies > largestArmy){
-                largestArmy = tempArr.get(i).numOfArmies;
-                largestArmyIndex = i;
-            }
-        }
-
-        int armiesToAdd = this.getNumOfNewArmies();
-
-        this.deployArmies(getControlledTerritories().get(largestArmyIndex), armiesToAdd);
     }
 
     public Territory CpuAttack(int myRoll, int enemyRoll) {
@@ -90,12 +71,6 @@ public class CPU extends Player implements Serializable {
         } else {
             return false;
         }
-    }
-
-    public void theOneMove(){
-//        Dice roll goes here !!!!!!!!
-        CpuPlaceArmies();
-//        CpuAttack(dice roll1, dice roll2);
     }
 
 }

@@ -1,7 +1,6 @@
 package risk.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import risk.Game;
 

@@ -6,22 +6,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-border-style: none;" stylesheets="@../css/AboutGameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
-   <children>
-      <Group layoutX="204.0" layoutY="154.0">
-         <children>
-            <Text layoutX="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for playing Risk!" />
-            <Text layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This implementation of the popular board game was created by:" />
-            <VBox layoutX="22.0" layoutY="63.0" spacing="5.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dongzhe Jiang" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dale Larie" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mary Woolley" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Swanson" />
-               </children>
-            </VBox>
-         </children>
-      </Group>
-      <Button fx:id="goBackToMainMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" stylesheets="@../css/SceneButtons.css" text="Back" />
-   </children>
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="800.0" style="-fx-border-style: none;"
+            stylesheets="@../css/AboutGameScene.css" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
+   <Group layoutX="204.0" layoutY="154.0">
+      <Text layoutX="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for playing Risk!"/>
+      <Text layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0"
+            text="This implementation of the popular board game was created by:"/>
+      <VBox layoutX="22.0" layoutY="63.0" spacing="5.0">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dongzhe Jiang"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dale Larie"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mary Woolley"/>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Swanson"/>
+      </VBox>
+   </Group>
+   <Button fx:id="goBackToMainMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
+           stylesheets="@../css/SceneButtons.css" text="Back"/>
 </AnchorPane>
