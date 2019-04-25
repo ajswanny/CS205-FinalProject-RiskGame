@@ -12,24 +12,24 @@ import risk.Game;
            always choose to roll two dices.
 */
 
-public class AI {
-    Territory territory = new Territory();
-    Dice dice = new Dice();
+//public class AI {
+//    Territory territory = new Territory();
+//    Dice dice = new Dice();
 //    private int terrSelect_prority;
 //    private boolean occupy;
-
-    public AI(terrSelect_prority,occupy){
-
-        if(terrSelect_prority == 1 && !occupy) {
-            territory(Australia,6);
-        }
-    }
-    public void attack(){
-
-    }
-    public int defend(){
-        dice.roll();
-        return dice.getDie1(), dice.getDie2();
-    }
+//
+//    public AI(terrSelect_prority,occupy){
+//
+//        if(terrSelect_prority == 1 && !occupy) {
+//            territory(Australia,6);
+//        }
+//    }
+//    public void attack(){
+//
+//    }
+//    public int defend(){
+//        dice.roll();
+//        return dice.getDie1(), dice.getDie2();
+//    }
 
 }

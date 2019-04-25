@@ -58,14 +58,17 @@ public class CPU extends Player implements Serializable {
     }
 
     public Territory AI_attack() {
-        Player p = new Player();
-        ArrayList<Territory> playerControl = p.getControlledTerritories();
-        Territory t = null;
-        for (Territory territory : controlledTerritories) {
-            if(t.){
-
+        Territory target = null;
+        Player player = new Player();
+        for (Territory territory : player.controlledTerritories) {                  // scan through all player controlled territories
+            if(player.controlledTerritories.getContinentID() >= 5){                 // looking for territories' prority higher than 5
+                ArrayList<Territory> potentialTargets = territory;                  // store them into a new array list
+                for(Territory potentialTarget : potentialTargets){
+                    target = potentialTarget;                                       // give potential target to target
+                }
             }
         }
+        return target;
 
     }
 
