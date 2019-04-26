@@ -1,4 +1,4 @@
-package risk.java;
+//package risk.java;
 
 import risk.Game;
 /*
@@ -31,5 +31,3 @@ import risk.Game;
 //        dice.roll();
 //        return dice.getDie1(), dice.getDie2();
 //    }
-
-}
