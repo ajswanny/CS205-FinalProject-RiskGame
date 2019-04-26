@@ -13,350 +13,165 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="793.0" prefWidth="1067.0" stylesheets="@../css/GameScene.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="risk.controller.GameSceneController">
+<AnchorPane fx:id="root" prefHeight="793.0" prefWidth="1067.0" stylesheets="@../css/GameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSceneController">
    <Group fx:id="boardNodes" layoutX="47.0" layoutY="83.0">
-      <Line id="northAfrica-eastAfrica" endX="-128.0" endY="104.5" layoutX="562.0" layoutY="253.0" startX="7.0"
-            startY="120.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernEurope-southernEurope" endX="-47.58575439453125" endY="-20.085784912109375" layoutX="562.0"
-            layoutY="253.0" startX="-126.58578491210938" startY="-48.085784912109375" stroke="#bc0909eb"
-            strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="mongolia-kamchatka" endX="-46.0" endY="55.5" layoutX="865.0" layoutY="120.0"
-            startX="-31.33331298828125" startY="-55.66667175292969" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="middleEast-indea" endX="4.0" endY="109.5" layoutX="696.0" layoutY="145.0" startX="-83.171630859375"
-            startY="149.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="afghanistan-india" endX="-111.0" endY="100.5" layoutX="787.0" layoutY="103.0"
-            startX="-85.58575439453125" startY="150.08578491210938" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="middleEast-afghanistan" endX="-21.41424560546875" endY="59.085784912109375" layoutX="696.0"
-            layoutY="143.0" startX="-83.171630859375" startY="151.49996948242188" stroke="#bc0909eb"
-            strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="afghanistan-ural" endX="-28.0" endY="-58.50001525878906" layoutX="716.0" layoutY="163.0"
-            startX="-40.0" startY="40.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="ural-siberia" endX="-109.0" endY="-78.50001525878906" layoutX="845.0" layoutY="143.0"
-            startX="-158.8992919921875" startY="-36.67811584472656" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="siberia-irkutsk" endX="-111.828369140625" endY="-76.0" layoutX="847.0" layoutY="141.0" startX="-52.0"
-            startY="-26.499984741210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="irkutsk-mongolia" endX="-65.58575439453125" endY="-72.08575439453125" layoutX="862.0" layoutY="188.0"
-            startX="-44.41424560546875" startY="-11.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="mongolia-china" endX="-43.0" endY="-80.5" layoutX="862.0" layoutY="256.0" startX="-41.99993896484375"
-            startY="-10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="siam-china" endX="-50.585693359375" endY="-19.085784912109375" layoutX="872.0" layoutY="266.0"
-            startX="-89.0" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="india-siam" endX="-180.919921875" endY="-21.0399169921875" layoutX="882.0" layoutY="276.0"
-            startX="-99.0" startY="12.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="india-china" endX="-192.0" endY="-31.5" layoutX="892.0" layoutY="286.0" startX="-72.28173828125"
-            startY="-38.199127197265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="afghanistan-china" endX="94.00006103515625" endY="72.5" layoutX="726.0" layoutY="173.0"
-            startX="-51.41424560546875" startY="29.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="siberia-yakutsk" endY="-20.49999237060547" layoutX="795.0" layoutY="50.0" startX="-59.0"
-            startY="14.499984741210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="siberia-mongolia" endX="16.414306640625" endY="116.08578491210938" layoutX="805.0" layoutY="60.0"
-            startX="-71.41424560546875" startY="3.0857696533203125" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="yakutsk-irkutsk" endX="-20.0" endY="47.32844543457031" layoutX="815.0" layoutY="70.0" startX="-20.0"
-            startY="-41.91419219970703" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="yakutsk-kamchatka" endX="8.00006103515625" endY="-15.500015258789062" layoutX="825.0" layoutY="80.0"
-            startX="-30.0" startY="-50.49999237060547" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="kamchatka-irkutsk" endX="-1.99993896484375" endY="-22.671585083007812" layoutX="835.0" layoutY="90.0"
-            startX="-38.58575439453125" startY="25.91424560546875" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="kamchatka-japan" endX="-10.585693359375" endY="-34.08580017089844" layoutX="845.0" layoutY="100.0"
-            startX="85.0" startY="63.50001525878906" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="mongolia-japan" endX="-36.0" endY="65.5" layoutX="855.0" layoutY="110.0" startX="75.0"
-            startY="53.50001525878906" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="ural-china" endX="-38.0" endY="-68.50001525878906" layoutX="726.0" layoutY="173.0"
-            startX="95.414306640625" startY="73.91421508789062" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="siberia-china" endX="-2.82843017578125" endY="-121.32843017578125" layoutX="735.0" layoutY="183.0"
-            startX="84.00006103515625" startY="62.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="siam-indonesia" endX="-37.00006103515625" endY="181.5" layoutX="882.0" layoutY="276.0" startX="-99.0"
-            startY="12.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="indonesia-newGuinea" endX="36.0" endY="95.49996948242188" layoutX="882.0" layoutY="276.0"
-            startX="-35.5858154296875" startY="182.91424560546875" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="newGuinea-easternAustralia" endX="26.0" endY="85.49996948242188" layoutX="892.0" layoutY="286.0"
-            startX="47.99993896484375" startY="249.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernAustralia-easternAustralia" endX="47.99993896484375" endY="249.5" layoutX="892.0"
-            layoutY="286.0" startX="-24.21282958984375" startY="208.281982421875" stroke="#bc0909eb"
-            strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernAustralia-newGuinea" endX="15.901611328125" endY="78.62103271484375" layoutX="902.0"
-            layoutY="296.0" startX="-35.6270751953125" startY="196.86773681640625" stroke="#bc0909eb"
-            strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="indonesia-westernAustralia" endX="-58.7586669921875" endY="160.44049072265625" layoutX="902.0"
-            layoutY="296.0" startX="-35.6270751953125" startY="196.86773681640625" stroke="#bc0909eb"
-            strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="iceland-scandinavia" endX="-215.58578491210938" endY="-36.91419982910156" layoutX="605.0"
-            layoutY="109.0" startX="-124.0" startY="-37.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="greatBritain-westernEurope" endX="-57.000030517578125" endY="10.5" layoutX="491.0" layoutY="193.0"
-            startX="-118.4141845703125" startY="-42.08576965332031" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="greatBritain-iceland" endX="-131.99996948242188" endY="36.5" layoutX="506.0" layoutY="113.0"
-            startX="-118.00003051757812" startY="-39.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northernEurope-scandinavia" endX="-124.0" endY="60.5" layoutX="593.0" layoutY="113.0" startX="-112.0"
-            startY="-41.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernEurope-northernEurope" endX="-33.41424560546875" endY="-28.085784912109375" layoutX="501.0"
-            layoutY="203.0" startX="-66.0" startY="-0.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="greatBritain-scandinavia" endX="-171.99996948242188" endY="25.5" layoutX="546.0" layoutY="124.0"
-            startX="-65.0" startY="-52.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="greatBritain-northernEurope" endX="-181.99996948242188" endY="15.5" layoutX="556.0" layoutY="134.0"
-            startX="-88.41424560546875" startY="40.914215087890625" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northernEurope-southernEurope" endX="-162.00006103515625" endY="20.5" layoutX="631.0" layoutY="153.0"
-            startX="-118.0" startY="78.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="southernEurope-ukraine" endX="-72.0" endY="-28.5" layoutX="641.0" layoutY="163.0"
-            startX="-129.4141845703125" startY="67.08578491210938" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northernEurope-ukraine" endX="-135.414306640625" endY="49.08580017089844" layoutX="603.0"
-            layoutY="123.0" startX="-34.0" startY="11.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="scandinavia-ukraine" endX="-168.58575439453125" endY="27.085784912109375" layoutX="651.0"
-            layoutY="43.0" startX="-82.0" startY="91.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="ukraine-middleEast" endX="-80.5858154296875" endY="-37.08576965332031" layoutX="651.0"
-            layoutY="173.0" startX="-41.0" startY="121.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="ukraine-afghanistan" endX="-137.0" endY="-18.499969482421875" layoutX="706.0" layoutY="153.0"
-            startX="-30.0" startY="50.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="ukraine-ural" endX="-38.0" endY="-68.50001525878906" layoutX="726.0" layoutY="173.0"
-            startX="-158.8992919921875" startY="-36.67811584472656" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="southernEurope-middleEast" endX="-39.33331298828125" endY="121.33334350585938" layoutX="651.0"
-            layoutY="173.0" startX="-138.0" startY="58.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="southernEurope-egypt" endX="-71.5858154296875" endY="49.085784912109375" layoutX="630.0"
-            layoutY="273.0" startX="-117.0" startY="-41.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="egypt-middleEast" endX="-39.5858154296875" endY="122.9141845703125" layoutX="651.0" layoutY="173.0"
-            startX="-91.17156982421875" startY="150.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="congo-southAfrica" endX="-119.399658203125" endY="119.51007080078125" layoutX="664.0" layoutY="430.0"
-            startX="-127.0" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="congo-eastAfrica" endX="-123.41424560546875" endY="116.0858154296875" layoutX="659.0" layoutY="335.0"
-            startX="-90.0" startY="37.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="egypt-eastAfrica" endX="-127.0" endY="111.5" layoutX="696.0" layoutY="261.0"
-            startX="-137.5858154296875" startY="61.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northAfrica-egypt" endX="-119.41421508789062" endY="113.08578491210938" layoutX="552.0"
-            layoutY="243.0" startX="5.0" startY="80.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="southAfrica-madagascar" endX="-3.0" endY="122.50006103515625" layoutX="646.0" layoutY="415.0"
-            startX="-98.3314208984375" startY="135.5328369140625" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="madagascar-eastAfrica" endX="-96.0" endY="181.50006103515625" layoutX="739.0" layoutY="356.0"
-            startX="-168.5858154296875" startY="17.914215087890625" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northAfrica-westernEurope" endX="-118.00003051757812" endY="113.08578491210938" layoutX="552.0"
-            layoutY="243.0" startX="-118.00003051757812" startY="-39.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="northAfrica-southernEurope" endX="-205.8331298828125" endY="195.25714111328125" layoutX="641.0"
-            layoutY="163.0" startX="-128.0" startY="68.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="brazil-northAfrica" endX="11.999969482421875" endY="-15.5" layoutX="422.0" layoutY="373.0"
-            startX="-129.00003051757812" startY="21.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="northAfrica-congo" endX="-22.0" endY="117.5" layoutX="559.0" layoutY="335.0"
-            startX="-125.00003051757812" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="venezuela-peru" endX="-127.0" endY="-91.5" layoutX="381.0" layoutY="387.0"
-            startX="-129.00003051757812" startY="21.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="venezuela-brazil" endX="-86.0" endY="113.50003051757812" layoutX="381.0" layoutY="278.0"
-            startX="-127.0" startY="17.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="centralAmerica-venezuela" endX="-30.0" endY="45.5" layoutX="284.0" layoutY="250.0"
-            startX="-139.00001525878906" startY="9.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="peru-brazil" endX="-84.58575439453125" endY="3.914215087890625" layoutX="381.0" layoutY="389.0"
-            startX="-129.00001525878906" startY="19.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="argentina-peru" endX="-111.41424560546875" endY="-63.085784912109375" layoutX="362.0" layoutY="473.0"
-            startX="-132.99996948242188" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="argentina-brazil" endX="-63.58575439453125" endY="-83.08578491210938" layoutX="360.0" layoutY="476.0"
-            startX="-132.99996948242188" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="alaska-northwestTerritory" endX="20.999969482421875" endY="-15.499992370605469" layoutX="181.0"
-            layoutY="41.0" startX="-160.0" startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="alaska-alberta" endX="-26.999984741210938" endY="50.5" layoutX="161.0" layoutY="50.0"
-            startX="-139.37396240234375" startY="7.6745147705078125" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="kamchatka-alaska" endX="-66.00001525878906" endY="12.499984741210938" layoutX="87.0" layoutY="44.0"
-            startX="-114.0" startY="14.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="kamchatka-alaska" endX="28.0" endY="-25.0" layoutX="969.0" layoutY="49.0" startX="-136.0"
-            startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="northwestTerritory-greenland" endX="-15.689666748046875" endY="5.6802978515625" layoutX="344.0"
-            layoutY="8.0" startX="-142.00001525878906" startY="17.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="alberta-northwestTerritory" endX="-46.34814453125" endY="-39.981971740722656" layoutX="247.0"
-            layoutY="65.0" startX="-112.99998474121094" startY="35.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="greenland-iceland" endX="-74.99996948242188" endY="70.50001525878906" layoutX="461.0" layoutY="1.0"
-            startX="-132.0" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="quebec-greenland" endX="-184.0" endY="102.5" layoutX="438.0" layoutY="17.0" startX="-109.0"
-            startY="-2.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernUnitedStates-easternUnitedStates" endX="-47.0" endY="37.500030517578125" layoutX="264.0"
-            layoutY="166.0" startX="-129.99998474121094" startY="11.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="easternUnitedStates-quebec" endX="-76.0" endY="-46.5" layoutX="330.0" layoutY="166.0" startX="-113.0"
-            startY="37.500030517578125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="centralAmerica-easternUnitedStates" endX="-62.0" endY="-39.499969482421875" layoutX="279.0"
-            layoutY="243.0" startX="-134.00003051757812" startY="16.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="westernUnitedStates-centralAmerica" endX="-108.00003051757812" endY="77.5" layoutX="253.0"
-            layoutY="182.0" startX="-118.99998474121094" startY="-4.5" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="alberta-westernUnitedStates" endX="-127.99998474121094" endY="70.5" layoutX="262.0" layoutY="107.0"
-            startX="-127.99998474121094" startY="-6.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="northwestTerritory-ontario" endX="-130.0" endY="72.5" layoutX="342.0" layoutY="43.0"
-            startX="-139.93394470214844" startY="-16.56775665283203" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="ontario-greenland" endX="-9.27545166015625" endY="-74.73390197753906" layoutX="339.0" layoutY="87.0"
-            startX="-127.0" startY="28.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="alberta-ontario" endX="-52.0" endY="28.5" layoutX="264.0" layoutY="87.0" startX="-129.99998474121094"
-            startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="westernUnitedStates-ontario" endX="-177.9999542236328" endY="106.5" layoutX="313.0" layoutY="72.0"
-            startX="-98.68499755859375" startY="41.0064697265625" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <Line id="ontario-quebec" endX="-81.0" endY="14.5" layoutX="335.0" layoutY="105.0" startX="-123.0"
-            startY="10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0"/>
-      <Line id="ontario-easternUnitedStates" endX="-128.0" endY="71.50003051757812" layoutX="345.0" layoutY="132.0"
-            startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0"
-            strokeWidth="2.0"/>
-      <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false"
-                    prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0"
-                    mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false"
-                    prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false"
-                    prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0"
-                    mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0"
-                    mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false"
-                    prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0"
-                    mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0"
-                    style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="mongolia" layoutX="807.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;"/>
-      <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0"
-                    prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;"/>
+      <Line id="northAfrica-eastAfrica" endX="-128.0" endY="104.5" layoutX="562.0" layoutY="253.0" startX="7.0" startY="120.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernEurope-southernEurope" endX="-47.58575439453125" endY="-20.085784912109375" layoutX="562.0" layoutY="253.0" startX="-126.58578491210938" startY="-48.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="mongolia-kamchatka" endX="-46.0" endY="55.5" layoutX="865.0" layoutY="120.0" startX="-31.33331298828125" startY="-55.66667175292969" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="middleEast-indea" endX="4.0" endY="109.5" layoutX="696.0" layoutY="145.0" startX="-83.171630859375" startY="149.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="afghanistan-india" endX="-111.0" endY="100.5" layoutX="787.0" layoutY="103.0" startX="-85.58575439453125" startY="150.08578491210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="middleEast-afghanistan" endX="-21.41424560546875" endY="59.085784912109375" layoutX="696.0" layoutY="143.0" startX="-83.171630859375" startY="151.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="afghanistan-ural" endX="-28.0" endY="-58.50001525878906" layoutX="716.0" layoutY="163.0" startX="-40.0" startY="40.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ural-siberia" endX="-109.0" endY="-78.50001525878906" layoutX="845.0" layoutY="143.0" startX="-158.8992919921875" startY="-36.67811584472656" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siberia-irkutsk" endX="-111.828369140625" endY="-76.0" layoutX="847.0" layoutY="141.0" startX="-52.0" startY="-26.499984741210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="irkutsk-mongolia" endX="-65.58575439453125" endY="-72.08575439453125" layoutX="862.0" layoutY="188.0" startX="-44.41424560546875" startY="-11.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="mongolia-china" endX="-43.0" endY="-80.5" layoutX="862.0" layoutY="256.0" startX="-41.99993896484375" startY="-10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siam-china" endX="-50.585693359375" endY="-19.085784912109375" layoutX="872.0" layoutY="266.0" startX="-89.0" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="india-siam" endX="-180.919921875" endY="-21.0399169921875" layoutX="882.0" layoutY="276.0" startX="-99.0" startY="12.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="india-china" endX="-192.0" endY="-31.5" layoutX="892.0" layoutY="286.0" startX="-72.28173828125" startY="-38.199127197265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="afghanistan-china" endX="94.00006103515625" endY="72.5" layoutX="726.0" layoutY="173.0" startX="-51.41424560546875" startY="29.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siberia-yakutsk" endY="-20.49999237060547" layoutX="795.0" layoutY="50.0" startX="-59.0" startY="14.499984741210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siberia-mongolia" endX="16.414306640625" endY="116.08578491210938" layoutX="805.0" layoutY="60.0" startX="-71.41424560546875" startY="3.0857696533203125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="yakutsk-irkutsk" endX="-20.0" endY="47.32844543457031" layoutX="815.0" layoutY="70.0" startX="-20.0" startY="-41.91419219970703" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="yakutsk-kamchatka" endX="8.00006103515625" endY="-15.500015258789062" layoutX="825.0" layoutY="80.0" startX="-30.0" startY="-50.49999237060547" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="kamchatka-irkutsk" endX="-1.99993896484375" endY="-22.671585083007812" layoutX="835.0" layoutY="90.0" startX="-38.58575439453125" startY="25.91424560546875" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="kamchatka-japan" endX="-10.585693359375" endY="-34.08580017089844" layoutX="845.0" layoutY="100.0" startX="85.0" startY="63.50001525878906" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="mongolia-japan" endX="-36.0" endY="65.5" layoutX="855.0" layoutY="110.0" startX="75.0" startY="53.50001525878906" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ural-china" endX="-38.0" endY="-68.50001525878906" layoutX="726.0" layoutY="173.0" startX="95.414306640625" startY="73.91421508789062" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siberia-china" endX="-2.82843017578125" endY="-121.32843017578125" layoutX="735.0" layoutY="183.0" startX="84.00006103515625" startY="62.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="siam-indonesia" endX="-37.00006103515625" endY="181.5" layoutX="882.0" layoutY="276.0" startX="-99.0" startY="12.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="indonesia-newGuinea" endX="36.0" endY="95.49996948242188" layoutX="882.0" layoutY="276.0" startX="-35.5858154296875" startY="182.91424560546875" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="newGuinea-easternAustralia" endX="26.0" endY="85.49996948242188" layoutX="892.0" layoutY="286.0" startX="47.99993896484375" startY="249.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernAustralia-easternAustralia" endX="47.99993896484375" endY="249.5" layoutX="892.0" layoutY="286.0" startX="-24.21282958984375" startY="208.281982421875" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernAustralia-newGuinea" endX="15.901611328125" endY="78.62103271484375" layoutX="902.0" layoutY="296.0" startX="-35.6270751953125" startY="196.86773681640625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="indonesia-westernAustralia" endX="-58.7586669921875" endY="160.44049072265625" layoutX="902.0" layoutY="296.0" startX="-35.6270751953125" startY="196.86773681640625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="iceland-scandinavia" endX="-215.58578491210938" endY="-36.91419982910156" layoutX="605.0" layoutY="109.0" startX="-124.0" startY="-37.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="greatBritain-westernEurope" endX="-57.000030517578125" endY="10.5" layoutX="491.0" layoutY="193.0" startX="-118.4141845703125" startY="-42.08576965332031" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="greatBritain-iceland" endX="-131.99996948242188" endY="36.5" layoutX="506.0" layoutY="113.0" startX="-118.00003051757812" startY="-39.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northernEurope-scandinavia" endX="-124.0" endY="60.5" layoutX="593.0" layoutY="113.0" startX="-112.0" startY="-41.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernEurope-northernEurope" endX="-33.41424560546875" endY="-28.085784912109375" layoutX="501.0" layoutY="203.0" startX="-66.0" startY="-0.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="greatBritain-scandinavia" endX="-171.99996948242188" endY="25.5" layoutX="546.0" layoutY="124.0" startX="-65.0" startY="-52.49998474121094" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="greatBritain-northernEurope" endX="-181.99996948242188" endY="15.5" layoutX="556.0" layoutY="134.0" startX="-88.41424560546875" startY="40.914215087890625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northernEurope-southernEurope" endX="-162.00006103515625" endY="20.5" layoutX="631.0" layoutY="153.0" startX="-118.0" startY="78.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="southernEurope-ukraine" endX="-72.0" endY="-28.5" layoutX="641.0" layoutY="163.0" startX="-129.4141845703125" startY="67.08578491210938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northernEurope-ukraine" endX="-135.414306640625" endY="49.08580017089844" layoutX="603.0" layoutY="123.0" startX="-34.0" startY="11.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="scandinavia-ukraine" endX="-168.58575439453125" endY="27.085784912109375" layoutX="651.0" layoutY="43.0" startX="-82.0" startY="91.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ukraine-middleEast" endX="-80.5858154296875" endY="-37.08576965332031" layoutX="651.0" layoutY="173.0" startX="-41.0" startY="121.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ukraine-afghanistan" endX="-137.0" endY="-18.499969482421875" layoutX="706.0" layoutY="153.0" startX="-30.0" startY="50.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ukraine-ural" endX="-38.0" endY="-68.50001525878906" layoutX="726.0" layoutY="173.0" startX="-158.8992919921875" startY="-36.67811584472656" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="southernEurope-middleEast" endX="-39.33331298828125" endY="121.33334350585938" layoutX="651.0" layoutY="173.0" startX="-138.0" startY="58.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="southernEurope-egypt" endX="-71.5858154296875" endY="49.085784912109375" layoutX="630.0" layoutY="273.0" startX="-117.0" startY="-41.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="egypt-middleEast" endX="-39.5858154296875" endY="122.9141845703125" layoutX="651.0" layoutY="173.0" startX="-91.17156982421875" startY="150.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="congo-southAfrica" endX="-119.399658203125" endY="119.51007080078125" layoutX="664.0" layoutY="430.0" startX="-127.0" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="congo-eastAfrica" endX="-123.41424560546875" endY="116.0858154296875" layoutX="659.0" layoutY="335.0" startX="-90.0" startY="37.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="egypt-eastAfrica" endX="-127.0" endY="111.5" layoutX="696.0" layoutY="261.0" startX="-137.5858154296875" startY="61.085784912109375" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northAfrica-egypt" endX="-119.41421508789062" endY="113.08578491210938" layoutX="552.0" layoutY="243.0" startX="5.0" startY="80.49996948242188" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="southAfrica-madagascar" endX="-3.0" endY="122.50006103515625" layoutX="646.0" layoutY="415.0" startX="-98.3314208984375" startY="135.5328369140625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="madagascar-eastAfrica" endX="-96.0" endY="181.50006103515625" layoutX="739.0" layoutY="356.0" startX="-168.5858154296875" startY="17.914215087890625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northAfrica-westernEurope" endX="-118.00003051757812" endY="113.08578491210938" layoutX="552.0" layoutY="243.0" startX="-118.00003051757812" startY="-39.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northAfrica-southernEurope" endX="-205.8331298828125" endY="195.25714111328125" layoutX="641.0" layoutY="163.0" startX="-128.0" startY="68.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="brazil-northAfrica" endX="11.999969482421875" endY="-15.5" layoutX="422.0" layoutY="373.0" startX="-129.00003051757812" startY="21.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northAfrica-congo" endX="-22.0" endY="117.5" layoutX="559.0" layoutY="335.0" startX="-125.00003051757812" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="venezuela-peru" endX="-127.0" endY="-91.5" layoutX="381.0" layoutY="387.0" startX="-129.00003051757812" startY="21.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="venezuela-brazil" endX="-86.0" endY="113.50003051757812" layoutX="381.0" layoutY="278.0" startX="-127.0" startY="17.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="centralAmerica-venezuela" endX="-30.0" endY="45.5" layoutX="284.0" layoutY="250.0" startX="-139.00001525878906" startY="9.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="peru-brazil" endX="-84.58575439453125" endY="3.914215087890625" layoutX="381.0" layoutY="389.0" startX="-129.00001525878906" startY="19.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="argentina-peru" endX="-111.41424560546875" endY="-63.085784912109375" layoutX="362.0" layoutY="473.0" startX="-132.99996948242188" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="argentina-brazil" endX="-63.58575439453125" endY="-83.08578491210938" layoutX="360.0" layoutY="476.0" startX="-132.99996948242188" startY="22.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="alaska-northwestTerritory" endX="20.999969482421875" endY="-15.499992370605469" layoutX="181.0" layoutY="41.0" startX="-160.0" startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="alaska-alberta" endX="-26.999984741210938" endY="50.5" layoutX="161.0" layoutY="50.0" startX="-139.37396240234375" startY="7.6745147705078125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="kamchatka-alaska" endX="-66.00001525878906" endY="12.499984741210938" layoutX="87.0" layoutY="44.0" startX="-114.0" startY="14.0" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="kamchatka-alaska" endX="28.0" endY="-25.0" layoutX="969.0" layoutY="49.0" startX="-136.0" startY="15.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northwestTerritory-greenland" endX="-15.689666748046875" endY="5.6802978515625" layoutX="344.0" layoutY="8.0" startX="-142.00001525878906" startY="17.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="alberta-northwestTerritory" endX="-46.34814453125" endY="-39.981971740722656" layoutX="247.0" layoutY="65.0" startX="-112.99998474121094" startY="35.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="greenland-iceland" endX="-74.99996948242188" endY="70.50001525878906" layoutX="461.0" layoutY="1.0" startX="-132.0" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="quebec-greenland" endX="-184.0" endY="102.5" layoutX="438.0" layoutY="17.0" startX="-109.0" startY="-2.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernUnitedStates-easternUnitedStates" endX="-47.0" endY="37.500030517578125" layoutX="264.0" layoutY="166.0" startX="-129.99998474121094" startY="11.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="easternUnitedStates-quebec" endX="-76.0" endY="-46.5" layoutX="330.0" layoutY="166.0" startX="-113.0" startY="37.500030517578125" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="centralAmerica-easternUnitedStates" endX="-62.0" endY="-39.499969482421875" layoutX="279.0" layoutY="243.0" startX="-134.00003051757812" startY="16.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernUnitedStates-centralAmerica" endX="-108.00003051757812" endY="77.5" layoutX="253.0" layoutY="182.0" startX="-118.99998474121094" startY="-4.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="alberta-westernUnitedStates" endX="-127.99998474121094" endY="70.5" layoutX="262.0" layoutY="107.0" startX="-127.99998474121094" startY="-6.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="northwestTerritory-ontario" endX="-130.0" endY="72.5" layoutX="342.0" layoutY="43.0" startX="-139.93394470214844" startY="-16.56775665283203" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ontario-greenland" endX="-9.27545166015625" endY="-74.73390197753906" layoutX="339.0" layoutY="87.0" startX="-127.0" startY="28.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="alberta-ontario" endX="-52.0" endY="28.5" layoutX="264.0" layoutY="87.0" startX="-129.99998474121094" startY="13.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="westernUnitedStates-ontario" endX="-177.9999542236328" endY="106.5" layoutX="313.0" layoutY="72.0" startX="-98.68499755859375" startY="41.0064697265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ontario-quebec" endX="-81.0" endY="14.5" layoutX="335.0" layoutY="105.0" startX="-123.0" startY="10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <Line id="ontario-easternUnitedStates" endX="-128.0" endY="71.50003051757812" layoutX="345.0" layoutY="132.0" startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
+      <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="mongolia" layoutX="807.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
    </Group>
-   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ead3ba" height="62.0" layoutX="316.0" layoutY="731.0" stroke="BLACK"
-              strokeType="OUTSIDE" width="435.0">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ead3ba" height="62.0" layoutX="316.0" layoutY="731.0" stroke="BLACK" strokeType="OUTSIDE" width="435.0">
       <effect>
-         <Blend mode="COLOR_BURN"/>
+         <Blend mode="COLOR_BURN" />
       </effect>
    </Rectangle>
-   <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#1f100100"
-           strokeType="INSIDE"/>
-   <Circle fx:id="cpuTurnIndicator" fill="#6a6f6b" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#ffffff00"
-           strokeType="INSIDE"/>
-   <Label fx:id="fortifyPhaseIndicator" layoutX="669.0" layoutY="709.0" text="Fortify" textAlignment="CENTER"
-          textFill="#ffbf00">
+   <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#1f100100" strokeType="INSIDE" />
+   <Circle fx:id="cpuTurnIndicator" fill="#6a6f6b" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#ffffff00" strokeType="INSIDE" />
+   <Label fx:id="fortifyPhaseIndicator" layoutX="669.0" layoutY="709.0" text="Fortify" textAlignment="CENTER" textFill="#ffbf00">
       <font>
-         <Font name="System Italic" size="14.0"/>
+         <Font name="System Italic" size="14.0" />
       </font>
    </Label>
    <Label fx:id="attackPhaseIndicator" layoutX="512.0" layoutY="709.0" text="Attack" textFill="#ffbf00">
       <font>
-         <Font name="System Italic" size="14.0"/>
+         <Font name="System Italic" size="14.0" />
       </font>
    </Label>
    <Label fx:id="draftPhaseIndicator" layoutX="357.0" layoutY="709.0" text="Draft" textFill="#ffbf00">
       <font>
-         <Font name="System Italic" size="14.0"/>
+         <Font name="System Italic" size="14.0" />
       </font>
    </Label>
-   <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="742.0" mnemonicParsing="false" prefHeight="29.0"
-           prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" text="Go"/>
+   <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="742.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" text="Go" />
    <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="557.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../../resources/images/computer-icon/computerIcon.png"/>
+      <Image url="@../../resources/images/computer-icon/computerIcon.png" />
    </ImageView>
-   <Button fx:id="increaseArmiesToDraftOrFortify" layoutX="393.0" layoutY="749.0" mnemonicParsing="false"
-           prefHeight="27.0" prefWidth="28.0" text="+"/>
-   <Button fx:id="decreaseArmiesToDraftOrFortify" layoutX="327.0" layoutY="749.0" mnemonicParsing="false"
-           prefHeight="27.0" prefWidth="28.0" text="-"/>
-   <Label fx:id="armiesToMoveIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0"
-          prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
+   <Button fx:id="increaseArmiesToDraftOrFortify" layoutX="393.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="+" />
+   <Button fx:id="decreaseArmiesToDraftOrFortify" layoutX="327.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="-" />
+   <Label fx:id="armiesToMoveIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
       <font>
-         <Font name="System Bold" size="14.0"/>
+         <Font name="System Bold" size="14.0" />
       </font>
    </Label>
-   <Button fx:id="makeAttack" layoutX="125.0" layoutY="747.0" mnemonicParsing="false" text="Attack"/>
+   <Button fx:id="makeAttack" layoutX="125.0" layoutY="747.0" mnemonicParsing="false" text="Attack" />
 </AnchorPane>

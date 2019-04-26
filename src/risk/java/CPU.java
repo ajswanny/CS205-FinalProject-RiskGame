@@ -50,7 +50,7 @@ public class CPU extends Player implements Serializable {
         return t;
     }
 
-    public boolean fortifyTerritories() {
+    public CPUFortification fortifyTerritories() {
         int max = 2;
         int min = Integer.MAX_VALUE;
         Territory maxT = null;
@@ -66,10 +66,9 @@ public class CPU extends Player implements Serializable {
             }
         }
         if (maxT != null) {
-            maxT.moveArmies(minT, maxT.getNumOfArmies()/2);
-            return true;
+            return new CPUFortification(maxT, minT, maxT.getNumOfArmies()/2);
         } else {
-            return false;
+            return null;
         }
     }
 

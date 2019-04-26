@@ -21,10 +21,7 @@ public class GameEndSceneController extends RiskSceneController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        backToMainMenu.setOnAction(event -> {
-            instance.closeGameVictoryDialogue();
-            instance.requestDisplayForScene(Game.MAIN_MENU);
-        });
+        backToMainMenu.setOnAction(event -> instance.flagEndOfGame());
     }
 
     /* Setters */

@@ -6,8 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
+import javafx.scene.effect.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -37,6 +36,7 @@ public class GameSceneController extends RiskSceneController {
     // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
+    private Lighting ROOT_SHADOW;
 
     private final DropShadow CURRENT_TURN_OWNER = new DropShadow();
 
@@ -89,6 +89,10 @@ public class GameSceneController extends RiskSceneController {
 
         super.initialize(location, resources);
         initializeKeyboardListeners();
+
+        // Shadow for root when other menus are displayed on screen.
+        ROOT_SHADOW = new Lighting(new Light.Distant());
+        ROOT_SHADOW.setBumpInput(new Shadow());
 
         armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
@@ -224,16 +228,6 @@ public class GameSceneController extends RiskSceneController {
                 break;
         }
         resetBoard();
-    }
-
-    private void disableButton(Button button) {
-        button.setVisible(false);
-        button.setDisable(true);
-    }
-
-    private void enableButton(Button button) {
-        button.setVisible(true);
-        button.setDisable(false);
     }
 
     /** Specifies the action of a TerritoryToggleButton with respect to the current Player-turn-phase. */
@@ -538,8 +532,20 @@ public class GameSceneController extends RiskSceneController {
     }
 
     public void setupBoardForNewCpuTurn() {
+        disableButton(decreaseArmiesToDraftOrFortify);
+        disableButton(increaseArmiesToDraftOrFortify);
+        disableButton(nextPhaseOrTurn);
+        armiesToMoveIndicator.setVisible(false);
         playerTurnIndicator.setEffect(null);
         cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
+    }
+
+    public void enableRootShadow() {
+        root.setEffect(ROOT_SHADOW);
+    }
+
+    public void disableRootShadow() {
+        root.setEffect(null);
     }
 
 }

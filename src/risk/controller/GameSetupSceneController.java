@@ -85,4 +85,12 @@ public class GameSetupSceneController extends RiskSceneController {
 
     }
 
+    public void enableContinueGameButton() {
+        enableButton(continueGame);
+    }
+
+    public void disableContinueGameButton() {
+        disableButton(continueGame);
+    }
+
 }

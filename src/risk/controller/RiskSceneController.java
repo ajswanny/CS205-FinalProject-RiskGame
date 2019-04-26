@@ -3,6 +3,7 @@ package risk.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import risk.Game;
 
@@ -29,6 +30,16 @@ abstract public class RiskSceneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeCoreResources();
+    }
+
+    protected void disableButton(Button button) {
+        button.setVisible(false);
+        button.setDisable(true);
+    }
+
+    protected void enableButton(Button button) {
+        button.setVisible(true);
+        button.setDisable(false);
     }
 
     public Scene getPrimaryScene() {

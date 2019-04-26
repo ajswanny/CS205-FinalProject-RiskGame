@@ -10,7 +10,13 @@ import java.util.ResourceBundle;
 public class GamePauseMenuSceneController extends RiskSceneController {
 
     @FXML
-    public Button exitToMainMenu;
+    private Button quit;
+
+    @FXML
+    private Button saveAndQuit;
+
+    @FXML
+    private Button continueGame;
 
     public GamePauseMenuSceneController() {
         System.out.println("Initialized Controller for Scene: GamePauseMenu.");
@@ -24,10 +30,21 @@ public class GamePauseMenuSceneController extends RiskSceneController {
 
     private void initializeButtonActions() {
 
-        exitToMainMenu.setOnAction(event -> {
+        quit.setOnAction(event -> {
             System.out.println("Exiting GameScene from 'exitToMainMenu' Button used within 'GamePauseMenuScene.");
             instance.closeGamePauseMenuStage();
             instance.requestDisplayForScene(Game.MAIN_MENU);
+        });
+
+        saveAndQuit.setOnAction(event -> {
+            instance.serializeDefaultLoadableGameState();
+            instance.closeGamePauseMenuStage();
+            instance.requestDisplayForScene(Game.MAIN_MENU);
+        });
+
+        continueGame.setOnAction(event -> {
+            instance.closeGamePauseMenuStage();
+            instance.requestDisplayForScene(Game.GAME);
         });
 
     }

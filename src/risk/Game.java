@@ -1,6 +1,9 @@
 package risk;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -10,9 +13,7 @@ import risk.controller.*;
 import risk.java.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ public class Game extends Application {
 
     /* Class Fields */
     public static final int MAIN_MENU = 0;
-    private static final int GAME = 1;
+    public static final int GAME = 1;
     public static final int ABOUT_GAME = 2;
     public static final int PAUSE_GAME_MENU = 3;
     public static final int GAME_SETUP = 4;
@@ -34,6 +35,8 @@ public class Game extends Application {
     public final String AFRICA_HEX = "876133";
     public final String ASIA_HEX = "5E693D";
     public final String AUSTRALIA_HEX = "8B626A";
+
+    private final String GAME_STATE_FP = "src/resources/serializations/defaultLoadableGameState.ser";
 
     public enum PlayerColor {
         NA_YELLOW,
@@ -63,6 +66,8 @@ public class Game extends Application {
     /** Controller for the Game Scene */
     private GameSceneController gameSceneController;
 
+    private GameSetupSceneController gameSetupSceneController;
+
     private GameEndSceneController gameEndSceneController;
 
     /** Collection of Territories referenced by their name. */
@@ -75,6 +80,8 @@ public class Game extends Application {
     private Territory cpuConqueredTerritory;
 
     private Dice playerDice, cpuDice;
+
+    public Thread cpuThread, playerThread;
 
     public GameState defaultLoadableGameState;
 
@@ -106,7 +113,7 @@ public class Game extends Application {
             loadFxmlSources();
 
             // Initialize the alternate Stages.
-            gamePauseMenuStage = new Stage(StageStyle.UNIFIED);
+            gamePauseMenuStage = new Stage(StageStyle.TRANSPARENT);
             gamePauseMenuStage.initModality(Modality.APPLICATION_MODAL);
             gamePauseMenuStage.setScene(gamePauseMenuScene);
 
@@ -184,9 +191,11 @@ public class Game extends Application {
 
     /** Controls the game. */
     private void game() {
+
         requestDisplayForScene(GAME);
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
         playerTurn(TurnPhase.DRAFT);
+
     }
 
     /**
@@ -215,49 +224,82 @@ public class Game extends Application {
 
     private void cpuTurn() {
 
-        gameSceneController.setupBoardForNewCpuTurn();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                //
+                Platform.runLater(() -> gameSceneController.setupBoardForNewCpuTurn());
 
-        try {
+                // Draft
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
+                Thread.sleep(5000);
+                Territory territoryToDraftArmiesTo = cpu.draftArmies();
+                territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
+                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
 
-            // Draft
-            TimeUnit.SECONDS.sleep(1);
-            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
-            Territory territoryToDraftArmiesTo = cpu.draftArmies();
-            territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
-            gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo);
-
-            // Attack
-            TimeUnit.SECONDS.sleep(1);
-            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
-            // While CPU can continue to do battles
-            int numOfAttacks = 0;
-            playerDice.roll();
-            cpuDice.roll();
-            int NUM_OF_CPU_ATTACKS_ROOF = 20;
-            while (cpuConqueredTerritory == null && numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
-                cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
-                if (cpuConqueredTerritory != null) {
-                    cpuConqueredTerritory.setOwner(cpu);
-                    gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu);
+                // Attack
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
+                Thread.sleep(5000);
+                final int[] numOfAttacks = {0};
+                playerDice.roll();
+                cpuDice.roll();
+                int NUM_OF_CPU_ATTACKS_ROOF = 20;
+                while (cpuConqueredTerritory == null && numOfAttacks[0] < NUM_OF_CPU_ATTACKS_ROOF) {
+                    cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+                    if (cpuConqueredTerritory != null) {
+                        cpuConqueredTerritory.setOwner(cpu);
+                        Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu));
+                    }
+                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                    Thread.sleep(1000);
+                    numOfAttacks[0]++;
                 }
-                gameSceneController.resetAmountOfArmiesForTerritories();
-                numOfAttacks++;
+                checkForVictory();
+                cpuConqueredTerritory = null;
+
+                // Fortify
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
+                Thread.sleep(5000);
+                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                CPUFortification cpuFortifyResults = cpu.fortifyTerritories();
+                if (cpuFortifyResults != null) {
+
+                    Task<Void> fortifyTask = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+
+                            for (int i = 0; i < cpuFortifyResults.delta; i++) {
+                                cpuFortifyResults.unfortified.setNumOfArmies(cpuFortifyResults.unfortified.getNumOfArmies() - i);
+                                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.unfortified));
+                                Thread.sleep(1000);
+                            }
+
+                            for (int i = 0; i < cpuFortifyResults.delta; i++) {
+                                cpuFortifyResults.fortified.setNumOfArmies(cpuFortifyResults.fortified.getNumOfArmies() + i);
+                                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.fortified));
+                                Thread.sleep(1000);
+                            }
+
+                            return null;
+                        }
+                    };
+                    Thread fortifyThread = new Thread(fortifyTask);
+                    fortifyThread.setDaemon(true);
+                    fortifyThread.start();
+
+                }
+
+                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                return null;
             }
-            checkForVictory();
-            cpuConqueredTerritory = null;
+        };
 
-            // Fortify
-            TimeUnit.SECONDS.sleep(1);
-            gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY);
-            boolean cpuDidFortifyATerritory = cpu.fortifyTerritories();
-            if (cpuDidFortifyATerritory) gameSceneController.resetAmountOfArmiesForTerritories();
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
 
-            // End turn
-            playerTurn(TurnPhase.DRAFT);
-
-        } catch (InterruptedException e) {
-            stop();
-        }
+        // End turn
+        playerTurn(TurnPhase.DRAFT);
 
     }
 
@@ -281,15 +323,21 @@ public class Game extends Application {
     }
 
     private void checkForVictory() {
-        gameEndSceneController.setVictor(player);
-        requestDisplayForScene(GAME_END);
-//        if (player.getControlledTerritories().size() == 0) {
-//            gameEndSceneController.setVictor(player);
-//            requestDisplayForScene(GAME_END);
-//        } else if (cpu.getControlledTerritories().size() == 0) {
-//            gameEndSceneController.setVictor(cpu);
-//            requestDisplayForScene(GAME_END);
-//        }
+        if (player.getControlledTerritories().size() == 0) {
+            gameEndSceneController.setVictor(player);
+            requestDisplayForScene(GAME_END);
+        } else if (cpu.getControlledTerritories().size() == 0) {
+            gameEndSceneController.setVictor(cpu);
+            requestDisplayForScene(GAME_END);
+        }
+    }
+
+    public void flagEndOfGame() {
+        gameEndStage.close();
+        requestDisplayForScene(MAIN_MENU);
+
+        // Reset game
+        gameState = null;
     }
 
     /** Loads FXML data for access to FXMLControllers. */
@@ -312,7 +360,7 @@ public class Game extends Application {
         gamePauseMenuScene = gamePauseMenuSceneController.getPrimaryScene();
 
         // GameSetupSceneController
-        GameSetupSceneController gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
+        gameSetupSceneController = (GameSetupSceneController) loadFxmlController("fxml/GameSetupSceneController.fxml");
         gameSetupScene = gameSetupSceneController.getPrimaryScene();
 
         // GameEnd
@@ -397,6 +445,7 @@ public class Game extends Application {
         setTerritoryNeighbors("kamchatka", "yakutsk", "irkutsk", "mongolia", "japan", "alaska");
         setTerritoryNeighbors("irkutsk", "yakutsk", "siberia", "mongolia", "kamchatka");
         setTerritoryNeighbors("mongolia", "irkutsk", "siberia", "china", "japan", "kamchatka");
+        setTerritoryNeighbors("japan", "kamchatka", "mongolia");
         setTerritoryNeighbors("afghanistan", "ural", "ukraine", "middleEast", "india", "china");
         setTerritoryNeighbors("china", "mongolia", "siberia", "ural", "afghanistan", "india", "siam");
         setTerritoryNeighbors("middleEast", "ukraine", "southernEurope", "egypt", "india", "afghanistan");
@@ -425,6 +474,7 @@ public class Game extends Application {
     public void requestDisplayForScene(int scene) {
         switch (scene) {
             case GAME:
+                gameSceneController.disableRootShadow();
                 primaryStage.setScene(gameScene);
                 primaryStage.centerOnScreen();
                 break;
@@ -432,12 +482,19 @@ public class Game extends Application {
                 primaryStage.setScene(aboutGameScene);
                 break;
             case PAUSE_GAME_MENU:
+                gameSceneController.enableRootShadow();
                 gamePauseMenuStage.show();
                 break;
             case GAME_SETUP:
+                if (gameState == null) {
+                    gameSetupSceneController.disableContinueGameButton();
+                } else {
+                    gameSetupSceneController.enableContinueGameButton();
+                }
                 primaryStage.setScene(gameSetupScene);
                 break;
             case GAME_END:
+                gameSceneController.enableRootShadow();
                 gameEndStage.show();
                 break;
             default:
@@ -454,7 +511,7 @@ public class Game extends Application {
     private GameState deserializeDefaultLoadableGameState() {
         try {
             // Create a file input object to open the file specified by 'file_path'.
-            FileInputStream file_in_stream = new FileInputStream("resources/serializations/defaultLoadableGameState.ser");
+            FileInputStream file_in_stream = new FileInputStream(GAME_STATE_FP);
 
             // Define the object deserializer.
             ObjectInputStream object_in_stream = new ObjectInputStream(file_in_stream);
@@ -468,6 +525,23 @@ public class Game extends Application {
         } catch (ClassNotFoundException e) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
             return null;
+        }
+    }
+
+    public void serializeDefaultLoadableGameState() {
+        try {
+
+            // Serialize the object.
+            FileOutputStream file_out_stream = new FileOutputStream(GAME_STATE_FP);
+            ObjectOutputStream object_out_stream = new ObjectOutputStream(file_out_stream);
+            object_out_stream.writeObject(gameState);
+
+            // Close the streams.
+            file_out_stream.close();
+            object_out_stream.close();
+
+        } catch (IOException e) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -502,10 +576,6 @@ public class Game extends Application {
     /** Used to request closing of a Stage and focus the primary Stage */
     public void closeGamePauseMenuStage() {
         gamePauseMenuStage.close();
-    }
-
-    public void closeGameVictoryDialogue() {
-        gameEndStage.close();
     }
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
