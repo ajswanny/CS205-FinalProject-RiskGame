@@ -41,9 +41,6 @@ public class GameSetupSceneController extends RiskSceneController {
 
         super.initialize(location, resources);
 
-        continueGame.setDisable(true);
-        newGame.setDisable(true);
-
         backToMainMenu.setOnAction(event -> {
             continueGame.setDisable(true);
             newGame.setDisable(true);
@@ -68,29 +65,41 @@ public class GameSetupSceneController extends RiskSceneController {
                 }
                 toggleButton.setEffect(SELECTED_COLOR_EFFECT);
                 playerSelectedColor = toggleButton.getId();
-                continueGame.setDisable(false);
                 newGame.setDisable(false);
             });
         }
         assert playerSelectedColor != null;
 
         // Continue Game Button
-        if (instance.defaultLoadableGameState == null) {
-            continueGame.setVisible(false);
-        }
-        continueGame.setOnAction(event -> instance.requestStartOfGame(false, playerSelectedColor));
+        continueGame.setOnAction(event -> {
+            close();
+            instance.requestStartOfGame(false, playerSelectedColor);
+        });
 
         // New game
-        newGame.setOnAction(event -> instance.requestStartOfGame(true, playerSelectedColor));
+        newGame.setOnAction(event -> {
+            close();
+            instance.requestStartOfGame(true, playerSelectedColor);
+        });
+
+        // Disable Button until player makes a color selection.
+        newGame.setDisable(true);
 
     }
 
-    public void enableContinueGameButton() {
-        enableButton(continueGame);
+    private void close() {
+        for (Node node : playerColorToggleButtons.getChildren()) {
+            node.setEffect(null);
+        }
+        newGame.setDisable(true);
     }
 
-    public void disableContinueGameButton() {
-        disableButton(continueGame);
+    public void showContinueGameButton() {
+        showButton(continueGame);
+    }
+
+    public void hideContinueGameButton() {
+        hideButton(continueGame);
     }
 
 }

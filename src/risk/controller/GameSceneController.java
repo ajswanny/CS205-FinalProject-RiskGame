@@ -1,6 +1,5 @@
 package risk.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -97,9 +96,9 @@ public class GameSceneController extends RiskSceneController {
 
         armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
-        // Disable buttons that require action
-        decreaseArmiesToDraftOrFortify.setDisable(true);
-        increaseArmiesToDraftOrFortify.setDisable(true);
+//        // Disable buttons that require action
+//        decreaseArmiesToDraftOrFortify.setDisable(true);
+//        increaseArmiesToDraftOrFortify.setDisable(true);
 
         // Buttons for increasing and increasing armies in a draft
         decreaseArmiesToDraftOrFortify.setOnAction(event -> setAmountOfArmiesForTerritory(-1));
@@ -147,7 +146,7 @@ public class GameSceneController extends RiskSceneController {
         nextPhaseOrTurn.setDisable(true);
 
         // Attack command btn
-        disableButton(makeAttack);
+        hideButton(makeAttack);
         makeAttack.setOnAction(event -> handleAttackRequest());
 
     }
@@ -199,8 +198,8 @@ public class GameSceneController extends RiskSceneController {
         switch (instance.playerTurnPhase) {
             case DRAFT:
                 // Prepare GUI controls for DRAFT phase
-                disableButton(decreaseArmiesToDraftOrFortify);
-                disableButton(increaseArmiesToDraftOrFortify);
+                hideButton(decreaseArmiesToDraftOrFortify);
+                hideButton(increaseArmiesToDraftOrFortify);
                 armiesToMoveIndicator.setVisible(false);
                 makeAttack.setVisible(true);
                 makeAttack.setDisable(false);
@@ -209,20 +208,20 @@ public class GameSceneController extends RiskSceneController {
                 break;
 
             case ATTACK:
-                disableButton(makeAttack);
+                hideButton(makeAttack);
 
                 // Prepare GUI controls for FORTIFY phase
-                enableButton(decreaseArmiesToDraftOrFortify);
-                enableButton(increaseArmiesToDraftOrFortify);
+                showButton(decreaseArmiesToDraftOrFortify);
+                showButton(increaseArmiesToDraftOrFortify);
                 armiesToMoveIndicator.setVisible(true);
 
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
                 break;
 
             case FORTIFY:
-                disableButton(decreaseArmiesToDraftOrFortify);
-                disableButton(increaseArmiesToDraftOrFortify);
-                disableButton(nextPhaseOrTurn);
+                hideButton(decreaseArmiesToDraftOrFortify);
+                hideButton(increaseArmiesToDraftOrFortify);
+                hideButton(nextPhaseOrTurn);
                 armiesToMoveIndicator.setVisible(false);
 
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
@@ -440,8 +439,8 @@ public class GameSceneController extends RiskSceneController {
         }
 
         // Enable DRAFT controls
-        enableButton(decreaseArmiesToDraftOrFortify);
-        enableButton(increaseArmiesToDraftOrFortify);
+        showButton(decreaseArmiesToDraftOrFortify);
+        showButton(increaseArmiesToDraftOrFortify);
     }
 
     /**
@@ -532,9 +531,9 @@ public class GameSceneController extends RiskSceneController {
         armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
         // Enable controls.
-        enableButton(decreaseArmiesToDraftOrFortify);
-        enableButton(increaseArmiesToDraftOrFortify);
-        enableButton(nextPhaseOrTurn);
+        showButton(decreaseArmiesToDraftOrFortify);
+        showButton(increaseArmiesToDraftOrFortify);
+        showButton(nextPhaseOrTurn);
         armiesToMoveIndicator.setVisible(true);
 
         // Highlight the 'player-turn-indicator'.
@@ -545,9 +544,9 @@ public class GameSceneController extends RiskSceneController {
     public void setupBoardForNewCpuTurn() {
 
         // Prepare board.
-        disableButton(decreaseArmiesToDraftOrFortify);
-        disableButton(increaseArmiesToDraftOrFortify);
-        disableButton(nextPhaseOrTurn);
+        hideButton(decreaseArmiesToDraftOrFortify);
+        hideButton(increaseArmiesToDraftOrFortify);
+        hideButton(nextPhaseOrTurn);
         armiesToMoveIndicator.setVisible(false);
         playerTurnIndicator.setEffect(null);
 

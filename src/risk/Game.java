@@ -38,7 +38,7 @@ public class Game extends Application {
     public final String ASIA_HEX = "5E693D";
     public final String AUSTRALIA_HEX = "8B626A";
 
-    private final String GAME_STATE_FP = "src/resources/serializations/defaultLoadableGameState.ser";
+    private final String GAME_STATE_FP = "src/resources/serializations/savedGameState.ser";
 
     public enum PlayerColor {
         NA_YELLOW,
@@ -85,7 +85,7 @@ public class Game extends Application {
 
     private Thread gameloop;
 
-    public GameState defaultLoadableGameState;
+    public GameState savedGameState;
 
     private GameState gameState;
 
@@ -109,7 +109,7 @@ public class Game extends Application {
         try {
 
             // Load data.
-            defineTerritories();
+            savedGameState = deserializeDefaultLoadableGameState();
 
             // Init dice
             playerDice = new Dice();
@@ -145,6 +145,7 @@ public class Game extends Application {
     @Override
     public void stop() {
         System.out.println("Shutting down Game instance: " + this + ".");
+        serializeDefaultLoadableGameState();
         System.exit(0);
     }
 
@@ -160,11 +161,13 @@ public class Game extends Application {
      *  1 = the player is creating a new game.
      */
     public void requestStartOfGame(boolean isNewGame, String playerSelectedColor) {
+
         if (isNewGame) {
 
             // Define new Game-state.
             player = new Player(PlayerColor.valueOf(playerSelectedColor));
             cpu = new CPU();
+            initializeTerritories();
 
             // Randomly distribute controlled territories between 'player' and 'cpu'.
             Random random = new Random();
@@ -182,17 +185,16 @@ public class Game extends Application {
             }
             this.gameState = new GameState(player, cpu);
 
-            // Update the GUI with the newly defined GameState.
-            gameSceneController.setGameState(gameState);
-            game();
-
         } else {
 
-            // Load saved game for continuation.
-            defaultLoadableGameState = deserializeDefaultLoadableGameState();
-            game();
+            loadSavedGame();
 
         }
+
+        // Update the GUI with the newly defined GameState and start the game-loop.
+        gameSceneController.setGameState(gameState);
+        game();
+
     }
 
     /** Controls the game. */
@@ -219,7 +221,6 @@ public class Game extends Application {
 
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                     System.out.println("Game-loop interrupted.");
                 } finally {
                     System.out.println("Game-loop complete.");
@@ -321,6 +322,7 @@ public class Game extends Application {
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    System.out.println("CPU-Turn Thread interrupted.");
                 }
 
                 synchronized (turnLock) {
@@ -369,7 +371,7 @@ public class Game extends Application {
         }
     }
 
-    public void flagEndOfGame() {
+    public void flagEndOfGame(boolean save) {
 
         // End Threads
         gameIsRunning = false;
@@ -381,6 +383,16 @@ public class Game extends Application {
 
         if (gameEndStage.isShowing()) {
             gameEndStage.close();
+        }
+
+        if (save) {
+
+            // Save the game state.
+            savedGameState = gameState;
+
+            // Reset the game state.
+            gameState = null;
+
         }
 
         requestDisplayForScene(MAIN_MENU);
@@ -423,8 +435,32 @@ public class Game extends Application {
         return fxmlLoader.getController();
     }
 
+    private void loadSavedGame() {
+
+        // Load saved game for continuation.
+        if (savedGameState == null) {
+            throw new NullPointerException("Loaded game-state serialization but stored object was null.");
+        } else {
+            gameState = savedGameState;
+        }
+
+        // Define saved Player and CPU data
+        player = savedGameState.getPlayer();
+        cpu = savedGameState.getCpu();
+
+        // Define saved Territory data
+        territories = new HashMap<>();
+        for (Territory territory : player.getControlledTerritories()) {
+            territories.put(territory.getName(), territory);
+        }
+        for (Territory territory : cpu.getControlledTerritories()) {
+            territories.put(territory.getName(), territory);
+        }
+
+    }
+
     /** High-level method to organize creation of Territories and definition of their neighbors. */
-    private void defineTerritories() {
+    private void initializeTerritories() {
 
         // Input Territory info and map these to objects.
         territories = new HashMap<>(42);
@@ -533,13 +569,17 @@ public class Game extends Application {
                 gamePauseMenuStage.show();
                 break;
             case GAME_SETUP:
-                if (gameState == null) {
-                    gameSetupSceneController.disableContinueGameButton();
+
+                // Initialize option to load a saved game if one is available.
+                if (savedGameState == null) {
+                    gameSetupSceneController.hideContinueGameButton();
                 } else {
-                    gameSetupSceneController.enableContinueGameButton();
+                    gameSetupSceneController.showContinueGameButton();
                 }
+
                 primaryStage.setScene(gameSetupScene);
                 break;
+
             case GAME_END:
                 gameSceneController.enableRootShadow();
                 gameEndStage.show();
@@ -567,7 +607,7 @@ public class Game extends Application {
             return (GameState) (object_in_stream.readObject());
 
         } catch (IOException e) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "defaultLoadableGameState resource file not found.", e);
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, "savedGameState resource file not found.", e);
             return null;
         } catch (ClassNotFoundException e) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
@@ -575,13 +615,13 @@ public class Game extends Application {
         }
     }
 
-    public void serializeDefaultLoadableGameState() {
+    private void serializeDefaultLoadableGameState() {
         try {
 
             // Serialize the object.
             FileOutputStream file_out_stream = new FileOutputStream(GAME_STATE_FP);
             ObjectOutputStream object_out_stream = new ObjectOutputStream(file_out_stream);
-            object_out_stream.writeObject(gameState);
+            object_out_stream.writeObject(savedGameState);
 
             // Close the streams.
             file_out_stream.close();

@@ -19,4 +19,7 @@ public class GameState implements Serializable {
         return player;
     }
 
+    public CPU getCpu() {
+        return cpu;
+    }
 }

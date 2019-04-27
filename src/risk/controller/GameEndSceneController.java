@@ -21,7 +21,7 @@ public class GameEndSceneController extends RiskSceneController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        backToMainMenu.setOnAction(event -> instance.flagEndOfGame());
+        backToMainMenu.setOnAction(event -> instance.flagEndOfGame(false));
     }
 
     /* Setters */

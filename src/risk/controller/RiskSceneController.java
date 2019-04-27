@@ -32,14 +32,12 @@ abstract public class RiskSceneController implements Initializable {
         initializeCoreResources();
     }
 
-    protected void disableButton(Button button) {
+    void hideButton(Button button) {
         button.setVisible(false);
-        button.setDisable(true);
     }
 
-    protected void enableButton(Button button) {
+    void showButton(Button button) {
         button.setVisible(true);
-        button.setDisable(false);
     }
 
     public Scene getPrimaryScene() {

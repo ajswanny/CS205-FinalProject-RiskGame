@@ -32,13 +32,12 @@ public class GamePauseMenuSceneController extends RiskSceneController {
 
         quit.setOnAction(event -> {
             System.out.println("Exiting GameScene from 'quit' Button used within 'GamePauseMenuScene.");
-            instance.flagEndOfGame();
+            instance.flagEndOfGame(false);
         });
 
         saveAndQuit.setOnAction(event -> {
             System.out.println("Exiting GameScene from 'saveAndQuit' Button used within 'GamePauseMenuScene.");
-            instance.flagEndOfGame();
-            instance.serializeDefaultLoadableGameState();
+            instance.flagEndOfGame(true);
         });
 
         continueGame.setOnAction(event -> {
