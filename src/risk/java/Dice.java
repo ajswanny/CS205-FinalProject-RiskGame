@@ -26,23 +26,35 @@ public class Dice {
     }
 
     public int getDie1() {
-        // Return the number showing on the first die.
         return die1;
     }
 
     public int getDie2() {
-        // Return the number showing on the second die.
         return die2;
     }
 
     public int getDie3() {
-        // Return the number showing on the second die.
         return die3;
     }
 
-    public int getTotal() {
-        // Return the total showing on the two dice.
-        return die1 + die2 + die3;
+    public int getLargestOfTwo() {
+        if(die1 >= die2){
+            return die1;
+        }else{
+            return die2;
+        }
+    }
+
+    public int getLargestOfThree(){
+        int largest = 0;
+        if(die1 > die2 && die1 > die3){
+            largest = die1;
+        }else if(die1 > die2 && die1 < die3){
+            largest = die3;
+        }else if(die1 < die2 && die1 > die3){
+            largest = die2;
+        }
+        return largest;
     }
 
 }
