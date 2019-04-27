@@ -83,7 +83,7 @@ public class Game extends Application {
 
     private Dice playerDice, cpuDice;
 
-    public Thread cpuThread, gameloop;
+    private Thread gameloop;
 
     public GameState defaultLoadableGameState;
 
@@ -91,7 +91,7 @@ public class Game extends Application {
 
     private final Object turnLock = new Object();
 
-    private boolean gameIsRunning = true;
+    private boolean gameIsRunning;
 
     private static Game instance;
 
@@ -203,6 +203,7 @@ public class Game extends Application {
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
 
         // Define and run the game-loop Thread.
+        gameIsRunning = true;
         gameloop = new Thread(() -> {
             synchronized (turnLock) {
                 try {
@@ -219,6 +220,9 @@ public class Game extends Application {
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    System.out.println("Game-loop interrupted.");
+                } finally {
+                    System.out.println("Game-loop complete.");
                 }
             }
         });
@@ -366,11 +370,21 @@ public class Game extends Application {
     }
 
     public void flagEndOfGame() {
-        gameEndStage.close();
+
+        // End Threads
+        gameIsRunning = false;
+        gameloop.interrupt();
+
+        if (gamePauseMenuStage.isShowing()) {
+            gamePauseMenuStage.close();
+        }
+
+        if (gameEndStage.isShowing()) {
+            gameEndStage.close();
+        }
+
         requestDisplayForScene(MAIN_MENU);
 
-        // Reset game
-        gameState = null;
     }
 
     /** Loads FXML data for access to FXMLControllers. */
@@ -593,6 +607,10 @@ public class Game extends Application {
         checkForVictory();
     }
 
+    public void closeGamePauseMenuStage() {
+        gamePauseMenuStage.close();
+    }
+
     /* Getters */
     public static Game getInstance() {
         return instance;
@@ -604,11 +622,6 @@ public class Game extends Application {
 
     public boolean cpuControlsTerritory(Territory territory) {
         return cpu.getControlledTerritories().contains(territory);
-    }
-
-    /** Used to request closing of a Stage and focus the primary Stage */
-    public void closeGamePauseMenuStage() {
-        gamePauseMenuStage.close();
     }
 
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
