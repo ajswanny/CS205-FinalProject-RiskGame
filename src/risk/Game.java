@@ -251,6 +251,10 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * Creates a new Thread for all CPU-turn actions. Once the Thread finishes execution, notifies 'turnLock' to move
+     * onto the next Player turn.
+     */
     private void cpuTurn() {
 
         Task<Void> cpuTurn = new Task<Void>() {

@@ -445,7 +445,6 @@ public class GameSceneController extends RiskSceneController {
     /**
      * Updates the GUI and data for a new amount of armies for a Territory, whether this is done in draft or fortify phase
      */
-    @SuppressWarnings({"Duplicates"})
     private void setAmountOfArmiesForTerritory(int difference) {
         Territory territory;
         int newArmyVal;
@@ -504,6 +503,9 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
+    /**
+     * Updates the given Territory's ToggleButton to show its correct number of armies.
+     */
     public void resetAmountOfArmiesForTerritory(Territory territory) {
         for (ToggleButton button : territoryToggleButtons) {
             if (button.getId().equals(territory.getName())) {
@@ -512,6 +514,9 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
+    /**
+     * Updates all Territory-ToggleButtons to show the correct number of armies contained in each Territory.
+     */
     public void resetAmountOfArmiesForTerritories() {
         for (ToggleButton territoryToggleButton : territoryToggleButtons) {
             ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
@@ -520,25 +525,33 @@ public class GameSceneController extends RiskSceneController {
 
     /** Sets board for new Player turn (all GUI stuff begins here) */
     public void setupBoardForNewPlayerTurn() {
+
+        // Show the amount of armies available for drafting.
         armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
-        // Controls
+        // Enable controls.
         enableButton(decreaseArmiesToDraftOrFortify);
         enableButton(increaseArmiesToDraftOrFortify);
         enableButton(nextPhaseOrTurn);
         armiesToMoveIndicator.setVisible(true);
 
-        // Effects
+        // Highlight the 'player-turn-indicator'.
         playerTurnIndicator.setEffect(CURRENT_TURN_OWNER);
+
     }
 
     public void setupBoardForNewCpuTurn() {
+
+        // Prepare board.
         disableButton(decreaseArmiesToDraftOrFortify);
         disableButton(increaseArmiesToDraftOrFortify);
         disableButton(nextPhaseOrTurn);
         armiesToMoveIndicator.setVisible(false);
         playerTurnIndicator.setEffect(null);
+
+        // Highlight the 'cpu-turn-indicator'.
         cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
+
     }
 
     public void enableRootShadow() {
