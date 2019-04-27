@@ -262,14 +262,16 @@ public class GameSceneController extends RiskSceneController {
 
         Territory selectedTerritory = instance.territories.get(button.getId());
 
+        // If territory belongs to Player update GUI and flag the territory
         if (instance.playerControlsTerritory(selectedTerritory)) {
-            // If territory belongs to Player update GUI and flag the territory
             resetBoard();
             showLegalAttackLinesForTerritory(button.getId());
             attackOriginControl = button;
 
-        } else if (instance.cpuControlsTerritory(selectedTerritory) && attackOriginControl != null) {
-            // If territory belongs to CPU and an attack-origin territory has been selected
+        // If territory belongs to CPU and an origin of attack has been selected and the territory is a neighbor of the origin of attack...
+        } else if (instance.cpuControlsTerritory(selectedTerritory) && attackOriginControl != null && selectedTerritory.isNeighborOf(instance.territories.get(attackOriginControl.getId()))) {
+
+            // Highlight the attack path
             for (Line line : legalPathIndicators) {
                 line.setEffect(null);
                 String lineID = line.getId();
@@ -461,7 +463,7 @@ public class GameSceneController extends RiskSceneController {
                     nextPhaseOrTurn.setDisable(true);
 
                 //Player tries to draft armies
-                } else if (difference > 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 5){
+                } else if (difference > 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 5) {
                     newArmyVal += Game.ARMIES_TO_DRAFT;
                     armiesToMoveIndicator.setText("0");
                     nextPhaseOrTurn.setDisable(false);

@@ -500,7 +500,7 @@ public class Game extends Application {
         setTerritoryNeighbors("siam", "china", "india", "indonesia");
 
         // Australia
-        setTerritoryNeighbors("indonesia", "siam", "westernAustralia");
+        setTerritoryNeighbors("indonesia", "siam", "newGuinea", "westernAustralia");
         setTerritoryNeighbors("newGuinea", "indonesia", "westernAustralia", "easternAustralia");
         setTerritoryNeighbors("westernAustralia", "indonesia", "easternAustralia", "newGuinea");
         setTerritoryNeighbors("easternAustralia", "newGuinea", "westernAustralia");

@@ -49,6 +49,13 @@ public class Territory implements Serializable {
         return false;
     }
 
+    public boolean isNeighborOf(Territory query) {
+        for (Territory neighbor : neighbors) {
+            if (neighbor == query) return true;
+        }
+        return false;
+    }
+
     /* Getters */
     public String getName() {
         return name;
