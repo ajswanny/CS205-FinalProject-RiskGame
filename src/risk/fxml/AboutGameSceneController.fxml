@@ -9,37 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" stylesheets="@../css/GameSetupScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
-   <Group layoutX="270.0" layoutY="193.0">
-      <Text layoutX="125.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for playing Risk!">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font></Text>
-      <Text layoutX="149.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Implementation by:">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font></Text>
-      <Text layoutX="151.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Swanson">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="152.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mary Woolley">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="152.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dale Larie">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="152.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dongzhe Jiang">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="13.0" />
-         </font>
-      </Text>
-   </Group>
+<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" stylesheets="@../css/AboutGameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
    <Button fx:id="goBackToMainMenu" layoutX="-8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" stylesheets="@../css/SceneButtons.css" text="  Back" textFill="WHITE" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#524028b5" height="224.0" layoutX="371.0" layoutY="154.0" strokeType="INSIDE" width="214.0">
       <stroke>
@@ -53,4 +23,34 @@
          </LinearGradient>
       </stroke>
    </Rectangle>
+   <Group layoutX="270.0" layoutY="193.0">
+      <Text fill="#13120f" layoutX="125.0" layoutY="7.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for playing Risk!">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font></Text>
+      <Text fill="#13120f" layoutX="149.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Implementation by:">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font></Text>
+      <Text fill="#13120f" layoutX="151.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Swanson">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Text>
+      <Text fill="#13120f" layoutX="152.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mary Woolley">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Text>
+      <Text fill="#13120f" layoutX="152.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dale Larie">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Text>
+      <Text fill="#13120f" layoutX="152.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dongzhe Jiang">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="13.0" />
+         </font>
+      </Text>
+   </Group>
 </AnchorPane>

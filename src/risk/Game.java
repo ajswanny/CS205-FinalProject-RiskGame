@@ -1,6 +1,5 @@
 package risk;
 
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -14,12 +13,15 @@ import risk.java.*;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class Game extends Application {
+
+    /**
+     * TODO: Player attack bug
+     */
 
     /* Class Fields */
     public static final int MAIN_MENU = 0;
@@ -81,11 +83,15 @@ public class Game extends Application {
 
     private Dice playerDice, cpuDice;
 
-    public Thread cpuThread, playerThread;
+    public Thread cpuThread, gameloop;
 
     public GameState defaultLoadableGameState;
 
     private GameState gameState;
+
+    private final Object turnLock = new Object();
+
+    private boolean gameIsRunning = true;
 
     private static Game instance;
 
@@ -127,12 +133,12 @@ public class Game extends Application {
             this.primaryStage = primaryStage;
             primaryStage.show();
 
+            // Debugging access.
+            debug();
+
         } catch (Exception e) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
         }
-
-        // Debugging access.
-        debug();
 
     }
 
@@ -190,11 +196,34 @@ public class Game extends Application {
     }
 
     /** Controls the game. */
-    private void game() {
+    private synchronized void game() {
 
+        // Prepare GUI for game-loop.
         requestDisplayForScene(GAME);
         gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
-        playerTurn(TurnPhase.DRAFT);
+
+        // Define and run the game-loop Thread.
+        gameloop = new Thread(() -> {
+            synchronized (turnLock) {
+                try {
+                    while (gameIsRunning) {
+
+                        // Start player turn and wait for notification of its termination
+                        playerTurn(TurnPhase.DRAFT);
+                        turnLock.wait();
+
+                        // Start CPU turn and wait for notification of its termination
+                        cpuTurn();
+                        turnLock.wait();
+
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        gameloop.setDaemon(true);
+        gameloop.start();
 
     }
 
@@ -208,98 +237,96 @@ public class Game extends Application {
         switch (phase) {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
-                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT);
-                gameSceneController.setupBoardForNewPlayerTurn();
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
+                Platform.runLater(() -> gameSceneController.setupBoardForNewPlayerTurn());
                 break;
             case ATTACK:
                 playerTurnPhase = TurnPhase.ATTACK;
-                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK);
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
                 break;
             case FORTIFY:
                 playerTurnPhase = TurnPhase.FORTIFY;
-                gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY);
+                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
                 break;
         }
     }
 
     private void cpuTurn() {
 
-        Task<Void> task = new Task<Void>() {
+        Task<Void> cpuTurn = new Task<Void>() {
             @Override
-            protected Void call() throws Exception {
-                //
-                Platform.runLater(() -> gameSceneController.setupBoardForNewCpuTurn());
+            protected Void call() {
 
-                // Draft
-                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
-                Thread.sleep(5000);
-                Territory territoryToDraftArmiesTo = cpu.draftArmies();
-                territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
-                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
+                try {
 
-                // Attack
-                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
-                Thread.sleep(5000);
-                final int[] numOfAttacks = {0};
-                playerDice.roll();
-                cpuDice.roll();
-                int NUM_OF_CPU_ATTACKS_ROOF = 20;
-                while (cpuConqueredTerritory == null && numOfAttacks[0] < NUM_OF_CPU_ATTACKS_ROOF) {
-                    cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
-                    if (cpuConqueredTerritory != null) {
-                        cpuConqueredTerritory.setOwner(cpu);
-                        Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu));
-                    }
-                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
-                    Thread.sleep(1000);
-                    numOfAttacks[0]++;
-                }
-                checkForVictory();
-                cpuConqueredTerritory = null;
+                    Platform.runLater(() -> gameSceneController.setupBoardForNewCpuTurn());
 
-                // Fortify
-                Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
-                Thread.sleep(5000);
-                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
-                CPUFortification cpuFortifyResults = cpu.fortifyTerritories();
-                if (cpuFortifyResults != null) {
+                    // Draft
+                    Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
+                    Thread.sleep(5000);
+                    Territory territoryToDraftArmiesTo = cpu.draftArmies();
+                    territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
+                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
 
-                    Task<Void> fortifyTask = new Task<Void>() {
-                        @Override
-                        protected Void call() throws Exception {
-
-                            for (int i = 0; i < cpuFortifyResults.delta; i++) {
-                                cpuFortifyResults.unfortified.setNumOfArmies(cpuFortifyResults.unfortified.getNumOfArmies() - i);
-                                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.unfortified));
-                                Thread.sleep(1000);
-                            }
-
-                            for (int i = 0; i < cpuFortifyResults.delta; i++) {
-                                cpuFortifyResults.fortified.setNumOfArmies(cpuFortifyResults.fortified.getNumOfArmies() + i);
-                                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.fortified));
-                                Thread.sleep(1000);
-                            }
-
-                            return null;
+                    // Attack
+                    Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
+                    Thread.sleep(5000);
+                    int numOfAttacks = 0;
+                    playerDice.roll();
+                    cpuDice.roll();
+                    int NUM_OF_CPU_ATTACKS_ROOF = 20;
+                    while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
+                        cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+                        if (cpuConqueredTerritory != null) {
+                            cpuConqueredTerritory.setOwner(cpu);
+                            Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu));
                         }
-                    };
-                    Thread fortifyThread = new Thread(fortifyTask);
-                    fortifyThread.setDaemon(true);
-                    fortifyThread.start();
+                        Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                        Thread.sleep(1000);
+                        numOfAttacks++;
+                    }
+                    checkForVictory();
+                    cpuConqueredTerritory = null;
 
+                    // Fortify
+                    Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
+                    Thread.sleep(5000);
+                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                    CPUFortification cpuFortifyResults = cpu.fortifyTerritories();
+                    if (cpuFortifyResults != null) {
+
+                        for (int i = 0; i < cpuFortifyResults.delta; i++) {
+                            cpuFortifyResults.unfortified.setNumOfArmies(cpuFortifyResults.unfortified.getNumOfArmies() - i);
+                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.unfortified));
+                            Thread.sleep(1000);
+                        }
+
+                        for (int i = 0; i < cpuFortifyResults.delta; i++) {
+                            cpuFortifyResults.fortified.setNumOfArmies(cpuFortifyResults.fortified.getNumOfArmies() + i);
+                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.fortified));
+                            Thread.sleep(1000);
+                        }
+
+                    }
+
+                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-                Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+                synchronized (turnLock) {
+                    turnLock.notify();
+                }
+
                 return null;
             }
+
         };
 
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
-
-        // End turn
-        playerTurn(TurnPhase.DRAFT);
+        Thread th = new Thread(cpuTurn);
+        th.setDaemon(true);
+        th.start();
 
     }
 
@@ -314,7 +341,9 @@ public class Game extends Application {
                     playerTurn(TurnPhase.FORTIFY);
                     break;
                 case FORTIFY:
-                    cpuTurn();
+                    synchronized (turnLock) {
+                        turnLock.notify();
+                    }
                     break;
             }
         } else {
