@@ -285,14 +285,21 @@ public class Game extends Application {
                     cpuDice.roll();
                     int NUM_OF_CPU_ATTACKS_ROOF = 20;
                     while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
+
+                        // Perform attack and record conquered Territory if the event ocurred
                         cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
                         if (cpuConqueredTerritory != null) {
-                            cpuConqueredTerritory.setOwner(cpu);
+
+                            // Set the Territory's new owner
+                            transferTerritoryOwnership(cpu, player, cpuConqueredTerritory);
                             Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu));
+
                         }
+
                         Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
                         Thread.sleep(1000);
                         numOfAttacks++;
+
                     }
                     checkForVictory();
                     cpuConqueredTerritory = null;
@@ -325,6 +332,7 @@ public class Game extends Application {
                     System.out.println("CPU-Turn Thread interrupted.");
                 }
 
+                // Notify threads waiting on 'turnLock' to continue work.
                 synchronized (turnLock) {
                     turnLock.notify();
                 }
@@ -606,10 +614,9 @@ public class Game extends Application {
      */
     private GameState deserializeSavedGameState() {
         try {
-            // Create a file input object to open the file specified by 'file_path'.
-            FileInputStream file_in_stream = new FileInputStream(SAVED_GAME_STATE_FP);
 
-            // Define the object deserializer.
+            // Deserialize the object.
+            FileInputStream file_in_stream = new FileInputStream(SAVED_GAME_STATE_FP);
             ObjectInputStream object_in_stream = new ObjectInputStream(file_in_stream);
 
             // Return the de-serialized object.
@@ -650,9 +657,7 @@ public class Game extends Application {
         boolean didConquerTarget = attackOrigin.attack(attackTarget, playerDice.getTotal(), cpuDice.getTotal());
 
         if (didConquerTarget) {
-            attackTarget.setOwner(player);
-            cpu.removeControlledTerritory(attackTarget);
-            player.addNewControlledTerritory(attackTarget);
+            transferTerritoryOwnership(player, cpu, attackTarget);
             gameSceneController.updateTerritoryOwner(attackTarget.getName(), player);
         }
 
@@ -661,6 +666,13 @@ public class Game extends Application {
 
     public void closeGamePauseMenuStage() {
         gamePauseMenuStage.close();
+    }
+
+    private void transferTerritoryOwnership(Player newOwner, Player previousOwner, Territory territory) {
+        territory.setOwner(newOwner);
+
+        previousOwner.removeControlledTerritory(territory);
+        newOwner.addNewControlledTerritory(territory);
     }
 
     /* Getters */
