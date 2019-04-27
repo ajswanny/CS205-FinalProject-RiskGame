@@ -38,7 +38,7 @@ public class Game extends Application {
     public final String ASIA_HEX = "5E693D";
     public final String AUSTRALIA_HEX = "8B626A";
 
-    private final String GAME_STATE_FP = "src/resources/serializations/savedGameState.ser";
+    private final String SAVED_GAME_STATE_FP = "src/resources/serializations/savedGameState.ser";
 
     public enum PlayerColor {
         NA_YELLOW,
@@ -109,7 +109,7 @@ public class Game extends Application {
         try {
 
             // Load data.
-            savedGameState = deserializeDefaultLoadableGameState();
+            savedGameState = deserializeSavedGameState();
 
             // Init dice
             playerDice = new Dice();
@@ -145,7 +145,7 @@ public class Game extends Application {
     @Override
     public void stop() {
         System.out.println("Shutting down Game instance: " + this + ".");
-        serializeDefaultLoadableGameState();
+        serializeSavedGameState();
         System.exit(0);
     }
 
@@ -435,6 +435,9 @@ public class Game extends Application {
         return fxmlLoader.getController();
     }
 
+    /**
+     * Parses 'savedGameState' into the necessary application objects and data structures.
+     */
     private void loadSavedGame() {
 
         // Load saved game for continuation.
@@ -485,7 +488,9 @@ public class Game extends Application {
 
     }
 
-    /** High-level method to organize definition of Territory neighbors. */
+    /**
+     * High-level method to organize definition of Territory neighbors.
+     */
     private void defineTerritoryRelationships() {
 
         // North america
@@ -543,7 +548,9 @@ public class Game extends Application {
 
     }
 
-    /** Sets the neighbors of the Territory in the first parameter as those given in the following Strings. */
+    /**
+     * Sets the neighbors of the Territory in the first parameter as those given in the following Strings.
+     */
     private void setTerritoryNeighbors(String territoryName, String... neighborNames) {
         Territory territory = territories.get(territoryName);
         ArrayList<Territory> ts = new ArrayList<>();
@@ -553,7 +560,9 @@ public class Game extends Application {
         territory.setNeighbors(ts);
     }
 
-    /** Tells Game that it has been requested to change the Scene (or bring up a new Stage). */
+    /**
+     * Tells Game that it has been requested to change the Scene (or bring up a new Stage).
+     */
     public void requestDisplayForScene(int scene) {
         switch (scene) {
             case GAME:
@@ -592,13 +601,13 @@ public class Game extends Application {
     }
 
     /**
-     * De-serializes an object at the specified file location.
+     * De-serializes the saved game-state at the specified file location.
      * @return The de-serialized object.
      */
-    private GameState deserializeDefaultLoadableGameState() {
+    private GameState deserializeSavedGameState() {
         try {
             // Create a file input object to open the file specified by 'file_path'.
-            FileInputStream file_in_stream = new FileInputStream(GAME_STATE_FP);
+            FileInputStream file_in_stream = new FileInputStream(SAVED_GAME_STATE_FP);
 
             // Define the object deserializer.
             ObjectInputStream object_in_stream = new ObjectInputStream(file_in_stream);
@@ -615,11 +624,14 @@ public class Game extends Application {
         }
     }
 
-    private void serializeDefaultLoadableGameState() {
+    /**
+     * Creates a serialization of 'savedGameState' for later use.
+     */
+    private void serializeSavedGameState() {
         try {
 
             // Serialize the object.
-            FileOutputStream file_out_stream = new FileOutputStream(GAME_STATE_FP);
+            FileOutputStream file_out_stream = new FileOutputStream(SAVED_GAME_STATE_FP);
             ObjectOutputStream object_out_stream = new ObjectOutputStream(file_out_stream);
             object_out_stream.writeObject(savedGameState);
 
