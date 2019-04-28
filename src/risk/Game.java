@@ -83,6 +83,8 @@ public class Game extends Application {
 
     private Territory cpuConqueredTerritory;
 
+    public Territory cpuAttackOriginTerritory, cpuAttackTargetTerritory;
+
     private Dice playerDice, cpuDice;
 
     private Thread gameloop;
@@ -251,8 +253,8 @@ public class Game extends Application {
      *  Attack (2) - Make attacks to enemy armies;
      *  Fortify (3) - Move armies to friendly territories.
      */
-    private void playerTurn(TurnPhase phase) {
-        switch (phase) {
+    private void playerTurn(TurnPhase turnPhase) {
+        switch (turnPhase) {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
                 Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
@@ -289,7 +291,11 @@ public class Game extends Application {
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
                     Thread.sleep(5000);
                     Territory territoryToDraftArmiesTo = cpu.draftArmies();
+                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, gameSceneController.CPU_GLOW_EFFECT));
+                    Thread.sleep(2000);
                     territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
+                    Thread.sleep(2000);
+                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, null));
                     Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
 
                     // Attack
@@ -395,21 +401,21 @@ public class Game extends Application {
         }
     }
 
-    public void flagEndOfGame(boolean save) {
+    public void flagEndOfGame(boolean shouldSave) {
 
         // End Threads
         gameIsRunning = false;
         gameloop.interrupt();
 
+        // Close stages.
         if (gamePauseMenuStage.isShowing()) {
             gamePauseMenuStage.close();
         }
-
         if (gameEndStage.isShowing()) {
             gameEndStage.close();
         }
 
-        if (save) {
+        if (shouldSave) {
 
             // Save the game state.
             savedGameState = gameState;

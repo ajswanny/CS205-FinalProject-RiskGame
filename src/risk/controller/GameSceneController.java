@@ -36,6 +36,7 @@ public class GameSceneController extends RiskSceneController {
 
     // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
+    public final Glow CPU_GLOW_EFFECT = new Glow(0.8);
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
     private final Bloom STANDARD_BLOOM_EFFECT = new Bloom(0.3);
     private Lighting ROOT_SHADOW;
@@ -287,6 +288,14 @@ public class GameSceneController extends RiskSceneController {
                     button.setSelected(false);
                 }
                 break;
+        }
+    }
+
+    public void setEffectForTerritoryToggleButton(Territory territory, Effect effect) {
+        for (ToggleButton toggleButton : territoryToggleButtons) {
+            if (toggleButton.getId().equals(territory.getName())) {
+                toggleButton.setEffect(effect);
+            }
         }
     }
 
