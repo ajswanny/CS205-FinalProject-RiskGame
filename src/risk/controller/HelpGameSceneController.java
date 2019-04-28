@@ -9,7 +9,8 @@ import java.util.ResourceBundle;
 
 import static risk.Game.MAIN_MENU;
 
-public class HelpGameSceneController extends RiskSceneController{
+public class HelpGameSceneController extends RiskSceneController {
+
     @FXML
     public Button goBackToMainMenu;
 
