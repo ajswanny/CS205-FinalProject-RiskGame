@@ -22,6 +22,9 @@ public class MainMenuSceneController extends RiskSceneController{
     @FXML
     public Button aboutGame;
 
+    @FXML
+    public Button helpGame;
+
     public MainMenuSceneController() {
         System.out.println("Initialized Controller for Scene: MainMenu.");
     }
@@ -47,6 +50,11 @@ public class MainMenuSceneController extends RiskSceneController{
         aboutGame.setOnAction(event -> {
             System.out.println("Displaying AboutGameScene from 'aboutGame' Button used within MainMenuScene.");
             instance.requestDisplayForScene(Game.ABOUT_GAME);
+        });
+
+        helpGame.setOnAction(event -> {
+            System.out.println("Displaying HelpGameScene from 'helpGame' Button used within MainMenuScene.");
+            instance.requestDisplayForScene(Game.HELP_GAME);
         });
 
     }
