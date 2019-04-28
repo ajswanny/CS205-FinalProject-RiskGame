@@ -1,5 +1,7 @@
 package risk.java;
 
+import risk.Game;
+
 import java.io.Serializable;
 
 public class GameState implements Serializable {
@@ -7,11 +9,13 @@ public class GameState implements Serializable {
     /* Fields */
     private Player player;
     private CPU cpu;
+    private Game.TurnPhase playerTurnPhase;
 
     /* Default Constructor */
-    public GameState(Player player, CPU cpu) {
+    public GameState(Player player, CPU cpu, Game.TurnPhase playerTurnPhase) {
         this.player = player;
         this.cpu = cpu;
+        this.playerTurnPhase = playerTurnPhase;
     }
 
     /* Getters */
@@ -21,5 +25,13 @@ public class GameState implements Serializable {
 
     public CPU getCpu() {
         return cpu;
+    }
+
+    public Game.TurnPhase getPlayerTurnPhase() {
+        return playerTurnPhase;
+    }
+
+    public void setPlayerTurnPhase(Game.TurnPhase playerTurnPhase) {
+        this.playerTurnPhase = playerTurnPhase;
     }
 }

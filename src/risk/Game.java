@@ -52,7 +52,8 @@ public class Game extends Application {
     public enum TurnPhase {
         DRAFT,
         ATTACK,
-        FORTIFY
+        FORTIFY,
+        END
     }
 
     public static final int ARMIES_TO_DRAFT= 5;
@@ -85,7 +86,9 @@ public class Game extends Application {
 
     private Thread gameloop;
 
-    public GameState savedGameState;
+    private GameState savedGameState;
+
+    private GameState savedGameStateBackup;
 
     private GameState gameState;
 
@@ -183,7 +186,8 @@ public class Game extends Application {
                 }
                 territory.setNumOfArmies(3 - n%2 + n%3);
             }
-            this.gameState = new GameState(player, cpu);
+            playerTurnPhase = TurnPhase.DRAFT;
+            this.gameState = new GameState(player, cpu, playerTurnPhase);
 
         } else {
 
@@ -201,8 +205,9 @@ public class Game extends Application {
     private synchronized void game() {
 
         // Prepare GUI for game-loop.
+        playerTurnPhase = gameState.getPlayerTurnPhase();
         requestDisplayForScene(GAME);
-        gameSceneController.setPlayerTurnIndicatorColor(player.getColor());
+        gameSceneController.setupBoardForNewPlayerTurn();
 
         // Define and run the game-loop Thread.
         gameIsRunning = true;
@@ -212,18 +217,23 @@ public class Game extends Application {
                     while (gameIsRunning) {
 
                         // Start player turn and wait for notification of its termination
-                        playerTurn(TurnPhase.DRAFT);
+                        playerTurn(playerTurnPhase);
                         turnLock.wait();
 
                         // Start CPU turn and wait for notification of its termination
                         cpuTurn();
                         turnLock.wait();
 
+                        // Update Player turn-phase
+                        if (playerTurnPhase == TurnPhase.END) {
+                            playerTurnPhase = TurnPhase.DRAFT;
+                        }
+
                     }
+                    System.out.println("Game-loop complete.");
                 } catch (InterruptedException e) {
                     System.out.println("Game-loop interrupted.");
-                } finally {
-                    System.out.println("Game-loop complete.");
+                    turnLock.notifyAll();
                 }
             }
         });
@@ -254,6 +264,9 @@ public class Game extends Application {
                 Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
                 break;
         }
+
+        // Update the Player's turn-phase tracker.
+        gameState.setPlayerTurnPhase(playerTurnPhase);
     }
 
     /**
@@ -286,7 +299,7 @@ public class Game extends Application {
                     int NUM_OF_CPU_ATTACKS_ROOF = 20;
                     while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
 
-                        // Perform attack and record conquered Territory if the event ocurred
+                        // Perform attack and record conquered Territory if the event occurred
                         cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
                         if (cpuConqueredTerritory != null) {
 
@@ -359,6 +372,7 @@ public class Game extends Application {
                     playerTurn(TurnPhase.FORTIFY);
                     break;
                 case FORTIFY:
+                    playerTurnPhase = TurnPhase.END;
                     synchronized (turnLock) {
                         turnLock.notify();
                     }

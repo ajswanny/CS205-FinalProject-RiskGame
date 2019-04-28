@@ -96,10 +96,6 @@ public class GameSceneController extends RiskSceneController {
 
         armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
-//        // Disable buttons that require action
-//        decreaseArmiesToDraftOrFortify.setDisable(true);
-//        increaseArmiesToDraftOrFortify.setDisable(true);
-
         // Buttons for increasing and increasing armies in a draft
         decreaseArmiesToDraftOrFortify.setOnAction(event -> setAmountOfArmiesForTerritory(-1));
         increaseArmiesToDraftOrFortify.setOnAction(event -> setAmountOfArmiesForTerritory(1));
@@ -197,37 +193,72 @@ public class GameSceneController extends RiskSceneController {
     private void endTurnPhase() {
         switch (instance.playerTurnPhase) {
             case DRAFT:
-                // Prepare GUI controls for DRAFT phase
+
+                setupBoardForTurnPhase(Game.TurnPhase.ATTACK);
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.DRAFT);
+                break;
+
+            case ATTACK:
+
+                setupBoardForTurnPhase(Game.TurnPhase.FORTIFY);
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
+                break;
+
+            case FORTIFY:
+
+                setupBoardForTurnPhase(Game.TurnPhase.END);
+                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
+                break;
+        }
+        resetBoard();
+    }
+
+    private void setupBoardForTurnPhase(Game.TurnPhase turnPhase) {
+
+        switch (turnPhase) {
+
+            case DRAFT:
+
+                // Show the amount of armies available for drafting.
+                armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
+
+                // Enable controls.
+                showButton(decreaseArmiesToDraftOrFortify);
+                showButton(increaseArmiesToDraftOrFortify);
+                showButton(nextPhaseOrTurn);
+                armiesToMoveIndicator.setVisible(true);
+                break;
+
+            case ATTACK:
+
+                // Prepare GUI controls for ATTACK phase
                 hideButton(decreaseArmiesToDraftOrFortify);
                 hideButton(increaseArmiesToDraftOrFortify);
                 armiesToMoveIndicator.setVisible(false);
                 makeAttack.setVisible(true);
                 makeAttack.setDisable(false);
-
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.DRAFT);
-                break;
-
-            case ATTACK:
-                hideButton(makeAttack);
-
-                // Prepare GUI controls for FORTIFY phase
-                showButton(decreaseArmiesToDraftOrFortify);
-                showButton(increaseArmiesToDraftOrFortify);
-                armiesToMoveIndicator.setVisible(true);
-
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
                 break;
 
             case FORTIFY:
+
+                // Prepare GUI controls for FORTIFY phase
+                hideButton(makeAttack);
+                showButton(decreaseArmiesToDraftOrFortify);
+                showButton(increaseArmiesToDraftOrFortify);
+                armiesToMoveIndicator.setVisible(true);
+                break;
+
+            case END:
+
+                // Prepare GUI controls for next CPU turn-phase
                 hideButton(decreaseArmiesToDraftOrFortify);
                 hideButton(increaseArmiesToDraftOrFortify);
                 hideButton(nextPhaseOrTurn);
                 armiesToMoveIndicator.setVisible(false);
-
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
                 break;
+
         }
-        resetBoard();
+
     }
 
     /** Specifies the action of a TerritoryToggleButton with respect to the current Player-turn-phase. */
@@ -527,14 +558,9 @@ public class GameSceneController extends RiskSceneController {
     /** Sets board for new Player turn (all GUI stuff begins here) */
     public void setupBoardForNewPlayerTurn() {
 
-        // Show the amount of armies available for drafting.
-        armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
+        setPlayerTurnIndicatorColor(instance.player.getColor());
 
-        // Enable controls.
-        showButton(decreaseArmiesToDraftOrFortify);
-        showButton(increaseArmiesToDraftOrFortify);
-        showButton(nextPhaseOrTurn);
-        armiesToMoveIndicator.setVisible(true);
+        setupBoardForTurnPhase(instance.playerTurnPhase);
 
         // Highlight the 'player-turn-indicator'.
         playerTurnIndicator.setEffect(CURRENT_TURN_OWNER);
