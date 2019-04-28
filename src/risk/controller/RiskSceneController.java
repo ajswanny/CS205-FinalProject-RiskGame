@@ -19,11 +19,14 @@ abstract public class RiskSceneController implements Initializable {
 
     Scene primaryScene;
 
+    boolean verbose;
+
     @FXML
     public AnchorPane root;
 
     private void initializeCoreResources() {
         instance = Game.getInstance();
+        verbose = instance.verbose;
         primaryScene = new Scene(root);
     }
 

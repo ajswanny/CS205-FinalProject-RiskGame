@@ -19,7 +19,7 @@ public class GamePauseMenuSceneController extends RiskSceneController {
     private Button continueGame;
 
     public GamePauseMenuSceneController() {
-        System.out.println("Initialized Controller for Scene: GamePauseMenu.");
+        if (verbose) System.out.println("Initialized Controller for Scene: GamePauseMenu.");
     }
 
     @Override
@@ -31,12 +31,12 @@ public class GamePauseMenuSceneController extends RiskSceneController {
     private void initializeButtonActions() {
 
         quit.setOnAction(event -> {
-            System.out.println("Exiting GameScene from 'quit' Button used within 'GamePauseMenuScene.");
+            if (verbose) System.out.println("Exiting GameScene from 'quit' Button used within 'GamePauseMenuScene.");
             instance.flagEndOfGame(false);
         });
 
         saveAndQuit.setOnAction(event -> {
-            System.out.println("Exiting GameScene from 'saveAndQuit' Button used within 'GamePauseMenuScene.");
+            if (verbose) System.out.println("Exiting GameScene from 'saveAndQuit' Button used within 'GamePauseMenuScene.");
             instance.flagEndOfGame(true);
         });
 

@@ -23,7 +23,7 @@ public class MainMenuSceneController extends RiskSceneController{
     public Button aboutGame;
 
     public MainMenuSceneController() {
-        System.out.println("Initialized Controller for Scene: MainMenu.");
+        if (verbose) System.out.println("Initialized Controller for Scene: MainMenu.");
     }
 
     @Override
@@ -35,17 +35,17 @@ public class MainMenuSceneController extends RiskSceneController{
     private void initializeButtonActions() {
 
         playGame.setOnAction(event -> {
-            System.out.println("Displaying GameScene from 'playGame' Button used within MainMenuScene.");
+            if (verbose) System.out.println("Displaying GameScene from 'playGame' Button used within MainMenuScene.");
             instance.requestDisplayForScene(Game.GAME_SETUP);
         });
 
         quitGame.setOnAction(event -> {
-            System.out.println("Exiting Game from 'quitGame' Button used within MainMenuScene.");
+            if (verbose) System.out.println("Exiting Game from 'quitGame' Button used within MainMenuScene.");
             instance.stop();
         });
 
         aboutGame.setOnAction(event -> {
-            System.out.println("Displaying AboutGameScene from 'aboutGame' Button used within MainMenuScene.");
+            if (verbose) System.out.println("Displaying AboutGameScene from 'aboutGame' Button used within MainMenuScene.");
             instance.requestDisplayForScene(Game.ABOUT_GAME);
         });
 

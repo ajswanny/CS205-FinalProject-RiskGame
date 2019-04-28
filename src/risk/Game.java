@@ -88,17 +88,18 @@ public class Game extends Application {
 
     private GameState savedGameState;
 
-    private GameState savedGameStateBackup;
-
     private GameState gameState;
 
     private final Object turnLock = new Object();
 
     private boolean gameIsRunning;
 
+    public boolean verbose;
+
     private static Game instance;
 
     public Game() {
+        verbose = true;
         instance = this;
     }
 
@@ -147,7 +148,7 @@ public class Game extends Application {
 
     @Override
     public void stop() {
-        System.out.println("Shutting down Game instance: " + this + ".");
+        if (verbose) System.out.println("Shutting down Game instance: " + this + ".");
         serializeSavedGameState();
         System.exit(0);
     }
@@ -214,6 +215,7 @@ public class Game extends Application {
         gameloop = new Thread(() -> {
             synchronized (turnLock) {
                 try {
+                    if (verbose) System.out.println("Started gameloop.");
                     while (gameIsRunning) {
 
                         // Start player turn and wait for notification of its termination
@@ -230,9 +232,9 @@ public class Game extends Application {
                         }
 
                     }
-                    System.out.println("Game-loop complete.");
+                    if (verbose) System.out.println("Game-loop complete.");
                 } catch (InterruptedException e) {
-                    System.out.println("Game-loop interrupted.");
+                    if (verbose) System.out.println("Game-loop interrupted.");
                     turnLock.notifyAll();
                 }
             }
@@ -342,7 +344,7 @@ public class Game extends Application {
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    System.out.println("CPU-Turn Thread interrupted.");
+                    if (verbose) System.out.println("CPU-Turn Thread interrupted.");
                 }
 
                 // Notify threads waiting on 'turnLock' to continue work.

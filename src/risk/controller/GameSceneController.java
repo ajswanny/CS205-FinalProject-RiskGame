@@ -81,7 +81,7 @@ public class GameSceneController extends RiskSceneController {
     public Circle cpuTurnIndicator;
 
     public GameSceneController() {
-        System.out.println("Initialized Controller for Scene: Game.");
+        if (verbose) System.out.println("Initialized Controller for Scene: Game.");
     }
 
     @Override

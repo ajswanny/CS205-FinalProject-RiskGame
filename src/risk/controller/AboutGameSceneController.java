@@ -21,7 +21,7 @@ public class AboutGameSceneController extends RiskSceneController {
     private void initializeButtonActions() {
 
         goBackToMainMenu.setOnAction(event -> {
-            System.out.println("Exiting AboutGameScene from 'goBackToMainMenu' Button used within AboutGameScene");
+            if (verbose) System.out.println("Exiting AboutGameScene from 'goBackToMainMenu' Button used within AboutGameScene");
             instance.requestDisplayForScene(MAIN_MENU);
         });
 

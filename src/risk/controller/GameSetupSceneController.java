@@ -32,7 +32,7 @@ public class GameSetupSceneController extends RiskSceneController {
 
     /* Constructors */
     public GameSetupSceneController() {
-        System.out.println("Initialized Controller for Scene: GameSetup.");
+        if (verbose) System.out.println("Initialized Controller for Scene: GameSetup.");
     }
 
     /* Methods */
