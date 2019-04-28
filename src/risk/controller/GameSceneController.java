@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.*;
@@ -36,6 +37,7 @@ public class GameSceneController extends RiskSceneController {
     // GUI Glow effects for Player selections
     private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
     private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
+    private final Bloom STANDARD_BLOOM_EFFECT = new Bloom(0.3);
     private Lighting ROOT_SHADOW;
 
     private final DropShadow CURRENT_TURN_OWNER = new DropShadow();
@@ -266,14 +268,24 @@ public class GameSceneController extends RiskSceneController {
         switch (instance.playerTurnPhase) {
             case DRAFT:
                 // Proceed if player selected a Player-owned territory
-                if (instance.territories.get(button.getId()).getOwner() != instance.cpu) selectTerritoryToggleBtnForDraft(button);
+                if (instance.playerControlsTerritory(instance.territories.get(button.getId()))) {
+                    selectTerritoryToggleBtnForDraft(button);
+                }
+                else {
+                    button.setSelected(false);
+                }
                 break;
             case ATTACK:
                 selectTerritoryToggleBtnForAttack(button);
                 break;
             case FORTIFY:
                 // Proceed if player selected a Player-owned territory
-                if (instance.territories.get(button.getId()).getOwner() != instance.cpu) selectTerritoryToggleBtnForFortify(button);
+                if (instance.playerControlsTerritory(instance.territories.get(button.getId()))) {
+                    selectTerritoryToggleBtnForFortify(button);
+                }
+                else {
+                    button.setSelected(false);
+                }
                 break;
         }
     }
@@ -282,7 +294,6 @@ public class GameSceneController extends RiskSceneController {
     private void selectTerritoryToggleBtnForDraft(ToggleButton button) {
         resetBoard();
         button.setEffect(STANDARD_GLOW_EFFECT);
-        draftPhaseIndicator.setEffect(STANDARD_GLOW_EFFECT);
         draftTerritoryControl = button;
     }
 
@@ -295,6 +306,7 @@ public class GameSceneController extends RiskSceneController {
         // If territory belongs to Player update GUI and flag the territory
         if (instance.playerControlsTerritory(selectedTerritory)) {
             resetBoard();
+            button.setEffect(STANDARD_GLOW_EFFECT);
             showLegalAttackLinesForTerritory(button.getId());
             attackOriginControl = button;
 
@@ -322,14 +334,10 @@ public class GameSceneController extends RiskSceneController {
     @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForFortify(ToggleButton button) {
 
-        Territory selectedTerritory = instance.territories.get(button.getId());
-
-        if (instance.playerControlsTerritory(selectedTerritory)) {
-            // If territory belongs to Player update GUI and flag the territory
-            resetBoard();
-            showLegalAlliedPathLinesForTerritory(selectedTerritory.getName());
-            fortifyTerritoryControl = button;
-        }
+        // If territory belongs to Player update GUI and flag the territory
+        resetBoard();
+        button.setEffect(STANDARD_GLOW_EFFECT);
+        fortifyTerritoryControl = button;
 
     }
 
@@ -346,7 +354,6 @@ public class GameSceneController extends RiskSceneController {
         for (ToggleButton toggleButton : territoryToggleButtons) {
             toggleButton.setEffect(null);
         }
-        draftPhaseIndicator.setEffect(null);
 
     }
 
@@ -402,21 +409,19 @@ public class GameSceneController extends RiskSceneController {
      */
     public void setHighlightForAttackPhaseIndicator(Game.TurnPhase turnPhase) {
 
-        // Reset values.
-        draftPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-        attackPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-        fortifyPhaseIndicator.setTextFill(Color.valueOf("#ffbf00"));
-
         // Set value
         switch (turnPhase) {
             case DRAFT:
-                draftPhaseIndicator.setTextFill(Color.RED);
+                fortifyPhaseIndicator.setEffect(null);
+                draftPhaseIndicator.setEffect(STANDARD_BLOOM_EFFECT);
                 break;
             case ATTACK:
-                attackPhaseIndicator.setTextFill(Color.RED);
+                draftPhaseIndicator.setEffect(null);
+                attackPhaseIndicator.setEffect(STANDARD_BLOOM_EFFECT);
                 break;
             case FORTIFY:
-                fortifyPhaseIndicator.setTextFill(Color.RED);
+                attackPhaseIndicator.setEffect(null);
+                fortifyPhaseIndicator.setEffect(STANDARD_BLOOM_EFFECT);
                 break;
         }
 

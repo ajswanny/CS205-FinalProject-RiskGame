@@ -256,7 +256,6 @@ public class Game extends Application {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
                 Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
-                Platform.runLater(() -> gameSceneController.setupBoardForNewPlayerTurn());
                 break;
             case ATTACK:
                 playerTurnPhase = TurnPhase.ATTACK;

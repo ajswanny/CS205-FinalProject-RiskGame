@@ -30,7 +30,7 @@
    </ImageView>
    <Button fx:id="continueGame" layoutX="336.0" layoutY="393.0" mnemonicParsing="false" text="Continue game" />
    <Button fx:id="newGame" layoutX="518.0" layoutY="393.0" mnemonicParsing="false" text="New game" />
-   <Button fx:id="backToMainMenu" layoutX="-2.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="98.0" text="Main menu" />
+   <Button fx:id="backToMainMenu" layoutX="-8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" text="  Main menu" />
    <stylesheets>
       <URL value="@../css/SceneButtons.css" />
       <URL value="@../css/GameSetupScene.css" />
