@@ -2,8 +2,8 @@ package risk.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import risk.Game;
 
@@ -35,12 +35,12 @@ abstract public class RiskSceneController implements Initializable {
         initializeCoreResources();
     }
 
-    void hideButton(Button button) {
-        button.setVisible(false);
+    void hideNode(Node node) {
+        node.setVisible(false);
     }
 
-    void showButton(Button button) {
-        button.setVisible(true);
+    void showNode(Node node) {
+        node.setVisible(true);
     }
 
     public Scene getPrimaryScene() {

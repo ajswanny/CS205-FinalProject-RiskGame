@@ -145,8 +145,8 @@
          <Blend mode="COLOR_BURN" />
       </effect>
    </Rectangle>
-   <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#1f100100" strokeType="INSIDE" />
-   <Circle fx:id="cpuTurnIndicator" fill="#6a6f6b" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#ffffff00" strokeType="INSIDE" />
+   <Circle fx:id="playerTurnIndicator" fill="#c2984e" layoutX="494.0" layoutY="762.0" radius="26.0" stroke="#211201" strokeType="INSIDE" />
+   <Circle fx:id="cpuTurnIndicator" fill="#6a6f6b" layoutX="573.0" layoutY="762.0" radius="26.0" stroke="#3f3f41" strokeType="INSIDE" />
    <Label fx:id="fortifyPhaseIndicator" layoutX="669.0" layoutY="709.0" text="Fortify" textAlignment="CENTER" textFill="#ffbf00">
       <font>
          <Font name="System Italic" size="14.0" />
@@ -162,16 +162,21 @@
          <Font name="System Italic" size="14.0" />
       </font>
    </Label>
-   <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="742.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;" text="Go" />
+   <Button fx:id="nextPhaseOrTurn" layoutX="673.0" layoutY="742.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="34.0" stylesheets="@../css/SceneButtons.css" text="Go" />
    <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="557.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../../resources/images/computer-icon/computerIcon.png" />
    </ImageView>
-   <Button fx:id="increaseArmiesToDraftOrFortify" layoutX="393.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="+" />
-   <Button fx:id="decreaseArmiesToDraftOrFortify" layoutX="327.0" layoutY="749.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" text="-" />
-   <Label fx:id="armiesToMoveIndicator" alignment="CENTER" layoutX="357.0" layoutY="748.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: #ffbf00; -fx-border-color: #211201;">
-      <font>
-         <Font name="System Bold" size="14.0" />
-      </font>
-   </Label>
-   <Button fx:id="makeAttack" layoutX="125.0" layoutY="747.0" mnemonicParsing="false" text="Attack" />
+   <Group fx:id="armyMovementControls" layoutX="324.0" layoutY="745.0">
+      <children>
+         <Button fx:id="increaseArmiesToDraftOrFortify" layoutX="69.0" layoutY="4.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" stylesheets="@../css/SceneButtons.css" text="+" />
+         <Button fx:id="decreaseArmiesToDraftOrFortify" layoutY="4.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="28.0" stylesheets="@../css/SceneButtons.css" text="-" />
+         <Circle fx:id="armiesToMoveIndicatorGraphic" fill="#c2984e" layoutX="48.0" layoutY="17.0" radius="18.0" stroke="#1f100100" strokeType="INSIDE" />
+         <Label fx:id="armiesToMoveIndicator" alignment="CENTER" layoutX="31.0" layoutY="3.0" prefHeight="29.0" prefWidth="34.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <font>
+               <Font name="System Bold" size="14.0" />
+            </font>
+         </Label>
+      </children>
+   </Group>
+   <Button fx:id="makeAttack" layoutX="126.0" layoutY="747.0" mnemonicParsing="false" stylesheets="@../css/SceneButtons.css" text="Attack" />
 </AnchorPane>

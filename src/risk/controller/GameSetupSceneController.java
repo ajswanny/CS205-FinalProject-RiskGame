@@ -95,11 +95,11 @@ public class GameSetupSceneController extends RiskSceneController {
     }
 
     public void showContinueGameButton() {
-        showButton(continueGame);
+        showNode(continueGame);
     }
 
     public void hideContinueGameButton() {
-        hideButton(continueGame);
+        hideNode(continueGame);
     }
 
 }

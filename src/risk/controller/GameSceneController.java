@@ -51,6 +51,9 @@ public class GameSceneController extends RiskSceneController {
     public Group boardNodes;
 
     @FXML
+    public Group armyMovementControls;
+
+    @FXML
     public Button makeAttack;
 
     @FXML
@@ -79,6 +82,9 @@ public class GameSceneController extends RiskSceneController {
 
     @FXML
     public Circle cpuTurnIndicator;
+
+    @FXML
+    public Circle armiesToMoveIndicatorGraphic;
 
     public GameSceneController() {
         if (verbose) System.out.println("Initialized Controller for Scene: Game.");
@@ -142,7 +148,7 @@ public class GameSceneController extends RiskSceneController {
         nextPhaseOrTurn.setDisable(true);
 
         // Attack command btn
-        hideButton(makeAttack);
+        hideNode(makeAttack);
         makeAttack.setOnAction(event -> handleAttackRequest());
 
     }
@@ -194,26 +200,26 @@ public class GameSceneController extends RiskSceneController {
         switch (instance.playerTurnPhase) {
             case DRAFT:
 
-                setupBoardForTurnPhase(Game.TurnPhase.ATTACK);
+                setupBoardForPlayerTurnPhase(Game.TurnPhase.ATTACK);
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.DRAFT);
                 break;
 
             case ATTACK:
 
-                setupBoardForTurnPhase(Game.TurnPhase.FORTIFY);
+                setupBoardForPlayerTurnPhase(Game.TurnPhase.FORTIFY);
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
                 break;
 
             case FORTIFY:
 
-                setupBoardForTurnPhase(Game.TurnPhase.END);
+                setupBoardForPlayerTurnPhase(Game.TurnPhase.END);
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
                 break;
         }
         resetBoard();
     }
 
-    private void setupBoardForTurnPhase(Game.TurnPhase turnPhase) {
+    private void setupBoardForPlayerTurnPhase(Game.TurnPhase turnPhase) {
 
         switch (turnPhase) {
 
@@ -223,38 +229,32 @@ public class GameSceneController extends RiskSceneController {
                 armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
                 // Enable controls.
-                showButton(decreaseArmiesToDraftOrFortify);
-                showButton(increaseArmiesToDraftOrFortify);
-                showButton(nextPhaseOrTurn);
-                armiesToMoveIndicator.setVisible(true);
+                showNode(armyMovementControls);
+                showNode(nextPhaseOrTurn);
+                hideNode(makeAttack);
                 break;
 
             case ATTACK:
 
                 // Prepare GUI controls for ATTACK phase
-                hideButton(decreaseArmiesToDraftOrFortify);
-                hideButton(increaseArmiesToDraftOrFortify);
-                armiesToMoveIndicator.setVisible(false);
-                makeAttack.setVisible(true);
-                makeAttack.setDisable(false);
+                hideNode(armyMovementControls);
+                showNode(makeAttack);
                 break;
 
             case FORTIFY:
 
                 // Prepare GUI controls for FORTIFY phase
-                hideButton(makeAttack);
-                showButton(decreaseArmiesToDraftOrFortify);
-                showButton(increaseArmiesToDraftOrFortify);
-                armiesToMoveIndicator.setVisible(true);
+                hideNode(makeAttack);
+                showNode(armyMovementControls);
                 break;
 
             case END:
 
                 // Prepare GUI controls for next CPU turn-phase
-                hideButton(decreaseArmiesToDraftOrFortify);
-                hideButton(increaseArmiesToDraftOrFortify);
-                hideButton(nextPhaseOrTurn);
-                armiesToMoveIndicator.setVisible(false);
+                hideNode(armyMovementControls);
+                hideNode(nextPhaseOrTurn);
+                playerTurnIndicator.setEffect(null);
+                cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
                 break;
 
         }
@@ -423,7 +423,7 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /** Highlights the GUI Shape indicating whose turn it is (Player or CPU). */
-    public void setPlayerTurnIndicatorColor(Game.PlayerColor playerColor) {
+    private void setPlayerTurnIndicatorColor(Game.PlayerColor playerColor) {
         playerTurnIndicator.setFill(Color.valueOf(getColorHexForPlayerColor(playerColor)));
     }
 
@@ -451,6 +451,7 @@ public class GameSceneController extends RiskSceneController {
      * controls that territory and setting their text to display the amount of armies present in Territories.
      */
     public void setGameState(GameState gameState) {
+
         styleForPlayerColor = "-fx-background-color: #" + getColorHexForPlayerColor(gameState.getPlayer().getColor());
         styleForCpuColor = "-fx-background-color: #6a6f6b";
         Territory territory;
@@ -469,9 +470,6 @@ public class GameSceneController extends RiskSceneController {
             territoryButton.setGraphic(new Label(territoryButton.getText()));
         }
 
-        // Enable DRAFT controls
-        showButton(decreaseArmiesToDraftOrFortify);
-        showButton(increaseArmiesToDraftOrFortify);
     }
 
     /**
@@ -558,11 +556,13 @@ public class GameSceneController extends RiskSceneController {
     /** Sets board for new Player turn (all GUI stuff begins here) */
     public void setupBoardForNewPlayerTurn() {
 
+        // Highlight graphics that indicate the Player's color choice
         setPlayerTurnIndicatorColor(instance.player.getColor());
+        armiesToMoveIndicatorGraphic.setFill(Color.valueOf(getColorHexForPlayerColor(instance.player.getColor())));
 
-        setupBoardForTurnPhase(instance.playerTurnPhase);
+        setupBoardForPlayerTurnPhase(instance.playerTurnPhase);
 
-        // Highlight the 'player-turn-indicator'.
+        // Highlight the turn-indicator.
         playerTurnIndicator.setEffect(CURRENT_TURN_OWNER);
 
     }
@@ -570,14 +570,7 @@ public class GameSceneController extends RiskSceneController {
     public void setupBoardForNewCpuTurn() {
 
         // Prepare board.
-        hideButton(decreaseArmiesToDraftOrFortify);
-        hideButton(increaseArmiesToDraftOrFortify);
-        hideButton(nextPhaseOrTurn);
-        armiesToMoveIndicator.setVisible(false);
-        playerTurnIndicator.setEffect(null);
-
-        // Highlight the 'cpu-turn-indicator'.
-        cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
+        setupBoardForPlayerTurnPhase(Game.TurnPhase.END);
 
     }
 
