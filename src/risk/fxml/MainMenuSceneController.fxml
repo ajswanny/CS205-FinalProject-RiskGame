@@ -19,7 +19,9 @@
          </font>
       </Button>
       <Button fx:id="aboutGame" alignment="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="About" />
+      <Button fx:id="helpGame" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Help" />
       <Button fx:id="quitGame" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Quit" />
+
    </VBox>
    <Label alignment="CENTER" layoutX="745.0" layoutY="406.0" prefHeight="126.0" prefWidth="211.0" text="Risk" textFill="#ab0000">
       <font>

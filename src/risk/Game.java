@@ -30,6 +30,7 @@ public class Game extends Application {
     public static final int PAUSE_GAME_MENU = 3;
     public static final int GAME_SETUP = 4;
     private final int GAME_END = 5;
+    public static final int HELP_GAME = 6;
 
     /** The color themes for each continent and those that are available to the user for selection. */
     public final String NORTH_AMERICA_HEX = "B78740";
@@ -64,7 +65,7 @@ public class Game extends Application {
     private Stage primaryStage, gamePauseMenuStage, gameEndStage;
 
     /** The Game's Scenes */
-    private Scene mainMenuScene, gameScene, aboutGameScene, gamePauseMenuScene, gameSetupScene, gameEndScene;
+    private Scene mainMenuScene, gameScene, aboutGameScene, helpGameScene, gamePauseMenuScene, gameSetupScene, gameEndScene;
 
     /** Controller for the Game Scene */
     private GameSceneController gameSceneController;
@@ -438,6 +439,10 @@ public class Game extends Application {
         AboutGameSceneController aboutGameSceneController = (AboutGameSceneController) loadFxmlController("fxml/AboutGameSceneController.fxml");
         aboutGameScene = aboutGameSceneController.getPrimaryScene();
 
+        // Loader for AboutGameSceneController
+        HelpGameSceneController helpGameSceneController = (HelpGameSceneController) loadFxmlController("fxml/HelpGameSceneController.fxml");
+        helpGameScene = helpGameSceneController.getPrimaryScene();
+
         // Loader for GamePauseMenuSceneController
         GamePauseMenuSceneController gamePauseMenuSceneController = (GamePauseMenuSceneController) loadFxmlController("fxml/GamePauseMenuScene.fxml");
         gamePauseMenuScene = gamePauseMenuSceneController.getPrimaryScene();
@@ -596,6 +601,9 @@ public class Game extends Application {
                 break;
             case ABOUT_GAME:
                 primaryStage.setScene(aboutGameScene);
+                break;
+            case HELP_GAME:
+                primaryStage.setScene(helpGameScene);
                 break;
             case PAUSE_GAME_MENU:
                 gameSceneController.enableRootShadow();
