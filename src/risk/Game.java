@@ -671,7 +671,7 @@ public class Game extends Application {
 
                 // Read name and continent-numerical-id for Territory.
                 String[] values = line.split(",");
-                territories.put(values[0], new Territory(values[0], Integer.valueOf(values[1])));
+                territories.put(values[0], new Territory(values[0]));
 
             }
         } catch (IOException e) {
@@ -752,7 +752,7 @@ public class Game extends Application {
         for (String neighbor: neighborNames) {
             ts.add(territories.get(neighbor));
         }
-        territory.setNeighbors(ts);
+        territory.setNeighboringTerritories(ts);
     }
 
     /**

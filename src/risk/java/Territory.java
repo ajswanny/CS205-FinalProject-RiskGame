@@ -3,40 +3,22 @@ package risk.java;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Representation of a Territory on the game-board-map. Contains data about the amount of armies deployed in this
+ * Territory, the owner of the Territory, and this Territory's neighboring Territories.
+ */
 public class Territory implements Serializable {
 
     /* Fields */
     int numOfArmies;
-    private ArrayList<Territory> neighbors;
+    private ArrayList<Territory> neighboringTerritories;
     Player owner;
     private final String name;
-    private Continent continent;
 
     /* Constructors */
-    /** Default constructor. */
-    public Territory(String name, int continentNumId) {
+    public Territory(String name) {
         this.name = name;
-        neighbors = new ArrayList<>();
-        switch (continentNumId) {
-            case 1:
-                continent = Continent.NORTH_AMERICA;
-                break;
-            case 2:
-                continent = Continent.SOUTH_AMERICA;
-                break;
-            case 3:
-                continent = Continent.EUROPE;
-                break;
-            case 4:
-                continent = Continent.AFRICA;
-                break;
-            case 5:
-                continent = Continent.ASIA;
-                break;
-            case 6:
-                continent = Continent.AUSTRALIA;
-                break;
-        }
+        neighboringTerritories = new ArrayList<>();
     }
 
     /* Methods */
@@ -54,16 +36,16 @@ public class Territory implements Serializable {
     /**
      * Performs an attack from this Territory to the given target Territory.
      */
-    public boolean attack(Territory toAttack, int selfRollValue, int enemyRollValue){
+    public boolean attack(Territory attackTarget, int selfRollValue, int enemyRollValue){
         if (this.numOfArmies > 1) {
             if (selfRollValue > enemyRollValue) {
-                toAttack.numOfArmies -= 1;
+                attackTarget.numOfArmies -= 1;
             } else {
                 this.numOfArmies -= 1;
             }
 
-            if (toAttack.numOfArmies < 1) {
-                moveArmyTo(toAttack);
+            if (attackTarget.numOfArmies < 1) {
+                moveArmyTo(attackTarget);
                 return true;
             }
         }
@@ -71,7 +53,7 @@ public class Territory implements Serializable {
     }
 
     public boolean isNeighborOf(Territory query) {
-        for (Territory neighbor : neighbors) {
+        for (Territory neighbor : neighboringTerritories) {
             if (neighbor == query) return true;
         }
         return false;
@@ -90,21 +72,19 @@ public class Territory implements Serializable {
         return owner;
     }
 
-    ArrayList<Territory> getNeighbors() {
-        return neighbors;
-    }
-
-    public Continent getContinent() {
-        return continent;
+    ArrayList<Territory> getNeighboringTerritories() {
+        return neighboringTerritories;
     }
 
     /* Setters */
-    /** Sets this territories neighbors to the ones given in the ArrayList parameter. */
-    public void setNeighbors(ArrayList<Territory> neighbors) {
-        if (this.neighbors.isEmpty()) {
-            this.neighbors = new ArrayList<>(neighbors.size());
+    /**
+     * Sets all neighboring Territories to the ones given in the ArrayList parameter.
+     */
+    public void setNeighboringTerritories(ArrayList<Territory> neighboringTerritories) {
+        if (this.neighboringTerritories.isEmpty()) {
+            this.neighboringTerritories = new ArrayList<>(neighboringTerritories.size());
         }
-        this.neighbors.addAll(neighbors);
+        this.neighboringTerritories.addAll(neighboringTerritories);
     }
 
     public void setNumOfArmies(int numOfArmies) {

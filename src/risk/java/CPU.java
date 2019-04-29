@@ -47,7 +47,7 @@ public class CPU extends Player implements Serializable {
         Territory attackOrigin = null;
         Territory attackTarget = null;
         for (Territory currentFrom : controlledTerritories) {
-            ArrayList<Territory> currentNeighbors = currentFrom.getNeighbors();
+            ArrayList<Territory> currentNeighbors = currentFrom.getNeighboringTerritories();
             for (Territory currentNeighbor : currentNeighbors) {
                 if (currentFrom.owner != currentNeighbor.owner && currentFrom.getNumOfArmies() > 1) {
                     if ((currentFrom.numOfArmies - currentNeighbor.numOfArmies) > biggestAdvantage) {
