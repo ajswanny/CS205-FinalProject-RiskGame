@@ -97,48 +97,174 @@
       <Line id="westernUnitedStates-ontario" endX="-177.9999542236328" endY="106.5" layoutX="313.0" layoutY="72.0" startX="-98.68499755859375" startY="41.0064697265625" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
       <Line id="ontario-quebec" endX="-81.0" endY="14.5" layoutX="335.0" layoutY="105.0" startX="-123.0" startY="10.5" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
       <Line id="ontario-easternUnitedStates" endX="-128.0" endY="71.50003051757812" layoutX="345.0" layoutY="132.0" startX="-133.3699951171875" startY="-17.579330444335938" stroke="#bc0909eb" strokeDashOffset="20.0" strokeWidth="2.0" />
-      <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #C2984E; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #994734; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #876133; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #6A6F6B; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="mongolia" layoutX="807.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #8B626A; -fx-border-color: #EAD3BA;" />
-      <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" style="-fx-background-color: #5E693D; -fx-border-color: #EAD3BA;" />
+      <ToggleButton id="alaska" contentDisplay="CENTER" layoutX="9.0" layoutY="42.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="northwestTerritory" contentDisplay="CENTER" layoutX="190.0" layoutY="11.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="alberta" contentDisplay="CENTER" layoutX="122.0" layoutY="86.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="ontario" contentDisplay="CENTER" layoutX="200.0" layoutY="101.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="westernUnitedStates" contentDisplay="CENTER" layoutX="122.0" layoutY="163.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="easternUnitedStates" contentDisplay="CENTER" layoutX="205.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="quebec" contentDisplay="CENTER" layoutX="242.0" layoutY="105.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="greenland" contentDisplay="CENTER" layoutX="317.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="centralAmerica" contentDisplay="CENTER" layoutX="133.0" layoutY="245.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="venezuela" layoutX="242.0" layoutY="281.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="brazil" layoutX="283.0" layoutY="377.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="peru" layoutX="237.0" layoutY="392.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="argentina" layoutX="217.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="northAfrica" layoutX="422.0" layoutY="343.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="egypt" layoutX="545.0" layoutY="309.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="eastAfrica" layoutX="557.0" layoutY="358.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="congo" layoutX="525.0" layoutY="438.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="southAfrica" layoutX="533.0" layoutY="535.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="madagascar" layoutX="631.0" layoutY="523.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="westernEurope" layoutX="422.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="greatBritain" layoutX="362.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="iceland" layoutX="374.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="scandinavia" layoutX="469.0" layoutY="57.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="ukraine" layoutX="557.0" layoutY="120.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="northernEurope" layoutX="457.0" layoutY="159.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="southernEurope" layoutX="501.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="middleEast" layoutX="598.0" layoutY="280.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="india" layoutX="688.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="afghanistan" layoutX="664.0" layoutY="189.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="ural" layoutX="676.0" layoutY="90.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="siberia" layoutX="724.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="china" layoutX="808.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="mongolia" layoutX="807.0" layoutY="161.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="irkutsk" layoutX="783.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="yakutsk" layoutX="783.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="kamchatka" layoutX="821.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="japan" layoutX="918.0" layoutY="149.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="indonesia" layoutX="833.0" layoutY="443.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="newGuinea" layoutX="906.0" layoutY="357.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="westernAustralia" layoutX="855.0" layoutY="481.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="easternAustralia" layoutX="928.0" layoutY="521.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
+      <ToggleButton id="siam" layoutX="771.0" layoutY="274.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="24.0" stylesheets="@../css/TerritoryButton.css" textFill="#211201">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></ToggleButton>
    </Group>
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ead3ba" height="66.0" layoutX="285.0" layoutY="729.0" stroke="BLACK" strokeType="OUTSIDE" width="470.0">
       <effect>

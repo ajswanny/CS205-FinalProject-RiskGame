@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.*;
@@ -35,9 +34,9 @@ public class GameSceneController extends RiskSceneController {
     private ArrayList<Line> legalPathIndicators;
 
     // GUI Glow effects for Player selections
-    private final Glow STANDARD_GLOW_EFFECT = new Glow(0.5);
-    public final Glow CPU_GLOW_EFFECT = new Glow(0.8);
-    private final Glow TARGET_TERRITORY_EFFECT = new Glow(1);
+    public final DropShadow STANDARD_ATTACK_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.valueOf("#A80B0A"), 12, 0, 0, 0);
+    public final DropShadow STANDARD_DRAFT_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.CORNSILK, 30, 0.5, 0, 0);
+    private final Glow TARGET_PATH_EFFECT = new Glow(0.5);
     private final Bloom STANDARD_BLOOM_EFFECT = new Bloom(0.3);
     private Lighting ROOT_SHADOW;
 
@@ -124,12 +123,10 @@ public class GameSceneController extends RiskSceneController {
         double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
         Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
         for (ToggleButton button : territoryToggleButtons) {
-            button.setShape(circle);
-            double size = 2* TERRITORY_BUTTON_SHAPE_RAD;
-            button.setMinSize(size, size);
-            button.setMaxSize(size, size);
 
             button.setOnAction(event -> territoryButtonAction(button));
+            button.setBorder(null);
+
         }
         draftTerritoryControl = null;
 
@@ -171,10 +168,12 @@ public class GameSceneController extends RiskSceneController {
             // Update GUI for new Territory armies values
             for (ToggleButton toggleButton : territoryToggleButtons) {
                 if (toggleButton.getId().equals(targetTerritoryName)) {
-                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(targetTerritory.getNumOfArmies()));
+//                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(targetTerritory.getNumOfArmies()));
+                    toggleButton.setText(String.valueOf(targetTerritory.getNumOfArmies()));
                 }
                 if (toggleButton.getId().equals(originTerritoryName)) {
-                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(originTerritory.getNumOfArmies()));
+//                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(originTerritory.getNumOfArmies()));
+                    toggleButton.setText(String.valueOf(originTerritory.getNumOfArmies()));
                 }
             }
         } catch (NullPointerException ignored) {
@@ -301,7 +300,7 @@ public class GameSceneController extends RiskSceneController {
     /** Action for when a Player selects a Territory ToggleButton during the DRAFT turn-phase. */
     private void selectTerritoryToggleBtnForDraft(ToggleButton button) {
         resetBoard(false, true);
-        button.setEffect(STANDARD_GLOW_EFFECT);
+        button.setEffect(STANDARD_DRAFT_EFFECT);
         draftTerritoryControl = button;
     }
 
@@ -314,7 +313,7 @@ public class GameSceneController extends RiskSceneController {
         // If territory belongs to Player update GUI and flag the territory
         if (instance.playerControlsTerritory(selectedTerritory)) {
             resetBoard(true, true);
-            button.setEffect(STANDARD_GLOW_EFFECT);
+            button.setEffect(STANDARD_ATTACK_EFFECT);
             showLegalAttackLinesForTerritory(button.getId());
             attackOriginControl = button;
 
@@ -322,7 +321,9 @@ public class GameSceneController extends RiskSceneController {
         } else if (instance.cpuControlsTerritory(selectedTerritory) && attackOriginControl != null && selectedTerritory.isNeighborOf(instance.territories.get(attackOriginControl.getId()))) {
 
             // Highlight the attack path
+            if (attackTargetControl != null) attackTargetControl.setEffect(null);
             showLegalAttackPathFor(attackOriginControl.getId(), button.getId(), true);
+            button.setEffect(STANDARD_ATTACK_EFFECT);
             attackTargetControl = button;
 
         } else {
@@ -340,7 +341,7 @@ public class GameSceneController extends RiskSceneController {
             }
             String lineID = line.getId();
             if (lineID.contains(attackOriginName) && lineID.contains(attackTargetName)) {
-                line.setEffect(TARGET_TERRITORY_EFFECT);
+                line.setEffect(TARGET_PATH_EFFECT);
             }
         }
     }
@@ -350,7 +351,7 @@ public class GameSceneController extends RiskSceneController {
 
         // If territory belongs to Player update GUI and flag the territory
         resetBoard(false, true);
-        button.setEffect(STANDARD_GLOW_EFFECT);
+        button.setEffect(STANDARD_DRAFT_EFFECT);
         fortifyTerritoryControl = button;
 
     }
@@ -389,28 +390,17 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
-    /** Shows all paths that a user can take from a controlled Territory to another neighboring controlled Territory */
-    private void showLegalAlliedPathLinesForTerritory(String territoryName) {
-
-        // Scan all lines
+    public void showLegalCpuAttackLinesForTerritory(String territoryName) {
         for (Line line : legalPathIndicators) {
-
-            // Get the name of the Territory opposite to 'territoryName' along 'line'
-            String[] strings = line.getId().split("-");
-            String oppositeTerritory = "";
-            for (String string : strings) {
-                if (!string.equals(territoryName)) {
-                    oppositeTerritory = string;
+            if (line.getId().contains(territoryName)) {
+                for (Territory territory : instance.player.getControlledTerritories()) {
+                    // Show path if it links to an enemy-controlled territory
+                    if (line.getId().contains(territory.getName())) {
+                        line.setVisible(true);
+                    }
                 }
             }
-
-            // Show line if it links to Player owned territory
-            if (line.getId().contains(territoryName) && instance.playerControlsTerritory(instance.territories.get(oppositeTerritory))) {
-                line.setVisible(true);
-            }
-
         }
-
     }
 
     @SuppressWarnings("SwitchStatementWithTooFewBranches")
@@ -490,7 +480,6 @@ public class GameSceneController extends RiskSceneController {
 
         for (ToggleButton territoryButton : territoryToggleButtons) {
             territoryButton.setText(String.valueOf(instance.territories.get(territoryButton.getId()).getNumOfArmies()));
-            territoryButton.setGraphic(new Label(territoryButton.getText()));
         }
 
     }
@@ -522,7 +511,8 @@ public class GameSceneController extends RiskSceneController {
 
                 // Update Territory GUI and data
                 instance.setNumOfArmiesForTerritory(territory, newArmyVal);
-                ((Label) draftTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+//                ((Label) draftTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+                draftTerritoryControl.setText(String.valueOf(territory.getNumOfArmies()));
                 break;
 
             case FORTIFY:
@@ -552,7 +542,8 @@ public class GameSceneController extends RiskSceneController {
 
                 // Update Territory GUI and data
                 instance.setNumOfArmiesForTerritory(territory, newArmyVal);
-                ((Label) fortifyTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+//                ((Label) fortifyTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+                fortifyTerritoryControl.setText(String.valueOf(territory.getNumOfArmies()));
         }
     }
 
@@ -560,9 +551,10 @@ public class GameSceneController extends RiskSceneController {
      * Updates the given Territory's ToggleButton to show its correct number of armies.
      */
     public void resetAmountOfArmiesForTerritory(Territory territory) {
-        for (ToggleButton button : territoryToggleButtons) {
-            if (button.getId().equals(territory.getName())) {
-                ((Label) button.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+        for (ToggleButton territoryToggleButton : territoryToggleButtons) {
+            if (territoryToggleButton.getId().equals(territory.getName())) {
+//                ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
+                territoryToggleButton.setText(String.valueOf(territory.getNumOfArmies()));
             }
         }
     }
@@ -572,7 +564,8 @@ public class GameSceneController extends RiskSceneController {
      */
     public void resetAmountOfArmiesForTerritories() {
         for (ToggleButton territoryToggleButton : territoryToggleButtons) {
-            ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
+//            ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
+            territoryToggleButton.setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
         }
     }
 

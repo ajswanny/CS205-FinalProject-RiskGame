@@ -289,7 +289,7 @@ public class Game extends Application {
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
                     Thread.sleep(3000);
                     Territory territoryToDraftArmiesTo = cpu.draftArmies();
-                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, gameSceneController.CPU_GLOW_EFFECT));
+                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, gameSceneController.STANDARD_DRAFT_EFFECT));
                     Thread.sleep(500);
                     territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
                     Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
@@ -311,7 +311,7 @@ public class Game extends Application {
                         Territory deFortifiedTerritory = cpuFortificationData.deFortifiedTerritory;
                         Territory fortifiedTerritory = cpuFortificationData.fortifiedTerritory;
 
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, gameSceneController.CPU_GLOW_EFFECT));
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT));
                         Thread.sleep(1000);
                         for (int i = 1; i <= cpuFortificationData.delta; i++) {
                             deFortifiedTerritory.setNumOfArmies(deFortifiedTerritory.getNumOfArmies() - 1);
@@ -319,7 +319,7 @@ public class Game extends Application {
                             Thread.sleep(500);
                         }
 
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, gameSceneController.CPU_GLOW_EFFECT));
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT));
                         Thread.sleep(1000);
                         for (int i = 1; i <= cpuFortificationData.delta; i++) {
                             fortifiedTerritory.setNumOfArmies(fortifiedTerritory.getNumOfArmies() + 1);
@@ -377,14 +377,14 @@ public class Game extends Application {
             // Delay if attack origin is determined to be a different Territory as the one in the previous attack
             if (cpuAttackOrigin != cpuAttackOriginRecord) {
                 Platform.runLater(() -> gameSceneController.resetBoard(true, true));
-                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackOrigin, gameSceneController.CPU_GLOW_EFFECT));
-                Platform.runLater(() -> gameSceneController.showLegalAttackLinesForTerritory(cpuAttackOrigin.getName()));
+                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackOrigin, gameSceneController.STANDARD_ATTACK_EFFECT));
+                Platform.runLater(() -> gameSceneController.showLegalCpuAttackLinesForTerritory(cpuAttackOrigin.getName()));
                 Thread.sleep(1000);
             }
 
             // Delay if attack target is determined as a different Territory.
             if (cpuAttackTarget != cpuAttackTargetRecord) {
-                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackTarget, gameSceneController.CPU_GLOW_EFFECT));
+                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackTarget, gameSceneController.STANDARD_ATTACK_EFFECT));
                 Platform.runLater(() -> gameSceneController.showLegalAttackPathFor(cpuAttackOrigin.getName(), cpuAttackTarget.getName(), true));
                 Thread.sleep(1000);
             }
