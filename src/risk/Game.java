@@ -446,7 +446,7 @@ public class Game extends Application {
             cpuDice.roll();
 
             // Perform attack and record conquered Territory if the event occurred.
-            cpuAttackData = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+            cpuAttackData = cpu.attackTerritory(cpuDice.getTotal(), playerDice.getTotal());
             if (cpuAttackData == null) {
                 Thread.sleep(500);
                 numOfAttacks++;

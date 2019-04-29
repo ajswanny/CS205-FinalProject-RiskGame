@@ -5,13 +5,44 @@ import risk.Game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The CPU class contains all data for the computer-player-unit from its resources to its strategies for the Game.
+ */
 public class CPU extends Player implements Serializable {
 
+    /* Constructor */
     public CPU() {
         this.color = Game.PlayerColor.EU_GRAY;
     }
 
-    public CPUAttack CpuAttack(int cpuRoll, int enemyRoll) {
+    /* Methods */
+    /**
+     * Implements the CPU's strategy for drafting armies: armies are added to the last controlled Territory identified
+     * with the least amount of armies.
+     * @return the Territory to draft armies to.
+     */
+    public Territory draftArmies() {
+        int min = 40;
+        Territory t = null;
+        for (Territory territory : controlledTerritories) {
+            if (territory.getNumOfArmies() < min) {
+                min = territory.getNumOfArmies();
+                t = territory;
+            }
+        }
+        return t;
+    }
+
+    /**
+     * Implements the CPU's strategy for attacking enemy Territories: an attack of 1-to-1 armies is made from the
+     * Territories with the biggest difference of armies in favor of the CPU's attack origin.
+     * @param cpuRoll the dice roll for the CPU.
+     * @param enemyRoll the enemy dice roll.
+     * @return attack data.
+     */
+    public CPUAttack attackTerritory(int cpuRoll, int enemyRoll) {
+
+        // Identify the biggest advantage for an attack.
         int biggestAdvantage = -10000;
         Territory attackOrigin = null;
         Territory attackTarget = null;
@@ -28,26 +59,20 @@ public class CPU extends Player implements Serializable {
             }
         }
 
-        // Test if CPU conquered a territory
+        // Test if CPU conquered a territory.
         if (attackOrigin != null) {
             return new CPUAttack(attackOrigin, attackTarget, attackOrigin.attack(attackTarget, cpuRoll, enemyRoll));
         } else {
             return null;
         }
+
     }
 
-    public Territory draftArmies() {
-        int min = 40;
-        Territory t = null;
-        for (Territory territory : controlledTerritories) {
-            if (territory.getNumOfArmies() < min) {
-                min = territory.getNumOfArmies();
-                t = territory;
-            }
-        }
-        return t;
-    }
-
+    /**
+     * Implements the CPU's strategy for fortifying Territories: the CPU's Territory with the most armies is found and half of
+     * these armies are moved to the Territory with the least amount of armies.
+     * @return fortification data.
+     */
     public CPUFortification fortifyTerritories() {
         int max = 2;
         int min = Integer.MAX_VALUE;
