@@ -95,7 +95,7 @@ public class Game extends Application {
 
     private boolean gameIsRunning;
 
-    public boolean verbose;
+    public final boolean verbose;
 
     private static Game instance;
 

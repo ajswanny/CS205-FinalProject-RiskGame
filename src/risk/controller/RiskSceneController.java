@@ -22,7 +22,7 @@ abstract public class RiskSceneController implements Initializable {
     boolean verbose;
 
     @FXML
-    public AnchorPane root;
+    AnchorPane root;
 
     private void initializeCoreResources() {
         instance = Game.getInstance();

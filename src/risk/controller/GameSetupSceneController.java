@@ -15,16 +15,16 @@ import java.util.ResourceBundle;
 public class GameSetupSceneController extends RiskSceneController {
 
     @FXML
-    public Button backToMainMenu;
+    private Button backToMainMenu;
 
     @FXML
-    public Button continueGame;
+    private Button continueGame;
 
     @FXML
-    public Button newGame;
+    private Button newGame;
 
     @FXML
-    public HBox playerColorToggleButtons;
+    private HBox playerColorToggleButtons;
 
     private final Glow SELECTED_COLOR_EFFECT = new Glow(0.5);
 

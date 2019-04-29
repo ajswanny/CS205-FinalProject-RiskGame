@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -50,43 +51,43 @@ public class GameSceneController extends RiskSceneController {
     private int armiesToMoveForFortification = 0;
 
     @FXML
-    public Group boardNodes;
+    private Group boardNodes;
 
     @FXML
-    public Group armyMovementControls;
+    private Group armyMovementControls;
 
     @FXML
-    public Button makeAttack;
+    private Button makeAttack;
 
     @FXML
-    public Button nextPhaseOrTurn;
+    private Button nextPhaseOrTurnButton;
 
     @FXML
-    public Button decreaseArmiesToDraftOrFortify;
+    private Button decreaseArmiesToDraftOrFortify;
 
     @FXML
-    public Button increaseArmiesToDraftOrFortify;
+    private Button increaseArmiesToDraftOrFortify;
 
     @FXML
-    public Label armiesToMoveIndicator;
+    private Label armiesToMoveIndicator;
 
     @FXML
-    public Label fortifyPhaseIndicator;
+    private Label fortifyPhaseIndicator;
 
     @FXML
-    public Label attackPhaseIndicator;
+    private Label attackPhaseIndicator;
 
     @FXML
-    public Label draftPhaseIndicator;
+    private Label draftPhaseIndicator;
 
     @FXML
-    public Circle playerTurnIndicator;
+    private Circle playerTurnIndicator;
 
     @FXML
-    public Circle cpuTurnIndicator;
+    private Circle cpuTurnIndicator;
 
     @FXML
-    public Circle armiesToMoveIndicatorGraphic;
+    private Circle armiesToMoveIndicatorGraphic;
 
     public GameSceneController() {
         if (verbose) System.out.println("Initialized Controller for Scene: Game.");
@@ -120,32 +121,19 @@ public class GameSceneController extends RiskSceneController {
         }
 
         // Initialize territory ToggleButtons.
-        double TERRITORY_BUTTON_SHAPE_RAD = 12.0;
-        Circle circle = new Circle(TERRITORY_BUTTON_SHAPE_RAD);
         for (ToggleButton button : territoryToggleButtons) {
-
             button.setOnAction(event -> territoryButtonAction(button));
             button.setBorder(null);
-
         }
-        draftTerritoryControl = null;
 
         // Initialize legal-attack-path-indicators.
         for (Line line : legalPathIndicators) {
             line.setVisible(false);
         }
 
-        // Initialize button for controlling turn phases.
-        double NEXT_PHASE_TURN_BUTTON_SHAPE_RAD = 20.0;
-        circle = new Circle(NEXT_PHASE_TURN_BUTTON_SHAPE_RAD);
-        nextPhaseOrTurn.setShape(circle);
-        double size = 2* NEXT_PHASE_TURN_BUTTON_SHAPE_RAD;
-        nextPhaseOrTurn.setMinSize(size, size);
-        nextPhaseOrTurn.setMaxSize(size, size);
-
         // Button to go to next turn phase
-        nextPhaseOrTurn.setOnAction(event -> endTurnPhase());
-        nextPhaseOrTurn.setDisable(true);
+        nextPhaseOrTurnButton.setOnAction(event -> endTurnPhase());
+        nextPhaseOrTurnButton.setDisable(true);
 
         // Attack command btn
         hideNode(makeAttack);
@@ -231,7 +219,7 @@ public class GameSceneController extends RiskSceneController {
 
                 // Enable controls.
                 showNode(armyMovementControls);
-                showNode(nextPhaseOrTurn);
+                showNode(nextPhaseOrTurnButton);
                 hideNode(makeAttack);
                 break;
 
@@ -253,7 +241,7 @@ public class GameSceneController extends RiskSceneController {
 
                 // Prepare GUI controls for next CPU turn-phase
                 hideNode(armyMovementControls);
-                hideNode(nextPhaseOrTurn);
+                hideNode(nextPhaseOrTurnButton);
                 playerTurnIndicator.setEffect(null);
                 cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
                 break;
@@ -305,7 +293,6 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /** Action for when a Player selects a Territory ToggleButton during the ATTACK turn-phase. */
-    @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForAttack(ToggleButton button) {
 
         Territory selectedTerritory = instance.territories.get(button.getId());
@@ -346,7 +333,6 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForFortify(ToggleButton button) {
 
         // If territory belongs to Player update GUI and flag the territory
@@ -377,7 +363,7 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /** Shows all paths that a user can take from a controlled Territory for an attack. */
-    public void showLegalAttackLinesForTerritory(String territoryName) {
+    private void showLegalAttackLinesForTerritory(String territoryName) {
         for (Line line : legalPathIndicators) {
             if (line.getId().contains(territoryName)) {
                 for (Territory territory : instance.cpu.getControlledTerritories()) {
@@ -403,11 +389,11 @@ public class GameSceneController extends RiskSceneController {
         }
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
+
     private void initializeKeyboardListeners() {
         primaryScene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case ESCAPE: instance.requestDisplayForScene(PAUSE_GAME_MENU);
+            if (event.getCode() == KeyCode.ESCAPE) {
+                instance.requestDisplayForScene(PAUSE_GAME_MENU);
             }
         });
     }
@@ -500,18 +486,17 @@ public class GameSceneController extends RiskSceneController {
                 if (difference < 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 0) {
                     newArmyVal -= Game.ARMIES_TO_DRAFT;
                     armiesToMoveIndicator.setText("5");
-                    nextPhaseOrTurn.setDisable(true);
+                    nextPhaseOrTurnButton.setDisable(true);
 
                 //Player tries to draft armies
                 } else if (difference > 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 5) {
                     newArmyVal += Game.ARMIES_TO_DRAFT;
                     armiesToMoveIndicator.setText("0");
-                    nextPhaseOrTurn.setDisable(false);
+                    nextPhaseOrTurnButton.setDisable(false);
                 }
 
                 // Update Territory GUI and data
                 instance.setNumOfArmiesForTerritory(territory, newArmyVal);
-//                ((Label) draftTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
                 draftTerritoryControl.setText(String.valueOf(territory.getNumOfArmies()));
                 break;
 
@@ -535,14 +520,13 @@ public class GameSceneController extends RiskSceneController {
 
                 // Prevent player from ending turn if they have pending armies to move
                 if (armiesToMoveForFortification == 0) {
-                    nextPhaseOrTurn.setDisable(false);
+                    nextPhaseOrTurnButton.setDisable(false);
                 } else {
-                    nextPhaseOrTurn.setDisable(true);
+                    nextPhaseOrTurnButton.setDisable(true);
                 }
 
                 // Update Territory GUI and data
                 instance.setNumOfArmiesForTerritory(territory, newArmyVal);
-//                ((Label) fortifyTerritoryControl.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
                 fortifyTerritoryControl.setText(String.valueOf(territory.getNumOfArmies()));
         }
     }
@@ -553,7 +537,6 @@ public class GameSceneController extends RiskSceneController {
     public void resetAmountOfArmiesForTerritory(Territory territory) {
         for (ToggleButton territoryToggleButton : territoryToggleButtons) {
             if (territoryToggleButton.getId().equals(territory.getName())) {
-//                ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(territory.getNumOfArmies()));
                 territoryToggleButton.setText(String.valueOf(territory.getNumOfArmies()));
             }
         }
@@ -564,7 +547,6 @@ public class GameSceneController extends RiskSceneController {
      */
     public void resetAmountOfArmiesForTerritories() {
         for (ToggleButton territoryToggleButton : territoryToggleButtons) {
-//            ((Label) territoryToggleButton.getGraphic()).setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
             territoryToggleButton.setText(String.valueOf(instance.territories.get(territoryToggleButton.getId()).getNumOfArmies()));
         }
     }

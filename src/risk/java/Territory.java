@@ -9,7 +9,7 @@ public class Territory implements Serializable {
     int numOfArmies;
     private ArrayList<Territory> neighbors;
     Player owner;
-    private String name;
+    private final String name;
 
     /* Constructors */
     /** Default constructor. */
@@ -19,10 +19,10 @@ public class Territory implements Serializable {
     }
 
     /* Methods */
-    void moveArmies(Territory territoryToTransferTo, int numToTransfer) {
-        if (this.numOfArmies > numToTransfer) {
-            territoryToTransferTo.numOfArmies += numToTransfer;
-            this.numOfArmies -= numToTransfer;
+    private void moveArmyTo(Territory territoryToTransferTo) {
+        if (this.numOfArmies > 1) {
+            territoryToTransferTo.numOfArmies += 1;
+            this.numOfArmies -= 1;
         }
     }
 
@@ -42,7 +42,7 @@ public class Territory implements Serializable {
             }
 
             if (toAttack.numOfArmies < 1) {
-                moveArmies(toAttack, 1);
+                moveArmyTo(toAttack);
                 return true;
             }
         }

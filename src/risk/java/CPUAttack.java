@@ -2,9 +2,9 @@ package risk.java;
 
 public class CPUAttack {
 
-    public Territory attackOrigin;
-    public Territory attackTarget;
-    public boolean targetWasConquered;
+    public final Territory attackOrigin;
+    public final Territory attackTarget;
+    public final boolean targetWasConquered;
 
     CPUAttack(Territory attackOrigin, Territory attackTarget, boolean targetWasConquered) {
         this.attackOrigin = attackOrigin;

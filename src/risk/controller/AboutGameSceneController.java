@@ -10,7 +10,7 @@ import static risk.Game.MAIN_MENU;
 public class AboutGameSceneController extends RiskSceneController {
 
     @FXML
-    public Button goBackToMainMenu;
+    private Button goBackToMainMenu;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

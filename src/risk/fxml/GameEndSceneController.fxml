@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="259.0" prefWidth="523.0" stylesheets="@../css/EndGameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameEndSceneController">
+<AnchorPane fx:id="root" prefHeight="259.0" prefWidth="523.0" stylesheets="@../css/EndGameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameEndSceneController">
    <Label fx:id="result" alignment="CENTER" layoutX="309.0" prefHeight="96.0" prefWidth="214.0" text="Result" textFill="#bf1b1b">
       <font>
          <Font name="Euphemia UCAS" size="41.0" />

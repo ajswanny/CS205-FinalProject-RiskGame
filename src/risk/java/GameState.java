@@ -7,8 +7,8 @@ import java.io.Serializable;
 public class GameState implements Serializable {
 
     /* Fields */
-    private Player player;
-    private CPU cpu;
+    private final Player player;
+    private final CPU cpu;
     private Game.TurnPhase playerTurnPhase;
 
     /* Default Constructor */

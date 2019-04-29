@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" stylesheets="@../css/AboutGameScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
+<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" stylesheets="@../css/AboutGameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.AboutGameSceneController">
    <Button fx:id="goBackToMainMenu" layoutX="-8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" stylesheets="@../css/SceneButtons.css" text="  Back" textFill="WHITE" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#524028b5" height="224.0" layoutX="371.0" layoutY="154.0" strokeType="INSIDE" width="214.0">
       <stroke>
-         <LinearGradient endX="1.0" endY="1.0">
+         <LinearGradient>
             <stops>
                <Stop color="#7e0003" />
                <Stop color="#7e0003" offset="0.007434944237918215" />

@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSetupSceneController">
+<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.GameSetupSceneController">
    <HBox fx:id="playerColorToggleButtons" alignment="CENTER" layoutX="204.0" layoutY="64.0" prefHeight="140.0" prefWidth="545.0" spacing="20.0">
       <ToggleButton id="NA_YELLOW" mnemonicParsing="false" style="-fx-background-color: #B88A40;" />
       <ToggleButton id="SA_RED" mnemonicParsing="false" style="-fx-background-color: #994734;" />

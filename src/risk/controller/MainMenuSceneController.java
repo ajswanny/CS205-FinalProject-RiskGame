@@ -14,16 +14,16 @@ import java.util.ResourceBundle;
 public class MainMenuSceneController extends RiskSceneController{
 
     @FXML
-    public Button playGame;
+    private Button playGame;
 
     @FXML
-    public Button quitGame;
+    private Button quitGame;
 
     @FXML
-    public Button aboutGame;
+    private Button aboutGame;
 
     @FXML
-    public Button helpGame;
+    private Button helpGame;
 
     public MainMenuSceneController() {
         if (verbose) System.out.println("Initialized Controller for Scene: MainMenu.");

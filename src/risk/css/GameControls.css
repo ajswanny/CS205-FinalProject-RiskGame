@@ -1,0 +1,22 @@
+Button {
+    -fx-background-color: #7e0003;
+    -fx-font-family: helvetica;
+    -fx-text-fill: #C1946C;
+    -fx-tile-alignment: center;
+}
+
+#nextPhaseOrTurnButton {
+    -fx-background-radius: 36em;
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+}
+
+#draftOrFortifyArmiesButton {
+    -fx-background-radius: 32em;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-max-width: 32px;
+    -fx-max-height: 32px;
+}

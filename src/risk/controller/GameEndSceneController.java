@@ -3,7 +3,6 @@ package risk.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import risk.Game;
 import risk.java.CPU;
 import risk.java.Player;
 
@@ -13,10 +12,10 @@ import java.util.ResourceBundle;
 public class GameEndSceneController extends RiskSceneController {
 
     @FXML
-    public Label result;
+    private Label result;
 
     @FXML
-    public Button backToMainMenu;
+    private Button backToMainMenu;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
