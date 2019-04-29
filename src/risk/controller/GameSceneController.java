@@ -217,7 +217,7 @@ public class GameSceneController extends RiskSceneController {
                 // Show the amount of armies available for drafting.
                 armiesToMoveIndicator.setText(String.valueOf(Game.ARMIES_TO_DRAFT));
 
-                // Enable controls.
+                cpuTurnIndicator.setEffect(null);
                 showNode(armyMovementControls);
                 showNode(nextPhaseOrTurnButton);
                 hideNode(makeAttack);
