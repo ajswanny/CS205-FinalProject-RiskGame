@@ -10,12 +10,33 @@ public class Territory implements Serializable {
     private ArrayList<Territory> neighbors;
     Player owner;
     private final String name;
+    private Continent continent;
 
     /* Constructors */
     /** Default constructor. */
-    public Territory(String name) {
+    public Territory(String name, int continentNumId) {
         this.name = name;
         neighbors = new ArrayList<>();
+        switch (continentNumId) {
+            case 1:
+                continent = Continent.NORTH_AMERICA;
+                break;
+            case 2:
+                continent = Continent.SOUTH_AMERICA;
+                break;
+            case 3:
+                continent = Continent.EUROPE;
+                break;
+            case 4:
+                continent = Continent.AFRICA;
+                break;
+            case 5:
+                continent = Continent.ASIA;
+                break;
+            case 6:
+                continent = Continent.AUSTRALIA;
+                break;
+        }
     }
 
     /* Methods */
@@ -71,6 +92,10 @@ public class Territory implements Serializable {
 
     ArrayList<Territory> getNeighbors() {
         return neighbors;
+    }
+
+    public Continent getContinent() {
+        return continent;
     }
 
     /* Setters */

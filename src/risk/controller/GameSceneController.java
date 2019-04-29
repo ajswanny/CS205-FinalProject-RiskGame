@@ -60,7 +60,7 @@ public class GameSceneController extends RiskSceneController {
     private Button makeAttack;
 
     @FXML
-    private Button nextPhaseOrTurnButton;
+    private Button nextPhaseOrTurn;
 
     @FXML
     private Button decreaseArmiesToDraftOrFortify;
@@ -132,8 +132,7 @@ public class GameSceneController extends RiskSceneController {
         }
 
         // Button to go to next turn phase
-        nextPhaseOrTurnButton.setOnAction(event -> endTurnPhase());
-        nextPhaseOrTurnButton.setDisable(true);
+        nextPhaseOrTurn.setOnAction(event -> endTurnPhase());
 
         // Attack command btn
         hideNode(makeAttack);
@@ -152,18 +151,18 @@ public class GameSceneController extends RiskSceneController {
             String targetTerritoryName = attackTargetControl.getId();
             Territory targetTerritory = instance.territories.get(targetTerritoryName);
             instance.performPlayerAttack(originTerritory, targetTerritory);
+            instance.playAttackSfx();
 
             // Update GUI for new Territory armies values
             for (ToggleButton toggleButton : territoryToggleButtons) {
                 if (toggleButton.getId().equals(targetTerritoryName)) {
-//                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(targetTerritory.getNumOfArmies()));
                     toggleButton.setText(String.valueOf(targetTerritory.getNumOfArmies()));
                 }
                 if (toggleButton.getId().equals(originTerritoryName)) {
-//                    ((Label) toggleButton.getGraphic()).setText(String.valueOf(originTerritory.getNumOfArmies()));
                     toggleButton.setText(String.valueOf(originTerritory.getNumOfArmies()));
                 }
             }
+
         } catch (NullPointerException ignored) {
         }
 
@@ -190,19 +189,19 @@ public class GameSceneController extends RiskSceneController {
             case DRAFT:
 
                 setupBoardForPlayerTurnPhase(Game.TurnPhase.ATTACK);
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.DRAFT);
+                instance.flagEndOfTurnPhase(Game.TurnPhase.DRAFT);
                 break;
 
             case ATTACK:
 
                 setupBoardForPlayerTurnPhase(Game.TurnPhase.FORTIFY);
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.ATTACK);
+                instance.flagEndOfTurnPhase(Game.TurnPhase.ATTACK);
                 break;
 
             case FORTIFY:
 
                 setupBoardForPlayerTurnPhase(Game.TurnPhase.END);
-                instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
+                instance.flagEndOfTurnPhase(Game.TurnPhase.FORTIFY);
                 break;
         }
         resetBoard(true, true);
@@ -219,7 +218,7 @@ public class GameSceneController extends RiskSceneController {
 
                 cpuTurnIndicator.setEffect(null);
                 showNode(armyMovementControls);
-                showNode(nextPhaseOrTurnButton);
+                showNode(nextPhaseOrTurn);
                 hideNode(makeAttack);
                 break;
 
@@ -228,20 +227,23 @@ public class GameSceneController extends RiskSceneController {
                 // Prepare GUI controls for ATTACK phase
                 hideNode(armyMovementControls);
                 showNode(makeAttack);
+                showNode(nextPhaseOrTurn);
                 break;
 
             case FORTIFY:
 
                 // Prepare GUI controls for FORTIFY phase
+                armiesToMoveIndicator.setText("0");
                 hideNode(makeAttack);
                 showNode(armyMovementControls);
+                showNode(nextPhaseOrTurn);
                 break;
 
             case END:
 
                 // Prepare GUI controls for next CPU turn-phase
                 hideNode(armyMovementControls);
-                hideNode(nextPhaseOrTurnButton);
+                hideNode(nextPhaseOrTurn);
                 playerTurnIndicator.setEffect(null);
                 cpuTurnIndicator.setEffect(CURRENT_TURN_OWNER);
                 break;
@@ -486,13 +488,13 @@ public class GameSceneController extends RiskSceneController {
                 if (difference < 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 0) {
                     newArmyVal -= Game.ARMIES_TO_DRAFT;
                     armiesToMoveIndicator.setText("5");
-                    nextPhaseOrTurnButton.setDisable(true);
+                    nextPhaseOrTurn.setDisable(true);
 
                 //Player tries to draft armies
                 } else if (difference > 0 && Integer.valueOf(armiesToMoveIndicator.getText()) == 5) {
                     newArmyVal += Game.ARMIES_TO_DRAFT;
                     armiesToMoveIndicator.setText("0");
-                    nextPhaseOrTurnButton.setDisable(false);
+                    nextPhaseOrTurn.setDisable(false);
                 }
 
                 // Update Territory GUI and data
@@ -520,9 +522,9 @@ public class GameSceneController extends RiskSceneController {
 
                 // Prevent player from ending turn if they have pending armies to move
                 if (armiesToMoveForFortification == 0) {
-                    nextPhaseOrTurnButton.setDisable(false);
+                    nextPhaseOrTurn.setDisable(false);
                 } else {
-                    nextPhaseOrTurnButton.setDisable(true);
+                    nextPhaseOrTurn.setDisable(true);
                 }
 
                 // Update Territory GUI and data

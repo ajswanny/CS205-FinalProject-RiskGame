@@ -5,9 +5,12 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import risk.controller.*;
 import risk.java.*;
 
@@ -17,13 +20,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ * The main application Class. Game controls all data and user-interface aspects of this application.
+ */
 public class Game extends Application {
 
-    /**
-     * TODO: Player attack bug
-     */
-
     /* Class Fields */
+    /** Enumerations for Scenes or Stages. Used for switching windows. */
     public static final int MAIN_MENU = 0;
     public static final int GAME = 1;
     public static final int ABOUT_GAME = 2;
@@ -39,8 +42,16 @@ public class Game extends Application {
     public final String ASIA_HEX = "5E693D";
     public final String AUSTRALIA_HEX = "8B626A";
 
+    /** Location of serialization file for a saved game-state */
     private final String SAVED_GAME_STATE_FP = "src/resources/serializations/savedGameState.ser";
 
+    /** Media player for the Game's menus music. */
+    private MediaPlayer menuMediaPlayer;
+
+    /** Media player for the Game's attacking sound effects. */
+    private MediaPlayer sfxMediaPlayer;
+
+    /** Enumeration for a Player-selectable color. */
     public enum PlayerColor {
         NA_YELLOW,
         SA_RED,
@@ -50,6 +61,7 @@ public class Game extends Application {
         AU_VIOLET
     }
 
+    /** Enumeration for Player/CPU turn phases. */
     public enum TurnPhase {
         DRAFT,
         ATTACK,
@@ -57,48 +69,59 @@ public class Game extends Application {
         END
     }
 
-    public static final int ARMIES_TO_DRAFT= 5;
+    /** The default amount of armies a player can draft at the beginning of their turn. */
+    public static final int ARMIES_TO_DRAFT = 5;
 
+    /** Global tracker of the Player's turn phase. */
     public TurnPhase playerTurnPhase;
 
-    /** Primary Stage of the Application */
+    /** Primary Stage of the Application. */
     private Stage primaryStage, gamePauseMenuStage, gameEndStage;
 
-    /** The Game's Scenes */
+    /** The Game's Scenes. */
     private Scene mainMenuScene, gameScene, aboutGameScene, helpGameScene, gamePauseMenuScene, gameSetupScene, gameEndScene;
 
-    /** Controller for the Game Scene */
+    /** Scene FXML Controllers. */
     private GameSceneController gameSceneController;
-
     private GameSetupSceneController gameSetupSceneController;
-
     private GameEndSceneController gameEndSceneController;
 
     /** Collection of Territories referenced by their name. */
     public HashMap<String, Territory> territories;
 
+    /** The Game's Player. */
     public Player player;
 
+    /** The Game's CPU. */
     public CPU cpu;
 
+    /** Backup records for the CPU's attack phase used for correct game logic. */
     private Territory cpuAttackOriginRecord, cpuAttackTargetRecord;
 
+    /** Dice objects used for game-attack-logic. */
     private Dice playerDice, cpuDice;
 
+    /** Main Thread for the game loop. */
     private Thread gameloop;
 
+    /** Lock for Player-CPU turn alternation. */
+    private final Object turnLock = new Object();
+
+    /** The loadable game-state. */
     private GameState savedGameState;
 
+    /** The game-state that is active during the execution of the game-loop. */
     private GameState gameState;
 
-    private final Object turnLock = new Object();
+    /** Indicates whether the Game should output execution details. */
+    public final boolean verbose;
 
     private boolean gameIsRunning;
 
-    public final boolean verbose;
-
     private static Game instance;
 
+
+    /* Constructor */
     public Game() {
         verbose = true;
         instance = this;
@@ -106,7 +129,7 @@ public class Game extends Application {
 
     /* Methods */
     /**
-     * Starts the Game application.
+     * Starts the Game application, loading all data and GUI resources.
      */
     @Override
     public void start(Stage primaryStage) {
@@ -116,11 +139,21 @@ public class Game extends Application {
             // Load data.
             savedGameState = deserializeSavedGameState();
 
-            // Init dice
+            String MENU_MUSIC_FP = "src/resources/sound/OpeningMenu_Proto_1.wav";
+            Media menuMusic = new Media(new File(MENU_MUSIC_FP).toURI().toString());
+            menuMediaPlayer = new MediaPlayer(menuMusic);
+            menuMediaPlayer.setOnEndOfMedia(() -> menuMediaPlayer.seek(Duration.ZERO));
+            menuMediaPlayer.setOnPaused(() -> menuMediaPlayer.seek(Duration.ZERO));
+            menuMediaPlayer.play();
+
+            String SFX_FP = "src/resources/sound/HeavyPlasma-001.mp3";
+            Media attackSfx = new Media(new File(SFX_FP).toURI().toString());
+            sfxMediaPlayer = new MediaPlayer(attackSfx);
+
             playerDice = new Dice();
             cpuDice = new Dice();
 
-            // Load and initialize all FXML.
+            // Load and initialize all FXML Controllers.
             loadFxmlSources();
 
             // Initialize the alternate Stages.
@@ -138,15 +171,15 @@ public class Game extends Application {
             this.primaryStage = primaryStage;
             primaryStage.show();
 
-            // Debugging access.
-            debug();
-
         } catch (Exception e) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }
 
+    /**
+     * Closes Game and performs clean-up.
+     */
     @Override
     public void stop() {
         if (verbose) System.out.println("Shutting down Game instance: " + this + ".");
@@ -154,16 +187,11 @@ public class Game extends Application {
         System.exit(0);
     }
 
-    /** Used for debugging. */
-    private void debug() {
-
-    }
-
     /**
      * Validates and completes a request to begin the game.
-     * Game states:
-     *  0 = there is a state to be loaded-in.
-     *  1 = the player is creating a new game.
+     * If a new game is requested, its necessary resources are initialized.
+     * New or saved games are stored in a GameState object and passed to the 'GameSceneController' so that it may set up
+     * the GUI for the Player.
      */
     public void requestStartOfGame(boolean isNewGame, String playerSelectedColor) {
 
@@ -203,8 +231,11 @@ public class Game extends Application {
 
     }
 
-    /** Controls the game. */
-    private synchronized void game() {
+    /**
+     * Main access point for the game-loop. Creates and starts a game-loop thread that alternates between Player and
+     * CPU turns.
+     */
+    private void game() {
 
         // Prepare GUI for game-loop.
         playerTurnPhase = gameState.getPlayerTurnPhase();
@@ -218,12 +249,12 @@ public class Game extends Application {
                     if (verbose) System.out.println("Started gameloop.");
                     while (gameIsRunning) {
 
-                        // Start player turn and wait for notification of its termination
+                        // Start player turn and wait for notification of its termination.
                         Platform.runLater(() -> gameSceneController.setupBoardForNewPlayerTurn());
                         playerTurn(playerTurnPhase);
                         turnLock.wait();
 
-                        // Start CPU turn and wait for notification of its termination
+                        // Start CPU turn and wait for notification of its termination.
                         cpuTurn();
                         turnLock.wait();
 
@@ -233,7 +264,6 @@ public class Game extends Application {
                         }
 
                     }
-                    if (verbose) System.out.println("Game-loop complete.");
                 } catch (InterruptedException e) {
                     if (verbose) System.out.println("Game-loop interrupted.");
                     turnLock.notifyAll();
@@ -246,12 +276,12 @@ public class Game extends Application {
     }
 
     /**
-     * Three phases:
-     *  Draft (1) - Place armies granted at the beginning of each turn;
-     *  Attack (2) - Make attacks to enemy armies;
-     *  Fortify (3) - Move armies to friendly territories.
+     * Main access point for Player turn phases.
+     * Makes requests to the 'GameSceneController' to set up the GUI for each turn phase and updates turn-phase global
+     * trackers.
      */
     private void playerTurn(TurnPhase turnPhase) {
+
         switch (turnPhase) {
             case DRAFT:
                 playerTurnPhase = TurnPhase.DRAFT;
@@ -269,14 +299,19 @@ public class Game extends Application {
 
         // Update the Player's turn-phase tracker.
         gameState.setPlayerTurnPhase(playerTurnPhase);
+
     }
 
     /**
      * Creates a new Thread for all CPU-turn actions. Once the Thread finishes execution, notifies 'turnLock' to move
      * onto the next Player turn.
+     * Calls to update the GUI are passed onto the JavaFX Application Thread via
+     * 'Platform.runLater()', all other calculations are made on a CPU-turn Thread that is given a Runnable Task:
+     * cpuTurn.
      */
     private void cpuTurn() {
 
+        // Define JavaFX Task for new CPU-turn Thread.
         Task<Void> cpuTurn = new Task<Void>() {
             @Override
             protected Void call() {
@@ -285,54 +320,35 @@ public class Game extends Application {
 
                     Platform.runLater(() -> gameSceneController.setupBoardForNewCpuTurn());
 
-                    // Draft
+                    // Draft phase: highlight the Territory to draft armies to, update its army value, then unhighlight
+                    // the Territory.
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
                     Thread.sleep(3000);
                     Territory territoryToDraftArmiesTo = cpu.draftArmies();
-                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, gameSceneController.STANDARD_DRAFT_EFFECT));
+                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(
+                            territoryToDraftArmiesTo, gameSceneController.STANDARD_DRAFT_EFFECT)
+                    );
                     Thread.sleep(500);
                     territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
-                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
+                    Platform.runLater(() ->
+                            gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo)
+                    );
                     Thread.sleep(1000);
-                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, null));
+                    Platform.runLater(() ->
+                            gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, null)
+                    );
 
-                    // Attack
+                    // Attack phase.
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
                     Thread.sleep(3000);
-                    performCpuAttack();
+                    performCpuAttackPhase();
 
-                    // Fortify
+                    // Fortify phase.
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
                     Thread.sleep(3000);
-                    Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
-                    CPUFortification cpuFortificationData = cpu.fortifyTerritories();
-                    if (cpuFortificationData != null) {
+                    performCpuFortifyPhase();
 
-                        Territory deFortifiedTerritory = cpuFortificationData.deFortifiedTerritory;
-                        Territory fortifiedTerritory = cpuFortificationData.fortifiedTerritory;
-
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT));
-                        Thread.sleep(1000);
-                        for (int i = 1; i <= cpuFortificationData.delta; i++) {
-                            deFortifiedTerritory.setNumOfArmies(deFortifiedTerritory.getNumOfArmies() - 1);
-                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(deFortifiedTerritory));
-                            Thread.sleep(500);
-                        }
-
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT));
-                        Thread.sleep(1000);
-                        for (int i = 1; i <= cpuFortificationData.delta; i++) {
-                            fortifiedTerritory.setNumOfArmies(fortifiedTerritory.getNumOfArmies() + 1);
-                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(fortifiedTerritory));
-                            Thread.sleep(500);
-                        }
-
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, null));
-                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, null));
-                        Thread.sleep(500);
-
-                    }
-
+                    // Update Territory data for the GUI.
                     Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
 
                 } catch (InterruptedException e) {
@@ -350,32 +366,100 @@ public class Game extends Application {
 
         };
 
+        // Create and start the Thread for this Task.
         Thread th = new Thread(cpuTurn);
         th.setDaemon(true);
         th.start();
 
     }
 
-    private void performCpuAttack() throws InterruptedException {
+    /**
+     * Performs the CPU Fortify turn phase. First, updates the Territory from which armies are being taken, then adds
+     * those armies to the Territory to be fortified.
+     * Calls to update the GUI are passed onto the JavaFX Application Thread via
+     * 'Platform.runLater()'.
+     *
+     * @throws InterruptedException if its Thread is Interrupted unexpectedly.
+     */
+    private void performCpuFortifyPhase() throws InterruptedException {
 
-        // Setup vars
+        Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
+        CPUFortification cpuFortificationData = cpu.fortifyTerritories();
+        if (cpuFortificationData != null) {
+
+            Territory deFortifiedTerritory = cpuFortificationData.deFortifiedTerritory;
+            Territory fortifiedTerritory = cpuFortificationData.fortifiedTerritory;
+
+            // Update Territory de-fortification.
+            Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(
+                    deFortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT)
+            );
+            Thread.sleep(1000);
+            for (int i = 1; i <= cpuFortificationData.delta; i++) {
+                deFortifiedTerritory.setNumOfArmies(deFortifiedTerritory.getNumOfArmies() - 1);
+                Platform.runLater(() ->
+                        gameSceneController.resetAmountOfArmiesForTerritory(deFortifiedTerritory)
+                );
+                Thread.sleep(500);
+            }
+
+            // Update Territory fortification.
+            Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(
+                    fortifiedTerritory, gameSceneController.STANDARD_DRAFT_EFFECT)
+            );
+            Thread.sleep(1000);
+            for (int i = 1; i <= cpuFortificationData.delta; i++) {
+                fortifiedTerritory.setNumOfArmies(fortifiedTerritory.getNumOfArmies() + 1);
+                Platform.runLater(() ->
+                        gameSceneController.resetAmountOfArmiesForTerritory(fortifiedTerritory)
+                );
+                Thread.sleep(500);
+            }
+
+            // Unhighlight Territory-ToggleButtons.
+            Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, null));
+            Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, null));
+            Thread.sleep(500);
+
+        }
+
+    }
+
+    /**
+     * Performs the CPU Attack turn phase. The CPU selects an attack origin, then an attack target based on the largest
+     * advantage it can find given by the difference in armies of the two aforementioned Territories. Attacks are made
+     * on a 1-to-1 army basis. Furthermore, the CPU has a limit for the amount of attacks it can make.
+     * Calls to update the GUI are passed onto the JavaFX Application Thread via
+     * 'Platform.runLater()'.
+     * @throws InterruptedException if its Thread is Interrupted unexpectedly.
+     */
+    private void performCpuAttackPhase() throws InterruptedException {
+
         int numOfAttacks = 0;
-        playerDice.roll();
-        cpuDice.roll();
-        int NUM_OF_CPU_ATTACKS_ROOF = 2;
+        int LIMIT_OF_CPU_ATTACKS = 15;
         CPUAttack cpuAttackData;
 
-        while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
+        while (numOfAttacks < LIMIT_OF_CPU_ATTACKS) {
 
-            // Perform attack and record conquered Territory if the event occurred
+            // Roll dice for determination of the attack victor.
+            playerDice.roll();
+            cpuDice.roll();
+
+            // Perform attack and record conquered Territory if the event occurred.
             cpuAttackData = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+            if (cpuAttackData == null) {
+                Thread.sleep(500);
+                numOfAttacks++;
+                continue;
+            }
             Territory cpuAttackOrigin = cpuAttackData.attackOrigin;
             Territory cpuAttackTarget = cpuAttackData.attackTarget;
             boolean cpuDidConquerTargetTerritory = cpuAttackData.targetWasConquered;
 
-            // Select Territories for attack
+            // Select Territories for attack.
             // Delay if attack origin is determined to be a different Territory as the one in the previous attack
             if (cpuAttackOrigin != cpuAttackOriginRecord) {
+                Thread.sleep(300);
                 Platform.runLater(() -> gameSceneController.resetBoard(true, true));
                 Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackOrigin, gameSceneController.STANDARD_ATTACK_EFFECT));
                 Platform.runLater(() -> gameSceneController.showLegalCpuAttackLinesForTerritory(cpuAttackOrigin.getName()));
@@ -385,12 +469,20 @@ public class Game extends Application {
             // Delay if attack target is determined as a different Territory.
             if (cpuAttackTarget != cpuAttackTargetRecord) {
                 Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackTarget, gameSceneController.STANDARD_ATTACK_EFFECT));
+                Platform.runLater(() -> gameSceneController.showLegalCpuAttackLinesForTerritory(cpuAttackOrigin.getName()));
                 Platform.runLater(() -> gameSceneController.showLegalAttackPathFor(cpuAttackOrigin.getName(), cpuAttackTarget.getName(), true));
                 Thread.sleep(1000);
             }
 
-            // Perform attack animations
+            // Re-highlight territory if board was reset but target Territory remained the same.
+            if (cpuAttackOrigin != cpuAttackOriginRecord && cpuAttackTarget == cpuAttackTargetRecord) {
+                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackTarget, gameSceneController.STANDARD_ATTACK_EFFECT));
+            }
+
+            // Perform attack animations and sound effects.
             Thread.sleep(500);
+            sfxMediaPlayer.stop();
+            sfxMediaPlayer.play();
             Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuAttackOrigin));
             Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuAttackTarget));
 
@@ -409,37 +501,44 @@ public class Game extends Application {
 
         }
 
+        // Cleanup.
         cpuAttackOriginRecord = null;
         cpuAttackTargetRecord = null;
-
         Platform.runLater(() -> gameSceneController.resetBoard(true, true));
 
+        // Check if the CPU has won the game.
         checkForVictory();
 
     }
 
-    /** Midpoint for all turn-phase transitions. */
-    public void flagEndOfTurnPhase(Player player, TurnPhase turnPhase) {
-        if (player == this.player) {
-            switch (turnPhase) {
-                case DRAFT:
-                    playerTurn(TurnPhase.ATTACK);
-                    break;
-                case ATTACK:
-                    playerTurn(TurnPhase.FORTIFY);
-                    break;
-                case FORTIFY:
-                    playerTurnPhase = TurnPhase.END;
-                    synchronized (turnLock) {
-                        turnLock.notify();
-                    }
-                    break;
-            }
-        } else {
-            playerTurn(TurnPhase.DRAFT);
+    /**
+     * Midpoint for all turn-phase transitions that are indicated by the 'GameSceneController'.
+     */
+    public void flagEndOfTurnPhase(TurnPhase turnPhase) {
+
+        switch (turnPhase) {
+            case DRAFT:
+                playerTurn(TurnPhase.ATTACK);
+                break;
+            case ATTACK:
+                playerTurn(TurnPhase.FORTIFY);
+                break;
+            case FORTIFY:
+                playerTurnPhase = TurnPhase.END;
+
+                // Notify the game-loop Thread that the Player's turn has ended.
+                synchronized (turnLock) {
+                    turnLock.notify();
+                }
+                break;
         }
+
+
     }
 
+    /**
+     * Checks if any player has won the game.
+     */
     private void checkForVictory() {
         if (player.getControlledTerritories().size() == 0) {
             gameEndSceneController.setVictor(player);
@@ -450,6 +549,11 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * Used to indicate that the game has ended either by a player victory or a game-exit. This method performs cleanup
+     * and returns the user to the main menu.
+     * @param shouldSave indicates whether the user desires their current game state to be saved for future use.
+     */
     public void flagEndOfGame(boolean shouldSave) {
 
         // End Threads
@@ -465,20 +569,23 @@ public class Game extends Application {
         }
 
         if (shouldSave) {
-
             // Save the game state.
             savedGameState = gameState;
 
             // Reset the game state.
             gameState = null;
-
         }
 
+        // Cleanup.
         requestDisplayForScene(MAIN_MENU);
+        gameSceneController.resetBoard(true, true);
+        menuMediaPlayer.play();
 
     }
 
-    /** Loads FXML data for access to FXMLControllers. */
+    /**
+     * Loads all FXML data for access to FXMLControllers.
+     */
     private void loadFxmlSources() throws Exception {
 
         // Loader for MenuSceneController
@@ -511,7 +618,9 @@ public class Game extends Application {
 
     }
 
-    /** Shortcut for loading a FXML Controller class given its FXML file. */
+    /**
+     *  Shortcut for loading a FXML Controller class given its FXML file.
+     */
     private RiskSceneController loadFxmlController(String controllerFxmlFilePath) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controllerFxmlFilePath));
         fxmlLoader.load();
@@ -545,7 +654,9 @@ public class Game extends Application {
 
     }
 
-    /** High-level method to organize creation of Territories and definition of their neighbors. */
+    /**
+     * Initializes Territories if they have not been loaded in from a saved game-state.
+     */
     private void initializeTerritories() {
 
         // Input Territory info and map these to objects.
@@ -559,8 +670,8 @@ public class Game extends Application {
             while ((line = reader.readLine()) != null) {
 
                 // Read name and continent-numerical-id for Territory.
-                String[] val = line.split(",");
-                territories.put(val[0], new Territory(val[0]));
+                String[] values = line.split(",");
+                territories.put(values[0], new Territory(values[0], Integer.valueOf(values[1])));
 
             }
         } catch (IOException e) {
@@ -572,7 +683,7 @@ public class Game extends Application {
     }
 
     /**
-     * High-level method to organize definition of Territory neighbors.
+     * Defines Territory neighbors.
      */
     private void defineTerritoryRelationships() {
 
@@ -599,6 +710,7 @@ public class Game extends Application {
         setTerritoryNeighbors("eastAfrica", "northAfrica", "egypt", "congo", "southAfrica", "madagascar");
         setTerritoryNeighbors("congo", "northAfrica", "eastAfrica", "southAfrica");
         setTerritoryNeighbors("southAfrica", "congo", "eastAfrica", "madagascar");
+        setTerritoryNeighbors("madagascar", "eastAfrica", "southAfrica");
 
         // Europe
         setTerritoryNeighbors("iceland", "greenland", "greatBritain", "scandinavia");
@@ -652,6 +764,7 @@ public class Game extends Application {
                 gameSceneController.disableRootShadow();
                 primaryStage.setScene(gameScene);
                 primaryStage.centerOnScreen();
+                menuMediaPlayer.pause();
                 break;
             case ABOUT_GAME:
                 primaryStage.setScene(aboutGameScene);
@@ -729,6 +842,11 @@ public class Game extends Application {
         }
     }
 
+    /**
+     * Performs the data-side of a Player attack.
+     * @param attackOrigin the origin Territory.
+     * @param attackTarget the target Territory.
+     */
     public void performPlayerAttack(Territory attackOrigin, Territory attackTarget) {
         playerDice.roll();
         cpuDice.roll();
@@ -746,9 +864,13 @@ public class Game extends Application {
         gamePauseMenuStage.close();
     }
 
+    public void playAttackSfx() {
+        sfxMediaPlayer.stop();
+        sfxMediaPlayer.play();
+    }
+
     private void transferTerritoryOwnership(Player newOwner, Player previousOwner, Territory territory) {
         territory.setOwner(newOwner);
-
         previousOwner.removeControlledTerritory(territory);
         newOwner.addNewControlledTerritory(territory);
     }
@@ -758,14 +880,23 @@ public class Game extends Application {
         return instance;
     }
 
+    /**
+     * Indicates if the Player controls the queried Territory.
+     * @param territory the Territory to query.
+     */
     public boolean playerControlsTerritory(Territory territory) {
         return player.getControlledTerritories().contains(territory);
     }
 
+    /**
+     * Indicates if the CPU controls the queried Territory.
+     * @param territory the Territory to query.
+     */
     public boolean cpuControlsTerritory(Territory territory) {
         return cpu.getControlledTerritories().contains(territory);
     }
 
+    /** Access point for GUI environments to define a Territory's amount of armies. */
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
         territories.get(territory.getName()).setNumOfArmies(numOfArmies);
     }

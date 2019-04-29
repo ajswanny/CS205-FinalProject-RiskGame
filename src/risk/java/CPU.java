@@ -29,8 +29,11 @@ public class CPU extends Player implements Serializable {
         }
 
         // Test if CPU conquered a territory
-        assert attackOrigin != null;
-        return new CPUAttack(attackOrigin, attackTarget, attackOrigin.attack(attackTarget, cpuRoll, enemyRoll));
+        if (attackOrigin != null) {
+            return new CPUAttack(attackOrigin, attackTarget, attackOrigin.attack(attackTarget, cpuRoll, enemyRoll));
+        } else {
+            return null;
+        }
     }
 
     public Territory draftArmies() {
