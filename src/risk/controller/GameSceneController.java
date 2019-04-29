@@ -34,8 +34,8 @@ public class GameSceneController extends RiskSceneController {
     private ArrayList<Line> legalPathIndicators;
 
     // GUI Glow effects for Player selections
-    public final DropShadow STANDARD_ATTACK_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.valueOf("#A80B0A"), 12, 0, 0, 0);
-    public final DropShadow STANDARD_DRAFT_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.CORNSILK, 30, 0.5, 0, 0);
+    public final DropShadow STANDARD_ATTACK_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.valueOf("#A80B0A"), 30, 0.5, 0, 0);
+    public final DropShadow STANDARD_DRAFT_EFFECT = new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 30, 0.5, 0, 0);
     private final Glow TARGET_PATH_EFFECT = new Glow(0.5);
     private final Bloom STANDARD_BLOOM_EFFECT = new Bloom(0.3);
     private Lighting ROOT_SHADOW;
