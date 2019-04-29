@@ -81,9 +81,7 @@ public class Game extends Application {
 
     public CPU cpu;
 
-    private Territory cpuConqueredTerritory;
-
-    public Territory cpuAttackOriginTerritory, cpuAttackTargetTerritory;
+    private Territory cpuAttackOriginRecord, cpuAttackTargetRecord;
 
     private Dice playerDice, cpuDice;
 
@@ -211,7 +209,6 @@ public class Game extends Application {
         // Prepare GUI for game-loop.
         playerTurnPhase = gameState.getPlayerTurnPhase();
         requestDisplayForScene(GAME);
-        gameSceneController.setupBoardForNewPlayerTurn();
 
         // Define and run the game-loop Thread.
         gameIsRunning = true;
@@ -222,6 +219,7 @@ public class Game extends Application {
                     while (gameIsRunning) {
 
                         // Start player turn and wait for notification of its termination
+                        Platform.runLater(() -> gameSceneController.setupBoardForNewPlayerTurn());
                         playerTurn(playerTurnPhase);
                         turnLock.wait();
 
@@ -289,60 +287,49 @@ public class Game extends Application {
 
                     // Draft
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.DRAFT));
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     Territory territoryToDraftArmiesTo = cpu.draftArmies();
                     Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, gameSceneController.CPU_GLOW_EFFECT));
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                     territoryToDraftArmiesTo.addArmies(ARMIES_TO_DRAFT);
-                    Thread.sleep(2000);
-                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, null));
                     Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(territoryToDraftArmiesTo));
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(territoryToDraftArmiesTo, null));
 
                     // Attack
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.ATTACK));
-                    Thread.sleep(5000);
-                    int numOfAttacks = 0;
-                    playerDice.roll();
-                    cpuDice.roll();
-                    int NUM_OF_CPU_ATTACKS_ROOF = 20;
-                    while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
-
-                        // Perform attack and record conquered Territory if the event occurred
-                        cpuConqueredTerritory = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
-                        if (cpuConqueredTerritory != null) {
-
-                            // Set the Territory's new owner
-                            transferTerritoryOwnership(cpu, player, cpuConqueredTerritory);
-                            Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuConqueredTerritory.getName(), cpu));
-
-                        }
-
-                        Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
-                        Thread.sleep(1000);
-                        numOfAttacks++;
-
-                    }
-                    checkForVictory();
-                    cpuConqueredTerritory = null;
+                    Thread.sleep(3000);
+                    performCpuAttack();
 
                     // Fortify
                     Platform.runLater(() -> gameSceneController.setHighlightForAttackPhaseIndicator(TurnPhase.FORTIFY));
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritories());
-                    CPUFortification cpuFortifyResults = cpu.fortifyTerritories();
-                    if (cpuFortifyResults != null) {
+                    CPUFortification cpuFortificationData = cpu.fortifyTerritories();
+                    if (cpuFortificationData != null) {
 
-                        for (int i = 0; i < cpuFortifyResults.delta; i++) {
-                            cpuFortifyResults.unfortified.setNumOfArmies(cpuFortifyResults.unfortified.getNumOfArmies() - i);
-                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.unfortified));
-                            Thread.sleep(1000);
+                        Territory deFortifiedTerritory = cpuFortificationData.deFortifiedTerritory;
+                        Territory fortifiedTerritory = cpuFortificationData.fortifiedTerritory;
+
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, gameSceneController.CPU_GLOW_EFFECT));
+                        Thread.sleep(1000);
+                        for (int i = 1; i <= cpuFortificationData.delta; i++) {
+                            deFortifiedTerritory.setNumOfArmies(deFortifiedTerritory.getNumOfArmies() - 1);
+                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(deFortifiedTerritory));
+                            Thread.sleep(500);
                         }
 
-                        for (int i = 0; i < cpuFortifyResults.delta; i++) {
-                            cpuFortifyResults.fortified.setNumOfArmies(cpuFortifyResults.fortified.getNumOfArmies() + i);
-                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuFortifyResults.fortified));
-                            Thread.sleep(1000);
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, gameSceneController.CPU_GLOW_EFFECT));
+                        Thread.sleep(1000);
+                        for (int i = 1; i <= cpuFortificationData.delta; i++) {
+                            fortifiedTerritory.setNumOfArmies(fortifiedTerritory.getNumOfArmies() + 1);
+                            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(fortifiedTerritory));
+                            Thread.sleep(500);
                         }
+
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(deFortifiedTerritory, null));
+                        Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(fortifiedTerritory, null));
+                        Thread.sleep(500);
 
                     }
 
@@ -366,6 +353,68 @@ public class Game extends Application {
         Thread th = new Thread(cpuTurn);
         th.setDaemon(true);
         th.start();
+
+    }
+
+    private void performCpuAttack() throws InterruptedException {
+
+        // Setup vars
+        int numOfAttacks = 0;
+        playerDice.roll();
+        cpuDice.roll();
+        int NUM_OF_CPU_ATTACKS_ROOF = 2;
+        CPUAttack cpuAttackData;
+
+        while (numOfAttacks < NUM_OF_CPU_ATTACKS_ROOF) {
+
+            // Perform attack and record conquered Territory if the event occurred
+            cpuAttackData = cpu.CpuAttack(cpuDice.getTotal(), playerDice.getTotal());
+            Territory cpuAttackOrigin = cpuAttackData.attackOrigin;
+            Territory cpuAttackTarget = cpuAttackData.attackTarget;
+            boolean cpuDidConquerTargetTerritory = cpuAttackData.targetWasConquered;
+
+            // Select Territories for attack
+            // Delay if attack origin is determined to be a different Territory as the one in the previous attack
+            if (cpuAttackOrigin != cpuAttackOriginRecord) {
+                Platform.runLater(() -> gameSceneController.resetBoard(true, true));
+                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackOrigin, gameSceneController.CPU_GLOW_EFFECT));
+                Platform.runLater(() -> gameSceneController.showLegalAttackLinesForTerritory(cpuAttackOrigin.getName()));
+                Thread.sleep(1000);
+            }
+
+            // Delay if attack target is determined as a different Territory.
+            if (cpuAttackTarget != cpuAttackTargetRecord) {
+                Platform.runLater(() -> gameSceneController.setEffectForTerritoryToggleButton(cpuAttackTarget, gameSceneController.CPU_GLOW_EFFECT));
+                Platform.runLater(() -> gameSceneController.showLegalAttackPathFor(cpuAttackOrigin.getName(), cpuAttackTarget.getName(), true));
+                Thread.sleep(1000);
+            }
+
+            // Perform attack animations
+            Thread.sleep(500);
+            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuAttackOrigin));
+            Platform.runLater(() -> gameSceneController.resetAmountOfArmiesForTerritory(cpuAttackTarget));
+
+            // Set the Territory's new owner if one was conquered.
+            if (cpuDidConquerTargetTerritory) {
+                transferTerritoryOwnership(cpu, player, cpuAttackTarget);
+                Platform.runLater(() -> gameSceneController.updateTerritoryOwner(cpuAttackTarget.getName(), cpu));
+            }
+
+            Thread.sleep(500);
+            numOfAttacks++;
+
+            // Record the Territories used in this CPU attack.
+            cpuAttackOriginRecord = cpuAttackOrigin;
+            cpuAttackTargetRecord = cpuAttackTarget;
+
+        }
+
+        cpuAttackOriginRecord = null;
+        cpuAttackTargetRecord = null;
+
+        Platform.runLater(() -> gameSceneController.resetBoard(true, true));
+
+        checkForVictory();
 
     }
 

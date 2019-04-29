@@ -2,13 +2,13 @@ package risk.java;
 
 public class CPUFortification {
 
-    public Territory unfortified;
-    public Territory fortified;
+    public Territory deFortifiedTerritory;
+    public Territory fortifiedTerritory;
     public int delta;
 
-    CPUFortification(Territory unfortified, Territory fortified, int delta) {
-        this.unfortified = unfortified;
-        this.fortified = fortified;
+    CPUFortification(Territory deFortifiedTerritory, Territory fortifiedTerritory, int delta) {
+        this.deFortifiedTerritory = deFortifiedTerritory;
+        this.fortifiedTerritory = fortifiedTerritory;
         this.delta = delta;
     }
 

@@ -11,31 +11,26 @@ public class CPU extends Player implements Serializable {
         this.color = Game.PlayerColor.EU_GRAY;
     }
 
-    public Territory CpuAttack(int myRoll, int enemyRoll) {
+    public CPUAttack CpuAttack(int cpuRoll, int enemyRoll) {
         int biggestAdvantage = -10000;
-        Territory from = null;
-        Territory to = null;
+        Territory attackOrigin = null;
+        Territory attackTarget = null;
         for (Territory currentFrom : controlledTerritories) {
             ArrayList<Territory> currentNeighbors = currentFrom.getNeighbors();
             for (Territory currentNeighbor : currentNeighbors) {
-                if (currentFrom.owner != currentNeighbor.owner) {
+                if (currentFrom.owner != currentNeighbor.owner && currentFrom.getNumOfArmies() > 1) {
                     if ((currentFrom.numOfArmies - currentNeighbor.numOfArmies) > biggestAdvantage) {
                         biggestAdvantage = (currentFrom.numOfArmies - currentNeighbor.numOfArmies);
-                        from = currentFrom;
-                        to = currentNeighbor;
+                        attackOrigin = currentFrom;
+                        attackTarget = currentNeighbor;
                     }
                 }
             }
         }
 
         // Test if CPU conquered a territory
-        assert from != null;
-        boolean didConquerTerritory = from.attack(to, myRoll, enemyRoll);
-        if (didConquerTerritory) {
-            return to;
-        } else {
-            return null;
-        }
+        assert attackOrigin != null;
+        return new CPUAttack(attackOrigin, attackTarget, attackOrigin.attack(attackTarget, cpuRoll, enemyRoll));
     }
 
     public Territory draftArmies() {

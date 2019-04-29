@@ -157,8 +157,7 @@ public class GameSceneController extends RiskSceneController {
     }
 
     /**
-     * Validates and performs an attack. Currently we are implementing a process where a single attack attempts to
-     * fully conquer a territory.
+     * Validates and performs an attack.
      */
     private void handleAttackRequest() {
 
@@ -193,7 +192,7 @@ public class GameSceneController extends RiskSceneController {
                 }
             }
         }
-        resetBoard();
+        resetBoard(true, true);
         attackOriginControl = null;
         attackTargetControl = null;
     }
@@ -219,7 +218,7 @@ public class GameSceneController extends RiskSceneController {
                 instance.flagEndOfTurnPhase(instance.player, Game.TurnPhase.FORTIFY);
                 break;
         }
-        resetBoard();
+        resetBoard(true, true);
     }
 
     private void setupBoardForPlayerTurnPhase(Game.TurnPhase turnPhase) {
@@ -301,7 +300,7 @@ public class GameSceneController extends RiskSceneController {
 
     /** Action for when a Player selects a Territory ToggleButton during the DRAFT turn-phase. */
     private void selectTerritoryToggleBtnForDraft(ToggleButton button) {
-        resetBoard();
+        resetBoard(false, true);
         button.setEffect(STANDARD_GLOW_EFFECT);
         draftTerritoryControl = button;
     }
@@ -314,7 +313,7 @@ public class GameSceneController extends RiskSceneController {
 
         // If territory belongs to Player update GUI and flag the territory
         if (instance.playerControlsTerritory(selectedTerritory)) {
-            resetBoard();
+            resetBoard(true, true);
             button.setEffect(STANDARD_GLOW_EFFECT);
             showLegalAttackLinesForTerritory(button.getId());
             attackOriginControl = button;
@@ -323,51 +322,61 @@ public class GameSceneController extends RiskSceneController {
         } else if (instance.cpuControlsTerritory(selectedTerritory) && attackOriginControl != null && selectedTerritory.isNeighborOf(instance.territories.get(attackOriginControl.getId()))) {
 
             // Highlight the attack path
-            for (Line line : legalPathIndicators) {
-                line.setEffect(null);
-                String lineID = line.getId();
-                if (lineID.contains(attackOriginControl.getId()) && lineID.contains(button.getId())) {
-                    line.setEffect(TARGET_TERRITORY_EFFECT);
-                }
-            }
+            showLegalAttackPathFor(attackOriginControl.getId(), button.getId(), true);
             attackTargetControl = button;
 
         } else {
-            resetBoard();
+            resetBoard(true, true);
             attackOriginControl = null;
             attackTargetControl = null;
         }
 
     }
 
+    public void showLegalAttackPathFor(String attackOriginName, String attackTargetName, boolean resetOtherPathEffects) {
+        for (Line line : legalPathIndicators) {
+            if (resetOtherPathEffects) {
+                line.setEffect(null);
+            }
+            String lineID = line.getId();
+            if (lineID.contains(attackOriginName) && lineID.contains(attackTargetName)) {
+                line.setEffect(TARGET_TERRITORY_EFFECT);
+            }
+        }
+    }
+
     @SuppressWarnings("Duplicates")
     private void selectTerritoryToggleBtnForFortify(ToggleButton button) {
 
         // If territory belongs to Player update GUI and flag the territory
-        resetBoard();
+        resetBoard(false, true);
         button.setEffect(STANDARD_GLOW_EFFECT);
         fortifyTerritoryControl = button;
 
     }
 
     /** Removes all Player customizations from the Game-board. */
-    private void resetBoard() {
+    public void resetBoard(boolean lines, boolean toggleButtons) {
 
         // Hide all other attack-paths
-        for (Line line : legalPathIndicators) {
-            line.setVisible(false);
-            line.setEffect(null);
+        if (lines) {
+            for (Line line : legalPathIndicators) {
+                line.setVisible(false);
+                line.setEffect(null);
+            }
         }
 
         // Hide all other Glows
-        for (ToggleButton toggleButton : territoryToggleButtons) {
-            toggleButton.setEffect(null);
+        if (toggleButtons) {
+            for (ToggleButton toggleButton : territoryToggleButtons) {
+                toggleButton.setEffect(null);
+            }
         }
 
     }
 
     /** Shows all paths that a user can take from a controlled Territory for an attack. */
-    private void showLegalAttackLinesForTerritory(String territoryName) {
+    public void showLegalAttackLinesForTerritory(String territoryName) {
         for (Line line : legalPathIndicators) {
             if (line.getId().contains(territoryName)) {
                 for (Territory territory : instance.cpu.getControlledTerritories()) {
