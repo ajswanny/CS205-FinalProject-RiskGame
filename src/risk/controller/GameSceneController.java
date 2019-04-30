@@ -395,7 +395,7 @@ public class GameSceneController extends RiskSceneController {
      * Shows an attack path for the specified Territories.
      * @param attackOriginName origin of attack.
      * @param attackTargetName target of attack.
-     * @param resetOtherPathEffects whether this method should remove other attack-path higlights.
+     * @param resetOtherPathEffects whether this method should remove other attack-path highlights.
      */
     public void showLegalAttackPathFor(String attackOriginName, String attackTargetName, boolean resetOtherPathEffects) {
         for (Line line : legalPathIndicators) {
