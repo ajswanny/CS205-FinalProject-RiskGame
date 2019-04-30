@@ -127,6 +127,7 @@ public class Game extends Application {
         instance = this;
     }
 
+
     /* Methods */
     /**
      * Starts the Game application, loading all data and GUI resources.
@@ -875,6 +876,7 @@ public class Game extends Application {
         newOwner.addNewControlledTerritory(territory);
     }
 
+
     /* Getters */
     public static Game getInstance() {
         return instance;
@@ -900,6 +902,7 @@ public class Game extends Application {
     public void setNumOfArmiesForTerritory(Territory territory, int numOfArmies) {
         territories.get(territory.getName()).setNumOfArmies(numOfArmies);
     }
+
 
     /* Main */
     public static void main(String[] args) {

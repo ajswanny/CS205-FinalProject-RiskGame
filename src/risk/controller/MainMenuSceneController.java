@@ -8,27 +8,43 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * TODO:
- *  Create official background image for MenuScene.
+ * FXML Controller for the Game's main menu. This is the access point to all other Scenes.
  */
 public class MainMenuSceneController extends RiskSceneController{
 
+    /* Fields */
+    /**
+     * Access to the Game setup-Scene.
+     */
     @FXML
     private Button playGame;
 
+    /**
+     * Control to close this Application.
+     */
     @FXML
     private Button quitGame;
 
+    /**
+     * Control to access 'AboutGameScene'.
+     */
     @FXML
     private Button aboutGame;
 
+    /**
+     * Control to access 'HelpGameScene'.
+     */
     @FXML
     private Button helpGame;
 
+
+    /* Constructor */
     public MainMenuSceneController() {
         if (verbose) System.out.println("Initialized Controller for Scene: MainMenu.");
     }
 
+
+    /* Methods */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);

@@ -12,28 +12,50 @@ import risk.Game;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * FXML Controller for game-setup. Allows the user to choose a Player color and start a new game of load a saved game.
+ *
+ * @FXMLFile risk.fxml.GameSetupSceneController.fxml
+ */
 public class GameSetupSceneController extends RiskSceneController {
 
+    /* Fields */
+    /**
+     * Control to return to the main menu.
+     */
     @FXML
     private Button backToMainMenu;
 
+    /**
+     * Control to close this dialog and load a saved game-state.
+     */
     @FXML
     private Button continueGame;
 
+    /**
+     * Control to start a new Game.
+     */
     @FXML
     private Button newGame;
 
+    /**
+     * Container of all ToggleButtons to select a Player color.
+     */
     @FXML
     private HBox playerColorToggleButtons;
 
+    /**
+     * Effect for the selected Player-color.
+     */
     private final Glow SELECTED_COLOR_EFFECT = new Glow(0.5);
-
     private String playerSelectedColor;
+
 
     /* Constructors */
     public GameSetupSceneController() {
         if (verbose) System.out.println("Initialized Controller for Scene: GameSetup.");
     }
+
 
     /* Methods */
     @Override
@@ -70,13 +92,11 @@ public class GameSetupSceneController extends RiskSceneController {
         }
         assert playerSelectedColor != null;
 
-        // Continue Game Button
+        // Define button actions.
         continueGame.setOnAction(event -> {
             close();
             instance.requestStartOfGame(false, playerSelectedColor);
         });
-
-        // New game
         newGame.setOnAction(event -> {
             close();
             instance.requestStartOfGame(true, playerSelectedColor);
@@ -87,6 +107,9 @@ public class GameSetupSceneController extends RiskSceneController {
 
     }
 
+    /**
+     * Performs all cleanup for this Scene.
+     */
     private void close() {
         for (Node node : playerColorToggleButtons.getChildren()) {
             node.setEffect(null);
@@ -94,10 +117,16 @@ public class GameSetupSceneController extends RiskSceneController {
         newGame.setDisable(true);
     }
 
+    /**
+     * Game's access point to show 'continueGame'.
+     */
     public void showContinueGameButton() {
         showNode(continueGame);
     }
 
+    /**
+     * Game's access point to hide 'continueGame'.
+     */
     public void hideContinueGameButton() {
         hideNode(continueGame);
     }

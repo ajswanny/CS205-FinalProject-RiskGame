@@ -1,5 +1,8 @@
 package risk.java;
 
+/**
+ * Implementation of a set of dice used to roll and compare when Territories are attacked.
+ */
 public class Dice {
 
     private int die1;   // Number showing on the die.

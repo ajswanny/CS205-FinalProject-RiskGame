@@ -6,26 +6,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.HelpGameSceneController">
+<AnchorPane fx:id="root" prefHeight="532.0" prefWidth="956.0" style="-fx-border-style: none;" stylesheets="@../css/HelpGameScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controller.HelpGameSceneController">
     <Group layoutX="90.0" layoutY="92.0" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="89.03076171875">
-        <Text layoutX="310.0" layoutY="-4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How to Play Risk" />
-        <Text layoutX="104.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The goal of the game is to try to eliminate all other players and control all territories." />
-        <Text layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To start a new game, press the play button, select a team color, and press the ‘new game’ button!" />
+        <Text fill="#fafafa" layoutX="310.0" layoutY="-4.0" strokeType="OUTSIDE" strokeWidth="0.0" text="How to Play Risk" />
+        <Text fill="#fafafa" layoutX="104.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The goal of the game is to try to eliminate all other players and control all territories." />
+        <Text fill="#fafafa" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To start a new game, press the play button, select a team color, and press the ‘new game’ button!" />
         <VBox layoutX="14.0" layoutY="73.0" prefHeight="102.0" prefWidth="705.0" spacing="5.0">
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Control of territories is randomized between players, with a randomized number of starting armies on each territory." />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1. The drafting phase consists of placing a number of armies on your territories. Click on a territory you own, then click the plus button to draft all your armies to that territory. To go to the next phase of your turn, click the ‘go’ button." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2. The attacking phase consists of using a territory that has at least 2 armies on it to attack an adjacent territory owned by another player. To attack, click on your territory. Red lines will appear connecting to territories you can attack." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click on a connected territory, then click the attack button in the bottom left of the screen to roll the dice once. You can see when you have selected an acceptable territory when the red line is highlighted." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Take control of the defending territory by reducing the number of armies on that territory to 0. When finished attacking, use the ‘go’ button to move on to the next phase." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3. The final phase, the fortify phase, consists of moving armies from one territory to another. Start by clicking on a territory that you own you want to move armies from. Use the ‘-’ button to remove armies from that territory." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click on another territory that you own, and use the ‘+’ button to add armies one at a time to that territory. This can be done any number of times, and territories do not need to be connected to move armies." wrappingWidth="759.3623046875" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="When you are done with your fortification, click the ‘go’ button to end your turn." />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="Control of territories is randomized between players, with a randomized number of starting armies on each territory." />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="1. The drafting phase consists of placing a number of armies on your territories. Click on a territory you own, then click the plus button to draft all your armies to that territory. To go to the next phase of your turn, click the ‘go’ button." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="2. The attacking phase consists of using a territory that has at least 2 armies on it to attack an adjacent territory owned by another player. To attack, click on your territory. Red lines will appear connecting to territories you can attack." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on a connected territory, then click the attack button in the bottom left of the screen to roll the dice once. You can see when you have selected an acceptable territory when the red line is highlighted." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="Take control of the defending territory by reducing the number of armies on that territory to 0. When finished attacking, use the ‘go’ button to move on to the next phase." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="3. The final phase, the fortify phase, consists of moving armies from one territory to another. Start by clicking on a territory that you own you want to move armies from. Use the ‘-’ button to remove armies from that territory." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on another territory that you own, and use the ‘+’ button to add armies one at a time to that territory. This can be done any number of times, and territories do not need to be connected to move armies." wrappingWidth="759.3623046875" />
+            <Text fill="#fafafa" strokeType="OUTSIDE" strokeWidth="0.0" text="When you are done with your fortification, click the ‘go’ button to end your turn." />
         </VBox>
 
     </Group>
     <Button fx:id="goBackToMainMenu" layoutX="-8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="109.0" stylesheets="@../css/SceneButtons.css" text="Back" />
-     <Text layoutX="30.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enjoy playing!" />
+     <Text fill="#fafafa" layoutX="30.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enjoy playing!" />
 
 </AnchorPane>

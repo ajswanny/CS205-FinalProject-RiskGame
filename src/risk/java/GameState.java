@@ -4,6 +4,10 @@ import risk.Game;
 
 import java.io.Serializable;
 
+/**
+ * Stores data about a game state: the Territories, their deployed armies, their owners, and the Player's active turn
+ * phase.
+ */
 public class GameState implements Serializable {
 
     /* Fields */
@@ -11,7 +15,7 @@ public class GameState implements Serializable {
     private final CPU cpu;
     private Game.TurnPhase playerTurnPhase;
 
-    /* Default Constructor */
+    /* Constructor */
     public GameState(Player player, CPU cpu, Game.TurnPhase playerTurnPhase) {
         this.player = player;
         this.cpu = cpu;

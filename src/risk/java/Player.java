@@ -16,6 +16,7 @@ public class Player implements Serializable  {
 
     ArrayList<Territory> controlledTerritories;
 
+
     /* Constructors */
     Player() {
         controlledTerritories = new ArrayList<>();
@@ -26,6 +27,7 @@ public class Player implements Serializable  {
         this.color = color;
     }
 
+
     /* Methods */
     public void addNewControlledTerritory(Territory territory) {
         controlledTerritories.add(territory);
@@ -34,6 +36,7 @@ public class Player implements Serializable  {
     public void removeControlledTerritory(Territory territory) {
         controlledTerritories.remove(territory);
     }
+
 
     /* Getters */
     public ArrayList<Territory> getControlledTerritories() {

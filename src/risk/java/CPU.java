@@ -15,6 +15,7 @@ public class CPU extends Player implements Serializable {
         this.color = Game.PlayerColor.EU_GRAY;
     }
 
+
     /* Methods */
     /**
      * Implements the CPU's strategy for drafting armies: armies are added to the last controlled Territory identified

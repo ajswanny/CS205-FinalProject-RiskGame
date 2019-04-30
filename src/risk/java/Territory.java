@@ -15,11 +15,13 @@ public class Territory implements Serializable {
     Player owner;
     private final String name;
 
+
     /* Constructors */
     public Territory(String name) {
         this.name = name;
         neighboringTerritories = new ArrayList<>();
     }
+
 
     /* Methods */
     private void moveArmyTo(Territory territoryToTransferTo) {
@@ -59,6 +61,7 @@ public class Territory implements Serializable {
         return false;
     }
 
+
     /* Getters */
     public String getName() {
         return name;
@@ -75,6 +78,7 @@ public class Territory implements Serializable {
     ArrayList<Territory> getNeighboringTerritories() {
         return neighboringTerritories;
     }
+
 
     /* Setters */
     /**
