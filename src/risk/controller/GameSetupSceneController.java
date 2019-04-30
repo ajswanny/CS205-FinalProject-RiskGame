@@ -64,7 +64,6 @@ public class GameSetupSceneController extends RiskSceneController {
         super.initialize(location, resources);
 
         backToMainMenu.setOnAction(event -> {
-            continueGame.setDisable(true);
             newGame.setDisable(true);
             for (Node node : playerColorToggleButtons.getChildren()) {
                 ((ToggleButton) node).setSelected(false);
